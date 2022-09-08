@@ -24,10 +24,102 @@
         android:id="@+id/ImageHospital"
         android:layout_width="240dp"
         android:layout_height="240dp"
-        android:layout_marginTop="50dp"
         android:src="@drawable/img"
         app:layout_constraintEnd_toEndOf="@+id/textLogin"
         app:layout_constraintStart_toStartOf="@+id/textLogin"
-        app:layout_constraintTop_toTopOf="@+id/textLogin"/>
+        app:layout_constraintTop_toBottomOf="@+id/textLogin"/>
+
+    <TextView
+        android:id="@+id/textUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="USERNAME"
+        android:textColor="@color/black"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        app:layout_constraintEnd_toEndOf="@+id/ImageHospital"
+        app:layout_constraintStart_toStartOf="@id/ImageHospital"
+        app:layout_constraintTop_toBottomOf="@id/ImageHospital"/>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintTop_toBottomOf="@id/textUsername"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="Mohon Masukkan Username"
+            app:errorEnabled="true"
+            app:startIconDrawable="@drawable/ic_person_24">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PASSWORD"
+        android:textColor="@color/black"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        app:layout_constraintEnd_toEndOf="@+id/LinearLayout"
+        app:layout_constraintStart_toStartOf="@id/LinearLayout"
+        app:layout_constraintTop_toBottomOf="@id/LinearLayout"/>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintTop_toBottomOf="@id/textPassword"
+        app:layout_constraintStart_toStartOf="@+id/textPassword"
+        app:layout_constraintEnd_toEndOf="@id/textPassword"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:orientation="vertical">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayoutPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Mohon Masukkan Password"
+                app:errorEnabled="true"
+                app:startIconDrawable="@drawable/ic_lock_24">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_masuk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/LinearLayout2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Masuk"/>
+
+    <Button
+        android:id="@+id/btn_daftar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/btn_masuk"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Daftar"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
