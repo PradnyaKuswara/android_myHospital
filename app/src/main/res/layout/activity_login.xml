@@ -10,14 +10,15 @@
 
     <TextView
         android:id="@+id/textLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:autoSizeTextType="uniform"
         android:text="LOGIN"
         android:textColor="@color/black"
-        style="@style/TextAppearance.MaterialComponents.Headline4"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/bebas_neue_bold_700"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
