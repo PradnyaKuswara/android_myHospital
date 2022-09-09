@@ -96,7 +96,7 @@
             android:id="@+id/inputLayoutPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/brown"
+            android:textColor="@color/yellow_input"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:hint="Password"
             app:errorEnabled="true"
