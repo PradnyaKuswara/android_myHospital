@@ -67,6 +67,7 @@ class LoginActivity : AppCompatActivity() {
             val moveRegister = Intent (this@LoginActivity, RegisterActivity::class.java)
             startActivity(moveRegister)
         })
+
     }
 
     fun loginAlert() {
@@ -80,6 +81,23 @@ class LoginActivity : AppCompatActivity() {
         builder.setMessage("Maaf, Username dan Password Salah. Tolong Cek Kembali")
         builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = positiveButtonClick))
         builder.show()
+    }
+    override fun onBackPressed() {
+        AlertDialog.Builder(this).apply {
+            setTitle("Tolong Konfirmasi")
+            setMessage("Apakah anda yakin ingin keluar?")
+
+            setPositiveButton("Iya") { _, _ ->
+                super.onBackPressed()
+            }
+
+            setNegativeButton("Tidak"){_, _ ->
+                Toast.makeText(this@LoginActivity, "Terima Kasih",
+                    Toast.LENGTH_LONG).show()
+            }
+
+            setCancelable(true)
+        }.create().show()
     }
 
     fun getBundle() {
