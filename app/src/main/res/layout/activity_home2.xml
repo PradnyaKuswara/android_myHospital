@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background=""
+    tools:context=".activity_home">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/teal_700"
+            android:layout_gravity="bottom"
+            android:foregroundGravity="bottom"
+            app:menu="@menu/menu_activity" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/janji_temu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/teal_700"
+            android:layout_gravity="bottom"
+            android:foregroundGravity="bottom"
+            app:menu="@menu/menu_activity" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/faq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/teal_700"
+            android:layout_gravity="bottom"
+            android:foregroundGravity="bottom"
+            app:menu="@menu/menu_activity" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/teal_700"
+            android:layout_gravity="bottom"
+            android:foregroundGravity="bottom"
+            app:menu="@menu/menu_activity" />
+
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/homeHospital"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:src="@drawable/home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textHome"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="hallo, Beni"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/homeHospital"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="@id/homeHospital"
+        app:layout_constraintTop_toBottomOf="@id/homeHospital" />
+
+    <ImageView
+        android:id="@+id/temuDokter"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:scaleType="fitStart"
+        android:adjustViewBounds="true"
+        android:src="@drawable/temuDokter"
+        app:layout_constraintEnd_toEndOf="@id/textHome"
+        app:layout_constraintStart_toStartOf="@id/textHome"
+        app:layout_constraintTop_toBottomOf="@id/textHome" />
+
+
+    <ImageView
+        android:id="@+id/hospital"
+        android:layout_width="277dp"
+        android:layout_height="252dp"
+        android:scaleType="fitEnd"
+        android:adjustViewBounds="true"
+        android:src="@drawable/hospital"
+        tools:layout_editor_absoluteX="67dp"
+        tools:layout_editor_absoluteY="342dp" />
+
+
+    <Button
+        android:id="@+id/btn_janji_temu"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@color/teal_700"
+        android:textColor="@color/black"
+        android:scaleType="centerInside"
+        android:text="JANJI TEMU"
+        app:layout_constraintBottom_toBottomOf="@id/temuDokter"
+        app:layout_constraintTop_toBottomOf="@id/temuDokter"
+        app:layout_constraintStart_toStartOf="@id/temuDokter"
+        android:textStyle="bold"
+        android:typeface="monospace" />
+    <Button
+        android:id="@+id/btn_informasi"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@color/teal_200"
+        android:textColor="@color/black"
+        android:text="INFORMASI"
+        app:layout_constraintBottom_toBottomOf="@id/hospital"
+        app:layout_constraintTop_toBottomOf="@id/hospital"
+        app:layout_constraintStart_toStartOf="@id/hospital"
+        android:typeface="monospace"
+        android:textStyle="bold"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
