@@ -10,21 +10,22 @@
 
     <TextView
         android:id="@+id/textLogin"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        app:autoSizeTextType="uniform"
-        android:text="LOGIN"
+        android:layout_width="256dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="32dp"
+        android:textAlignment="center"
+        android:fontFamily="@font/bebas_neue_bold_700"
+        android:text="LOGIN MENU"
         android:textColor="@color/black"
-        android:layout_marginTop="16dp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:fontFamily="@font/bebas_neue_bold_700"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/ImageHospital"
         android:layout_width="240dp"
-        android:layout_height="240dp"
+        android:layout_height="224dp"
         android:src="@drawable/img"
         app:layout_constraintEnd_toEndOf="@+id/textLogin"
         app:layout_constraintStart_toStartOf="@+id/textLogin"
@@ -56,6 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxBackgroundColor="@color/yellow_input"
             android:hint="Mohon Masukkan Username"
             app:errorEnabled="true"
             app:startIconDrawable="@drawable/ic_person_24">
@@ -95,12 +97,13 @@
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="Mohon Masukkan Password"
+                app:boxBackgroundColor="@color/yellow_input"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ic_lock_24">
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"/>
+                    android:inputType="textPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
@@ -113,7 +116,8 @@
         app:layout_constraintTop_toBottomOf="@+id/LinearLayout2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Masuk"/>
+        android:text="Masuk"
+    android:textStyle="bold"/>
 
     <Button
         android:id="@+id/btn_daftar"
@@ -124,7 +128,8 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_masuk"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Daftar"/>
+        android:text="Daftar"
+        android:textStyle="bold"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
