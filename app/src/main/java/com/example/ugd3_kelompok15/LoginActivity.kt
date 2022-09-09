@@ -15,23 +15,27 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var inputUsername: TextInputLayout
     private lateinit var inputPassword: TextInputLayout
     private lateinit var mainLayout: ConstraintLayout
-
     lateinit var mBundle: Bundle
+
+    lateinit var bNama : String
     lateinit var bUsername: String
     lateinit var bPassword: String
+    lateinit var bEmail: String
+    lateinit var bNoTelp: String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
         supportActionBar?.hide()
+        getBundle()
 
         inputUsername = findViewById(R.id.inputLayoutUsername)
         inputPassword = findViewById(R.id.inputLayoutPassword)
         mainLayout = findViewById(R.id.mainLayout)
         val btnLogin: Button = findViewById(R.id.btn_masuk)
         val btnRegister: Button = findViewById(R.id.btn_daftar)
-
-        getBundle()
 
         btnLogin.setOnClickListener(View.OnClickListener {
             var checkLogin = false
@@ -80,12 +84,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun getBundle() {
-        mBundle = intent.getBundleExtra("Register")!!
-        if (!mBundle.isEmpty) {
-            bUsername = mBundle.getString("Username")!!
-            bPassword = mBundle.getString("Password")!!
-            inputUsername.getEditText()?.setText(bUsername)
-            inputPassword.getEditText()?.setText(bPassword)
+        if(intent.getBundleExtra("Register") != null) {
+            mBundle = intent.getBundleExtra("Register")!!
+            bNama = mBundle?.getString("Nama Lengkap") !!
+            bUsername = mBundle?.getString("Username")!!
+            bEmail = mBundle?.getString("Email")!!
+            bNoTelp = mBundle?.getString("Nomor Telepon")!!
+            bPassword = mBundle?.getString("Password")!!
         }
     }
 }
