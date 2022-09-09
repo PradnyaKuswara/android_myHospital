@@ -60,6 +60,8 @@ class LoginActivity : AppCompatActivity() {
                 loginAlert()
                 return@OnClickListener
             }
+            val moveHome = Intent (this@LoginActivity, HomeActivity::class.java)
+            startActivity(moveHome)
 
         })
 

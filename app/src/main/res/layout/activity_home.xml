@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background=""
-    tools:context=".activity_home">
+    tools:context=".HomeActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -15,36 +14,36 @@
             android:id="@+id/home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/teal_700"
             android:layout_gravity="bottom"
             android:foregroundGravity="bottom"
+            app:labelVisibilityMode="labeled"
             app:menu="@menu/menu_activity" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/janji_temu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/teal_700"
             android:layout_gravity="bottom"
             android:foregroundGravity="bottom"
+            app:labelVisibilityMode="labeled"
             app:menu="@menu/menu_activity" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/faq"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/teal_700"
             android:layout_gravity="bottom"
             android:foregroundGravity="bottom"
+            app:labelVisibilityMode="labeled"
             app:menu="@menu/menu_activity" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/teal_700"
             android:layout_gravity="bottom"
             android:foregroundGravity="bottom"
+            app:labelVisibilityMode="labeled"
             app:menu="@menu/menu_activity" />
 
     </FrameLayout>
@@ -63,7 +62,7 @@
         style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:text="hallo, Beni"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="@+id/homeHospital"
@@ -78,28 +77,16 @@
         android:layout_marginTop="16dp"
         android:scaleType="fitStart"
         android:adjustViewBounds="true"
-        android:src="@drawable/temuDokter"
-        app:layout_constraintEnd_toEndOf="@id/textHome"
-        app:layout_constraintStart_toStartOf="@id/textHome"
+        android:src="@drawable/temudokter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textHome" />
-
-
-    <ImageView
-        android:id="@+id/hospital"
-        android:layout_width="277dp"
-        android:layout_height="252dp"
-        android:scaleType="fitEnd"
-        android:adjustViewBounds="true"
-        android:src="@drawable/hospital"
-        tools:layout_editor_absoluteX="67dp"
-        tools:layout_editor_absoluteY="342dp" />
-
 
     <Button
         android:id="@+id/btn_janji_temu"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:background="@color/teal_700"
+        android:backgroundTint="@color/green_secondary"
         android:textColor="@color/black"
         android:scaleType="centerInside"
         android:text="JANJI TEMU"
@@ -108,12 +95,24 @@
         app:layout_constraintStart_toStartOf="@id/temuDokter"
         android:textStyle="bold"
         android:typeface="monospace" />
+
+    <ImageView
+        android:id="@+id/hospital"
+        android:layout_width="298dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/hospital"
+        app:layout_constraintTop_toBottomOf="@id/temuDokter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <Button
         android:id="@+id/btn_informasi"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:background="@color/teal_200"
+        android:backgroundTint="@color/green_secondary"
         android:textColor="@color/black"
+        android:scaleType="centerInside"
         android:text="INFORMASI"
         app:layout_constraintBottom_toBottomOf="@id/hospital"
         app:layout_constraintTop_toBottomOf="@id/hospital"
