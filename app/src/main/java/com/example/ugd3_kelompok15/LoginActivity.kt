@@ -6,16 +6,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var inputUsername: TextInputLayout
     private lateinit var inputPassword: TextInputLayout
     private lateinit var mainLayout: ConstraintLayout
+    private lateinit var editUsername : TextInputEditText
+    private lateinit var editPassword : TextInputEditText
     lateinit var mBundle: Bundle
 
     lateinit var bNama : String
@@ -29,13 +33,16 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         supportActionBar?.hide()
 
-        getBundle()
-
         inputUsername = findViewById(R.id.inputLayoutUsername)
         inputPassword = findViewById(R.id.inputLayoutPassword)
         mainLayout = findViewById(R.id.mainLayout)
+        editUsername = findViewById(R.id.editUsername)
+        editPassword = findViewById(R.id.editPassword)
+
         val btnLogin: Button = findViewById(R.id.btn_masuk)
         val btnRegister: Button = findViewById(R.id.btn_daftar)
+
+        getBundle()
 
         btnLogin.setOnClickListener(View.OnClickListener {
             var checkLogin = false
@@ -103,14 +110,16 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun getBundle() {
-        if(intent.getBundleExtra("Register") != null) {
+        if (intent.getBundleExtra("Register") != null) {
             mBundle = intent.getBundleExtra("Register")!!
-            bNama = mBundle?.getString("Nama Lengkap") !!
-            bUsername = mBundle?.getString("Username")!!
-            bEmail = mBundle?.getString("Email")!!
-            bNoTelp = mBundle?.getString("Nomor Telepon")!!
-            bPassword = mBundle?.getString("Password")!!
+            bNama = mBundle.getString("tietNama")!!
+            bUsername = mBundle.getString("tietUsername")!!
+            bEmail = mBundle.getString("tietEmail")!!
+            bNoTelp = mBundle.getString("tietNomor")!!
+            bPassword = mBundle.getString("tietPassword")!!
+            editUsername.setText("Kuswara")
         }
     }
+
 
 }

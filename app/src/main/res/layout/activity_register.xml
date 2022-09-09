@@ -54,6 +54,7 @@
             android:layout_marginTop="0dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietNama"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text" />
@@ -81,6 +82,7 @@
             android:layout_marginBottom="0dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text" />
@@ -108,6 +110,7 @@
             android:layout_marginBottom="0dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text" />
@@ -135,6 +138,7 @@
             android:layout_marginBottom="0dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietNomor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text" />
@@ -163,6 +167,7 @@
             android:layout_marginBottom="0dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
