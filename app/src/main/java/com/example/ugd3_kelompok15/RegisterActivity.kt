@@ -44,7 +44,6 @@ class RegisterActivity : AppCompatActivity() {
             mBundle.putString("Password" , inputPassword.text.toString())
 
             intent.putExtra("Register", mBundle)
-
             startActivity(intent)
         }
     }
