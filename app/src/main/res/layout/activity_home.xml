@@ -17,6 +17,9 @@
             android:layout_gravity="bottom"
             android:foregroundGravity="bottom"
             app:labelVisibilityMode="labeled"
+            android:theme="@style/Theme.Material3.DynamicColors.Light"
+            app:itemTextColor="@color/black"
+            app:itemIconTint="@color/dark_green"
             app:menu="@menu/menu_activity" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -26,6 +29,9 @@
             android:layout_gravity="bottom"
             android:foregroundGravity="bottom"
             app:labelVisibilityMode="labeled"
+            android:theme="@style/Theme.Material3.DynamicColors.Light"
+            app:itemTextColor="@color/black"
+            app:itemIconTint="@color/dark_green"
             app:menu="@menu/menu_activity" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -35,6 +41,9 @@
             android:layout_gravity="bottom"
             android:foregroundGravity="bottom"
             app:labelVisibilityMode="labeled"
+            android:theme="@style/Theme.Material3.DynamicColors.Light"
+            app:itemTextColor="@color/black"
+            app:itemIconTint="@color/dark_green"
             app:menu="@menu/menu_activity" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -44,6 +53,9 @@
             android:layout_gravity="bottom"
             android:foregroundGravity="bottom"
             app:labelVisibilityMode="labeled"
+            android:theme="@style/Theme.Material3.DynamicColors.Light"
+            app:itemTextColor="@color/black"
+            app:itemIconTint="@color/dark_green"
             app:menu="@menu/menu_activity" />
 
     </FrameLayout>
@@ -86,7 +98,7 @@
         android:id="@+id/btn_janji_temu"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/green_secondary"
+        android:backgroundTint="@color/green_primary"
         android:textColor="@color/black"
         android:scaleType="centerInside"
         android:text="JANJI TEMU"
@@ -110,7 +122,7 @@
         android:id="@+id/btn_informasi"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/green_secondary"
+        android:backgroundTint="@color/green_primary"
         android:textColor="@color/black"
         android:scaleType="centerInside"
         android:text="INFORMASI"
