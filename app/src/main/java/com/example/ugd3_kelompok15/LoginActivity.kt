@@ -23,12 +23,11 @@ class LoginActivity : AppCompatActivity() {
     lateinit var bEmail: String
     lateinit var bNoTelp: String
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
         supportActionBar?.hide()
+
         getBundle()
 
         inputUsername = findViewById(R.id.inputLayoutUsername)
@@ -78,7 +77,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         builder.setTitle("Error!")
-        builder.setMessage("Sorry, your username/password was incorrect. Please double-check")
+        builder.setMessage("Maaf, Username dan Password Salah. Tolong Cek Kembali")
         builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = positiveButtonClick))
         builder.show()
     }
@@ -93,4 +92,5 @@ class LoginActivity : AppCompatActivity() {
             bPassword = mBundle?.getString("Password")!!
         }
     }
+
 }
