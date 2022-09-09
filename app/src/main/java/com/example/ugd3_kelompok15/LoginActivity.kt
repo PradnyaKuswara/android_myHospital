@@ -1,6 +1,7 @@
 package com.example.ugd3_kelompok15
 
 import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -15,6 +16,10 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var inputPassword: TextInputLayout
     private lateinit var mainLayout: ConstraintLayout
 
+    lateinit var mBundle: Bundle
+    lateinit var bUsername: String
+    lateinit var bPassword: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -25,6 +30,8 @@ class LoginActivity : AppCompatActivity() {
         mainLayout = findViewById(R.id.mainLayout)
         val btnLogin: Button = findViewById(R.id.btn_masuk)
         val btnRegister: Button = findViewById(R.id.btn_daftar)
+
+        getBundle()
 
         btnLogin.setOnClickListener(View.OnClickListener {
             var checkLogin = false
@@ -41,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
                 checkLogin = false
             }
 
-            if (username == "admin" && password == "admin") checkLogin = true
+            if (username == "admin" && password == "admin" || username == bUsername && password == bPassword) checkLogin = true
             if (username.isEmpty() || password.isEmpty()) {
                 return@OnClickListener
             }
@@ -54,7 +61,8 @@ class LoginActivity : AppCompatActivity() {
         })
 
         btnRegister.setOnClickListener(View.OnClickListener {
-
+            val moveRegister = Intent (this@LoginActivity, RegisterActivity::class.java)
+            startActivity(moveRegister)
         })
     }
 
@@ -69,5 +77,15 @@ class LoginActivity : AppCompatActivity() {
         builder.setMessage("Sorry, your username/password was incorrect. Please double-check")
         builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = positiveButtonClick))
         builder.show()
+    }
+
+    fun getBundle() {
+        mBundle = intent.getBundleExtra("Register")!!
+        if (!mBundle.isEmpty) {
+            bUsername = mBundle.getString("Username")!!
+            bPassword = mBundle.getString("Password")!!
+            inputUsername.getEditText()?.setText(bUsername)
+            inputPassword.getEditText()?.setText(bPassword)
+        }
     }
 }
