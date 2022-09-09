@@ -12,11 +12,11 @@ import com.google.android.material.textfield.TextInputLayout
 
 class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var inputNama: TextInputEditText
-    private lateinit var inputUsername: TextInputEditText
-    private lateinit var inputEmail: TextInputEditText
-    private lateinit var inputNoTelp: TextInputEditText
-    private lateinit var inputPassword: TextInputEditText
+    private lateinit var inputNama: TextInputLayout
+    private lateinit var inputUsername: TextInputLayout
+    private lateinit var inputEmail: TextInputLayout
+    private lateinit var inputNoTelp: TextInputLayout
+    private lateinit var inputPassword: TextInputLayout
     private lateinit var btnRegister : Button
     private lateinit var registerLayout: ConstraintLayout
 
@@ -24,7 +24,8 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        setTitle("User Register")
+        supportActionBar?.hide()
+
         inputNama = findViewById(R.id.inputLayoutNama)
         inputUsername = findViewById(R.id.inputLayoutUsername)
         inputEmail = findViewById(R.id.inputLayoutEmail)
@@ -37,11 +38,11 @@ class RegisterActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             val mBundle = Bundle()
 
-            mBundle.putString("Nama Lengkap" , inputNama.text.toString())
-            mBundle.putString("Username" , inputUsername.text.toString())
-            mBundle.putString("Email" , inputEmail.text.toString())
-            mBundle.putString("Nomor Telepon" , inputNoTelp.text.toString())
-            mBundle.putString("Password" , inputPassword.text.toString())
+            mBundle.putString("Nama Lengkap" , inputNama.getEditText()?.getText().toString())
+            mBundle.putString("Username" , inputNama.getEditText()?.getText().toString())
+            mBundle.putString("Email" , inputNama.getEditText()?.getText().toString())
+            mBundle.putString("Nomor Telepon" , inputNama.getEditText()?.getText().toString())
+            mBundle.putString("Password" , inputNama.getEditText()?.getText().toString())
 
             intent.putExtra("Register", mBundle)
             startActivity(intent)
