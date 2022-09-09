@@ -172,7 +172,6 @@
         android:backgroundTint="@color/green_secondary"
         android:text="Daftar"
         android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="match_parent"
         tools:layout_editor_absoluteX="130dp"
         tools:layout_editor_absoluteY="619dp" />
 
