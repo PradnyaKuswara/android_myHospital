@@ -51,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
                 checkLogin = false
             }
 
-            if (username == "admin" && password == "admin" || username == bUsername && password == bPassword) checkLogin = true
+            if (username == "admin" && password == "admin") checkLogin = true
             if (username.isEmpty() || password.isEmpty()) {
                 return@OnClickListener
             }
@@ -76,7 +76,6 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(applicationContext,
                 android.R.string.no, Toast.LENGTH_SHORT).show()
         }
-
         builder.setTitle("Error!")
         builder.setMessage("Maaf, Username dan Password Salah. Tolong Cek Kembali")
         builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = positiveButtonClick))
