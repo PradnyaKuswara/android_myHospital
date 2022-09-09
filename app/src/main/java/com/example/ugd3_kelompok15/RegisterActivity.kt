@@ -34,9 +34,16 @@ class RegisterActivity : AppCompatActivity() {
         registerLayout = findViewById(R.id.registerLayout)
         btnRegister = findViewById(R.id.btnRegister)
 
-        btnRegister.setOnClickListener{
+        btnRegister.setOnClickListener(View.OnClickListener{
             val intent = Intent(this, LoginActivity::class.java)
             val mBundle = Bundle()
+            val error = true
+            val nama: String = inputNama.getEditText()?.getText().toString()
+            val username: String = inputUsername.getEditText()?.getText().toString()
+            val email: String = inputEmail.getEditText()?.getText().toString()
+            val noTelp: String = inputNoTelp.getEditText()?.getText().toString()
+            val password: String = inputPassword.getEditText()?.getText().toString()
+            var checkRegister = false
 
             mBundle.putString("Nama Lengkap" , inputNama.getEditText()?.getText().toString())
             mBundle.putString("Username" , inputNama.getEditText()?.getText().toString())
@@ -44,8 +51,31 @@ class RegisterActivity : AppCompatActivity() {
             mBundle.putString("Nomor Telepon" , inputNama.getEditText()?.getText().toString())
             mBundle.putString("Password" , inputNama.getEditText()?.getText().toString())
 
+            if(nama.isEmpty()){
+                inputNama.setError("Nama must be filled with text")
+                checkRegister = false
+            }
+            if(username.isEmpty()){
+                inputUsername.setError("Username must be filled with text")
+                checkRegister = false
+            }
+            if(email.isEmpty()){
+                inputEmail.setError("Email must be filled with text")
+                checkRegister = false
+            }
+            if(noTelp.isEmpty()){
+                inputNoTelp.setError("No Telp must be filled with text")
+                checkRegister = false
+            }
+            if(password.isEmpty()){
+                inputPassword.setError("Password must be filled with text")
+                checkRegister = false
+            }
+            if(!checkRegister){
+                return@OnClickListener
+            }
             intent.putExtra("Register", mBundle)
             startActivity(intent)
-        }
+        })
     }
 }
