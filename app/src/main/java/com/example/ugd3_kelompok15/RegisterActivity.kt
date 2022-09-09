@@ -18,12 +18,6 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var inputNoTelp: TextInputLayout
     private lateinit var inputPassword: TextInputLayout
 
-    private lateinit var tietNama : TextInputEditText
-    private lateinit var tietUsername : TextInputEditText
-    private lateinit var tietEmail : TextInputEditText
-    private lateinit var tietNomor : TextInputEditText
-    private lateinit var tietPassword : TextInputEditText
-
     private lateinit var btnRegister : Button
     private lateinit var registerLayout: ConstraintLayout
 
@@ -39,12 +33,6 @@ class RegisterActivity : AppCompatActivity() {
         inputNoTelp = findViewById(R.id.inputLayoutNoTelp)
         inputPassword = findViewById(R.id.inputLayoutPassword)
 
-        tietNama = findViewById(R.id.tietNama)
-        tietUsername = findViewById(R.id.tietUsername)
-        tietEmail = findViewById(R.id.tietEmail)
-        tietNomor = findViewById(R.id.tietNomor)
-        tietPassword = findViewById(R.id.tietPassword)
-
         registerLayout = findViewById(R.id.registerLayout)
         btnRegister = findViewById(R.id.btnRegister)
 
@@ -57,45 +45,47 @@ class RegisterActivity : AppCompatActivity() {
             val email: String = inputEmail.getEditText()?.getText().toString()
             val noTelp: String = inputNoTelp.getEditText()?.getText().toString()
             val password: String = inputPassword.getEditText()?.getText().toString()
+
             var checkRegister = false
 
-            mBundle.putString("tietNama" , tietNama.text.toString())
-            mBundle.putString("tietUsername" , tietUsername.toString())
-            mBundle.putString("tietEmail" , tietEmail.toString())
-            mBundle.putString("tietNomor" , tietNomor.toString())
-            mBundle.putString("tietPassword" , tietPassword.toString())
+            mBundle.putString("tietNama" , nama)
+            mBundle.putString("tietUsername" , username)
+            mBundle.putString("tietEmail" , email)
+            mBundle.putString("tietNomor" , noTelp)
+            mBundle.putString("tietPassword" , password)
 
-            intent.putExtra("Register", mBundle)
-            startActivity(intent)
 
-           /* if(tietNama.toString().isEmpty()){
+            if(nama.isEmpty()){
                 inputNama.setError("Nama must be filled with text")
                 checkRegister = false
             }
-            if(tietUsername.toString().isEmpty()){
+            if(username.isEmpty()){
                 inputUsername.setError("Username must be filled with text")
                 checkRegister = false
             }
-            if(tietEmail.toString().isEmpty()){
+            if(email.isEmpty()){
                 inputEmail.setError("Email must be filled with text")
                 checkRegister = false
             }
-            if(tietNomor.toString().isEmpty()){
+            if(noTelp.isEmpty()){
                 inputNoTelp.setError("No Telp must be filled with text")
                 checkRegister = false
             }
-            if(tietPassword.toString().isEmpty()){
+            if(password.isEmpty()){
                 inputPassword.setError("Password must be filled with text")
                 checkRegister = false
             }
 
-            if(!tietNama.toString().isEmpty() && !tietUsername.toString().isEmpty() && !tietEmail.toString().isEmpty() && !tietNomor.toString().isEmpty() && !tietPassword.toString().isEmpty()) {
+            if(!nama.isEmpty() && !username.isEmpty() && !email.isEmpty() && !noTelp.isEmpty()&& !password.isEmpty()) {
                 checkRegister = true
             }
 
             if(!checkRegister){
                 return@OnClickListener
-            } */
+            }
+
+            intent.putExtra("Register", mBundle)
+            startActivity(intent)
 
         })
     }

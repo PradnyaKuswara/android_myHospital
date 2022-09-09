@@ -59,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
                 checkLogin = false
             }
 
-            if (username == "admin" && password == "admin") checkLogin = true
+            if (username == "admin" && password == "admin" || username == bUsername && password == bPassword) checkLogin = true
             if (username.isEmpty() || password.isEmpty()) {
                 return@OnClickListener
             }
@@ -117,7 +117,8 @@ class LoginActivity : AppCompatActivity() {
             bEmail = mBundle.getString("tietEmail")!!
             bNoTelp = mBundle.getString("tietNomor")!!
             bPassword = mBundle.getString("tietPassword")!!
-            editUsername.setText("Kuswara")
+            editUsername.setText(bUsername)
+            editPassword.setText(bPassword)
         }
     }
 
