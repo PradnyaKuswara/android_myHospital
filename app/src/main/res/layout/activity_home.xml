@@ -92,44 +92,48 @@
         android:src="@drawable/temudokter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textHome" />
+        app:layout_constraintTop_toBottomOf="@id/textHome"
+        android:alpha="0.5"/>
 
     <Button
         android:id="@+id/btn_janji_temu"
-        android:layout_width="150dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/green_primary"
         android:textColor="@color/black"
         android:scaleType="centerInside"
         android:text="JANJI TEMU"
         app:layout_constraintBottom_toBottomOf="@id/temuDokter"
-        app:layout_constraintTop_toBottomOf="@id/temuDokter"
+        app:layout_constraintTop_toTopOf="@+id/temuDokter"
         app:layout_constraintStart_toStartOf="@id/temuDokter"
+        app:layout_constraintEnd_toEndOf="@+id/temuDokter"
         android:textStyle="bold"
-        android:typeface="monospace" />
+        android:typeface="monospace"/>
 
     <ImageView
         android:id="@+id/hospital"
-        android:layout_width="298dp"
-        android:layout_height="160dp"
+        android:layout_width="322dp"
+        android:layout_height="180dp"
         android:layout_marginTop="32dp"
+        android:alpha="0.6"
         android:src="@drawable/hospital"
-        app:layout_constraintTop_toBottomOf="@id/temuDokter"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/temuDokter" />
 
     <Button
         android:id="@+id/btn_informasi"
-        android:layout_width="150dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/green_primary"
         android:textColor="@color/black"
         android:scaleType="centerInside"
         android:text="INFORMASI"
         app:layout_constraintBottom_toBottomOf="@id/hospital"
-        app:layout_constraintTop_toBottomOf="@id/hospital"
+        app:layout_constraintTop_toTopOf="@id/hospital"
         app:layout_constraintStart_toStartOf="@id/hospital"
+        app:layout_constraintEnd_toEndOf="@+id/hospital"
         android:typeface="monospace"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
