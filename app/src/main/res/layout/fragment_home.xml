@@ -50,7 +50,6 @@
         android:id="@+id/temuDokter"
         android:layout_width="298dp"
         android:layout_height="169dp"
-        android:alpha="0.6"
         android:src="@drawable/temudokter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
