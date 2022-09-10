@@ -48,8 +48,9 @@
 
     <ImageView
         android:id="@+id/temuDokter"
-        android:layout_width="296dp"
-        android:layout_height="172dp"
+        android:layout_width="298dp"
+        android:layout_height="169dp"
+        android:alpha="0.6"
         android:src="@drawable/temudokter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,8 +89,8 @@
 
     <ImageView
         android:id="@+id/hospital"
-        android:layout_width="318dp"
-        android:layout_height="166dp"
+        android:layout_width="326dp"
+        android:layout_height="174dp"
         android:layout_marginTop="24dp"
         android:src="@drawable/hospital"
         app:layout_constraintBottom_toBottomOf="parent"
