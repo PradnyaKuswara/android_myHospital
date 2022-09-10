@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import kotlin.system.exitProcess
 
 class HomeActivity : AppCompatActivity() {
@@ -13,6 +14,15 @@ class HomeActivity : AppCompatActivity() {
 
         setTitle("My Hospital")
 
+    }
+
+    fun changeFragment(fragment: Fragment?) {
+        if (fragment != null) {
+            getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_fragment, fragment)
+                .commit()
+        }
     }
 
     override fun onBackPressed() {
