@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_home"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +10,7 @@
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
-        android:id="@+id/textRegister"
+        android:id="@+id/textMenu"
         android:layout_width="100dp"
         android:layout_height="37dp"
         android:fontFamily="@font/bebas_neue_bold_700"
@@ -29,7 +30,7 @@
         android:src="@drawable/home"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textRegister"
+        app:layout_constraintTop_toBottomOf="@id/textMenu"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="53dp" />
 
@@ -61,7 +62,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/blue_box"
         android:scaleType="centerInside"
-        android:text="Informasi Dokter"
+        android:text="Janji Temu"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:typeface="monospace"
@@ -71,7 +72,7 @@
         app:layout_constraintTop_toTopOf="@+id/temuDokter" />
 
     <Button
-        android:id="@+id/btn_informasi"
+        android:id="@+id/btnLogout"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/blue_box"
@@ -90,7 +91,6 @@
         android:layout_width="318dp"
         android:layout_height="166dp"
         android:layout_marginTop="24dp"
-        android:alpha="0.6"
         android:src="@drawable/hospital"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
