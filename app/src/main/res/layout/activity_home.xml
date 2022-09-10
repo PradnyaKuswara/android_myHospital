@@ -7,26 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="191dp"
         tools:layout_editor_absoluteY="0dp">
 
-        <TextView
-            android:id="@+id/textRegister"
-            android:layout_width="100dp"
-            android:layout_height="37dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="150dp"
-            android:textAlignment="center"
-            android:fontFamily="@font/bebas_neue_bold_700"
-            android:text="MENU"
-            android:textColor="@color/black"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/home"
@@ -81,82 +68,5 @@
             app:menu="@menu/menu_activity" />
 
     </FrameLayout>
-
-    <ImageView
-        android:id="@+id/homeHospital"
-        android:layout_width="150dp"
-        android:layout_height="160dp"
-        android:layout_marginTop="50dp"
-        android:src="@drawable/home"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textHome"
-        style="@style/TextAppearance.MaterialComponents.Headline6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:text="hallo, Beni"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/homeHospital"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="@id/homeHospital"
-        app:layout_constraintTop_toBottomOf="@id/homeHospital" />
-
-    <ImageView
-        android:id="@+id/temuDokter"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:scaleType="fitStart"
-        android:adjustViewBounds="true"
-        android:src="@drawable/temudokter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textHome"
-        android:alpha="0.5"/>
-
-    <Button
-        android:id="@+id/btn_janji_temu"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/blue_box"
-        android:textColor="@color/black"
-        android:scaleType="centerInside"
-        android:text="Informasi Dokter"
-        app:layout_constraintBottom_toBottomOf="@id/temuDokter"
-        app:layout_constraintTop_toTopOf="@+id/temuDokter"
-        app:layout_constraintStart_toStartOf="@id/temuDokter"
-        app:layout_constraintEnd_toEndOf="@+id/temuDokter"
-        android:textStyle="bold"
-        android:typeface="monospace"/>
-
-    <ImageView
-        android:id="@+id/hospital"
-        android:layout_width="322dp"
-        android:layout_height="180dp"
-        android:layout_marginTop="32dp"
-        android:alpha="0.6"
-        android:src="@drawable/hospital"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/temuDokter" />
-
-    <Button
-        android:id="@+id/btn_informasi"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/blue_box"
-        android:textColor="@color/black"
-        android:scaleType="centerInside"
-        android:text="Log Out"
-        app:layout_constraintBottom_toBottomOf="@id/hospital"
-        app:layout_constraintTop_toTopOf="@id/hospital"
-        app:layout_constraintStart_toStartOf="@id/hospital"
-        app:layout_constraintEnd_toEndOf="@+id/hospital"
-        android:typeface="monospace"
-        android:textStyle="bold" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
