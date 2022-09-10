@@ -19,7 +19,7 @@
             android:layout_width="100dp"
             android:layout_height="37dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="155dp"
+            android:layout_marginLeft="150dp"
             android:textAlignment="center"
             android:fontFamily="@font/bebas_neue_bold_700"
             android:text="MENU"
