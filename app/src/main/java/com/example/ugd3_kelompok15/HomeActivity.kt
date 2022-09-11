@@ -40,8 +40,6 @@ class HomeActivity : AppCompatActivity() {
                 .commit()
         }
     }
-
-
     private fun navListener() {
         navigationBottom.setOnItemSelectedListener { item ->
             when (item.itemId) {
