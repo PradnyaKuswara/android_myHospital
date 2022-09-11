@@ -59,13 +59,12 @@ class LoginActivity : AppCompatActivity() {
                 checkLogin = false
             }
 
-            if (username == "admin" && password == "admin" || username == bUsername && password == bPassword) checkLogin = true
-            if (username.isEmpty() || password.isEmpty()) {
-                return@OnClickListener
+            if (username != "admin" && password != "admin" || username != bUsername && password != bPassword) {
+                loginAlert()
+                checkLogin = false
             }
 
             if(!checkLogin) {
-                loginAlert()
                 return@OnClickListener
             }
             val moveHome = Intent (this@LoginActivity, HomeActivity::class.java)
