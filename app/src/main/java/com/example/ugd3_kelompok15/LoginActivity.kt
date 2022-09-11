@@ -45,9 +45,9 @@ class LoginActivity : AppCompatActivity() {
         getBundle()
 
         btnLogin.setOnClickListener(View.OnClickListener {
-            var checkLogin = false
             val username: String = inputUsername.getEditText()?.getText().toString()
             val password: String = inputPassword.getEditText()?.getText().toString()
+            var checkLogin = false
 
             if (username.isEmpty()) {
                 inputUsername.setError("Username must be filled with text")
@@ -59,17 +59,23 @@ class LoginActivity : AppCompatActivity() {
                 checkLogin = false
             }
 
-            if (username != "admin" && password != "admin" || username != bUsername && password != bPassword) {
-                loginAlert()
-                checkLogin = false
+            if(username == "admin" && password == "admin") {
+                checkLogin = true
+            }
+
+            if(intent.getBundleExtra("Register") != null) {
+                if(username == bUsername && password == bPassword) {
+                    checkLogin = true
+                }
             }
 
             if(!checkLogin) {
+                loginAlert()
                 return@OnClickListener
             }
+
             val moveHome = Intent (this@LoginActivity, HomeActivity::class.java)
             startActivity(moveHome)
-
         })
 
         btnRegister.setOnClickListener(View.OnClickListener {
