@@ -23,6 +23,9 @@ class FragmentHome : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val btnLogout : Button = view.findViewById(R.id.btnLogout)
+        val btnJanjiTemu: Button = view.findViewById(R.id.btn_janji_temu)
+
+
 
         btnLogout.setOnClickListener(View.OnClickListener {
             getActivity()?.let { it1 ->

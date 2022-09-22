@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,17 +9,154 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/textProfile"
-        android:layout_width="234dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/bebas_neue_bold_700"
-        android:text="Profile"
+        android:id="@+id/textProfil"
+        android:layout_width="100dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="20dp"
         android:textAlignment="center"
+        android:fontFamily="@font/bebas_neue_bold_700"
+        android:text="PROFIL"
         android:textColor="@color/black"
-        android:textSize="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/homeHospital"
+        android:layout_width="145dp"
+        android:layout_height="133dp"
+        android:src="@drawable/home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textProfil"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="53dp"
+        android:layout_marginTop="20dp"/>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/homeHospital"
+        android:paddingTop="30dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textNamaLengkap"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama Lengkap"
+            android:textColor="@color/black"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/LinearLayout"
+            app:layout_constraintTop_toBottomOf="@id/LinearLayout" />
+
+        <TextView
+            android:id="@+id/viewNamaLengkap"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Nama Lengkap"
+            android:textColor="@color/black"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginLeft="12dp"
+            android:padding="12dp"
+            app:layout_constraintStart_toStartOf="@id/LinearLayout"
+            app:layout_constraintTop_toBottomOf="@id/LinearLayout"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/textUsername"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/LinearLayout"
+            app:layout_constraintTop_toBottomOf="@id/LinearLayout" />
+
+        <TextView
+            android:id="@+id/viewUsername"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View username"
+            android:textColor="@color/black"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginLeft="12dp"
+            android:padding="12dp"
+            app:layout_constraintStart_toStartOf="@id/LinearLayout"
+            app:layout_constraintTop_toBottomOf="@id/LinearLayout"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/textEmail"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/LinearLayout"
+            app:layout_constraintTop_toBottomOf="@id/LinearLayout" />
+
+        <TextView
+            android:id="@+id/viewEmail"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View email"
+            android:textColor="@color/black"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginLeft="12dp"
+            android:padding="12dp"
+            app:layout_constraintStart_toStartOf="@id/LinearLayout"
+            app:layout_constraintTop_toBottomOf="@id/LinearLayout"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/textNoTelp"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nomor Telepon"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/LinearLayout"
+            app:layout_constraintTop_toBottomOf="@id/LinearLayout" />
+
+        <TextView
+            android:id="@+id/viewNomorTelepon"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View noTelp"
+            android:textColor="@color/black"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginLeft="12dp"
+            android:padding="12dp"
+            app:layout_constraintStart_toStartOf="@id/LinearLayout"
+            app:layout_constraintTop_toBottomOf="@id/LinearLayout"
+            android:textSize="15dp"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnUpdate"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/dark_green"
+        android:text="Update Profil"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteX="130dp"
+        tools:layout_editor_absoluteY="619dp"
+        android:typeface="monospace"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:background="@color/blue_box"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
