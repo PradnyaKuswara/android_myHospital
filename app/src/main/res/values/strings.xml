@@ -4,12 +4,14 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string-array name="rumah_sakit">
+        <item>Choose Hospital</item>
         <item>Hospital A</item>
         <item>Hospital B</item>
         <item>Hospital C</item>
     </string-array>
 
     <string-array name="dokter">
+        <item>Choose Doctor</item>
         <item>Dokter A</item>
         <item>Dokter B</item>
         <item>Dokter C</item>

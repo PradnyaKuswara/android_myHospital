@@ -75,6 +75,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             style="@style/Widget.Material3.Button.ElevatedButton"
             android:text="Pilih Tanggal"
+            android:textSize="12sp"
             app:layout_constraintTop_toBottomOf="@id/textPilihTanggal"/>
 
 
@@ -91,20 +92,13 @@
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/layoutdate" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layoutKeluhan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintTop_toBottomOf="@id/textKeluhan">
-        <com.google.android.material.textfield.TextInputEditText
+
+        <EditText
             android:id="@+id/tietkeluhan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/textKeluhan"
             android:hint="Keluhan Anda"/>
-    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnSave"
@@ -120,7 +114,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutKeluhan" />
+        app:layout_constraintTop_toBottomOf="@+id/tietkeluhan" />
 
     <Button
         android:id="@+id/btnUpdate"

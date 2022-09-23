@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.ugd3_kelompok15.room.UserDB
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -20,6 +21,10 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var btnRegister : Button
     private lateinit var registerLayout: ConstraintLayout
+
+    val db by lazy { UserDB(this)}
+    private var userId: Int = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
