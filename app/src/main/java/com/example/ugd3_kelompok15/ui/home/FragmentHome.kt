@@ -1,5 +1,6 @@
 package com.example.ugd3_kelompok15.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import com.example.ugd3_kelompok15.LoginActivity
 import com.example.ugd3_kelompok15.R
+import com.example.ugd3_kelompok15.ui.janjitemu.JanjiTemuActivity
 import kotlin.system.exitProcess
 
 class FragmentHome : Fragment() {
@@ -23,6 +26,13 @@ class FragmentHome : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val btnLogout : Button = view.findViewById(R.id.btnLogout)
+        val btnJanjiTemu: Button = view.findViewById(R.id.btn_janji_temu)
+
+        btnJanjiTemu.setOnClickListener(View.OnClickListener {
+           val movejanji = Intent(this@FragmentHome.context, JanjiTemuActivity::class.java)
+            startActivity(movejanji)
+
+        })
 
         btnLogout.setOnClickListener(View.OnClickListener {
             getActivity()?.let { it1 ->
@@ -41,5 +51,11 @@ class FragmentHome : Fragment() {
                 }.create().show()
             }
         })
+    }
+    private fun transitionFragment(fragment: Fragment) {
+        val transition = requireActivity().supportFragmentManager.beginTransaction()
+        transition.replace(R.id.layout_fragment2, fragment)
+            .addToBackStack(null).commit()
+        transition.hide(FragmentHome())
     }
 }
