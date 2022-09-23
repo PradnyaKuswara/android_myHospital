@@ -144,19 +144,18 @@
 
     <Button
         android:id="@+id/btnUpdate"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
+        android:layout_width="348dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/blue_box"
         android:backgroundTint="@color/dark_green"
         android:text="Update Profil"
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteX="130dp"
-        tools:layout_editor_absoluteY="619dp"
-        android:typeface="monospace"
-        android:layout_marginTop="20dp"
+        android:textSize="10sp"
         android:textStyle="bold"
-        android:background="@color/blue_box"/>
+        android:typeface="monospace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

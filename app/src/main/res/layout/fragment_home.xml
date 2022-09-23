@@ -46,57 +46,85 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:layout_editor_absoluteX="157dp" />
 
-    <ImageView
-        android:id="@+id/temuDokter"
-        android:layout_width="298dp"
-        android:layout_height="169dp"
-        android:src="@drawable/temudokter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+    <FrameLayout
+        android:id="@+id/frame1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/textHome"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintStart_toStartOf="@id/textHome"
+        app:layout_constraintEnd_toEndOf="@+id/textHome">
 
-    <Button
-        android:id="@+id/btn_janji_temu"
-        android:layout_width="130dp"
+        <ImageView
+            android:id="@+id/temuDokter"
+            android:layout_width="298dp"
+            android:layout_height="169dp"
+            android:src="@drawable/temudokter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textHome"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/btn_janji_temu"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/blue_box"
+            android:scaleType="centerInside"
+            android:text="Janji Temu"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:typeface="monospace"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/blue_box"
-        android:scaleType="centerInside"
-        android:text="Janji Temu"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:typeface="monospace"
-        app:layout_constraintBottom_toBottomOf="@id/temuDokter"
-        app:layout_constraintEnd_toEndOf="@+id/temuDokter"
-        app:layout_constraintStart_toStartOf="@id/temuDokter"
-        app:layout_constraintTop_toTopOf="@+id/temuDokter" />
+        app:layout_constraintStart_toStartOf="@+id/frame1"
+        app:layout_constraintEnd_toEndOf="@+id/frame1"
+        app:layout_constraintTop_toBottomOf="@+id/frame1">
 
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/blue_box"
-        android:scaleType="centerInside"
-        android:text="Log Out"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:typeface="monospace"
-        app:layout_constraintBottom_toBottomOf="@id/hospital"
-        app:layout_constraintEnd_toEndOf="@+id/hospital"
-        app:layout_constraintStart_toStartOf="@id/hospital"
-        app:layout_constraintTop_toTopOf="@id/hospital" />
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/blue_box"
+            android:scaleType="centerInside"
+            android:text="Log Out"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:typeface="monospace"
+            app:layout_constraintBottom_toBottomOf="@id/hospital"
+            app:layout_constraintEnd_toEndOf="@+id/hospital"
+            app:layout_constraintStart_toStartOf="@id/hospital"
+            app:layout_constraintTop_toTopOf="@id/hospital" />
 
-    <ImageView
-        android:id="@+id/hospital"
-        android:layout_width="326dp"
-        android:layout_height="174dp"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/hospital"
+        <ImageView
+            android:id="@+id/hospital"
+            android:layout_width="326dp"
+            android:layout_height="174dp"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/hospital"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/temuDokter"
+            app:layout_constraintVertical_bias="0.0" />
+    </FrameLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/layout_fragment2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/temuDokter"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

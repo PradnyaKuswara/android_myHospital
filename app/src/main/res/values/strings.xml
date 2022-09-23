@@ -2,4 +2,16 @@
     <string name="app_name">UGD3_Kelompok15</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="rumah_sakit">
+        <item>Hospital A</item>
+        <item>Hospital B</item>
+        <item>Hospital C</item>
+    </string-array>
+
+    <string-array name="dokter">
+        <item>Dokter A</item>
+        <item>Dokter B</item>
+        <item>Dokter C</item>
+    </string-array>
 </resources>
