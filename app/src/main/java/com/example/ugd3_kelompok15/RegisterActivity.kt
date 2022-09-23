@@ -6,45 +6,42 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.ugd3_kelompok15.databinding.ActivityHomeBinding
+import com.example.ugd3_kelompok15.databinding.ActivityRegisterBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class RegisterActivity : AppCompatActivity() {
-
-    private lateinit var inputNama: TextInputLayout
-    private lateinit var inputUsername: TextInputLayout
-    private lateinit var inputEmail: TextInputLayout
-    private lateinit var inputNoTelp: TextInputLayout
-    private lateinit var inputPassword: TextInputLayout
-
-    private lateinit var btnRegister : Button
-    private lateinit var registerLayout: ConstraintLayout
+    private lateinit var binding: ActivityRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        val checkLogin = true
 
         supportActionBar?.hide()
 
-        inputNama = findViewById(R.id.inputLayoutNama)
-        inputUsername = findViewById(R.id.inputLayoutUsername)
-        inputEmail = findViewById(R.id.inputLayoutEmail)
-        inputNoTelp = findViewById(R.id.inputLayoutNoTelp)
-        inputPassword = findViewById(R.id.inputLayoutPassword)
+        var inputNama = binding.inputLayoutNama
+        var inputUsername = binding.inputLayoutUsername
+        var inputEmail = binding.inputLayoutEmail
+        var inputNoTelp = binding.inputLayoutNoTelp
+        var inputPassword = binding.inputLayoutPassword
 
-        registerLayout = findViewById(R.id.registerLayout)
-        btnRegister = findViewById(R.id.btnRegister)
+        var registerLayout = binding.registerLayout
+        var btnRegister = binding.btnRegister
 
-        btnRegister.setOnClickListener(View.OnClickListener{
+        binding.btnRegister.setOnClickListener(View.OnClickListener{
             val intent = Intent(this, LoginActivity::class.java)
             val mBundle = Bundle()
 
-            val nama: String = inputNama.getEditText()?.getText().toString()
-            val username: String = inputUsername.getEditText()?.getText().toString()
-            val email: String = inputEmail.getEditText()?.getText().toString()
-            val noTelp: String = inputNoTelp.getEditText()?.getText().toString()
-            val password: String = inputPassword.getEditText()?.getText().toString()
+            val nama: String = binding.inputLayoutNama.getEditText()?.getText().toString()
+            val username: String = binding.inputLayoutUsername.getEditText()?.getText().toString()
+            val email: String = binding.inputLayoutEmail.getEditText()?.getText().toString()
+            val noTelp: String = binding.inputLayoutNoTelp.getEditText()?.getText().toString()
+            val password: String = binding.inputLayoutPassword.getEditText()?.getText().toString()
 
             var checkRegister = false
 
