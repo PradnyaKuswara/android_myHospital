@@ -1,10 +1,12 @@
 package com.example.ugd3_kelompok15.ui.janjitemu
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ugd3_kelompok15.R
 import com.example.ugd3_kelompok15.databinding.ActivityJanjiTemuBinding
@@ -38,16 +40,17 @@ class JanjiTemuActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         janjiAdapter = JanjiTemuAdapter(arrayListOf(), object :
-            JanjiTemuAdapter.OnAdapterListener{
+            JanjiTemuAdapter.OnAdapterListener {
             override fun onClick(janjitemu: JanjiTemu) {
                 intentEdit(janjitemu.id, Constant.TYPE_READ)
             }
+
             override fun onUpdate(janjitemu: JanjiTemu) {
                 intentEdit(janjitemu.id, Constant.TYPE_UPDATE)
             }
 
             override fun onDelete(janjitemu: JanjiTemu) {
-                TODO("Not yet implemented")
+                deleteDialog(janjitemu)
             }
         })
         list_janji_temu.apply {
@@ -56,6 +59,26 @@ class JanjiTemuActivity : AppCompatActivity() {
         }
     }
 
+        private fun deleteDialog(janjitemu: JanjiTemu){
+            val alertDialog = AlertDialog.Builder(this)
+            alertDialog.apply {
+                setTitle("Confirmation")
+                setMessage("Are You Sure to delete this data From${janjitemu.tanggal}?")
+                setNegativeButton("Cancel", DialogInterface.OnClickListener
+                { dialogInterface, i ->
+                    dialogInterface.dismiss()
+                })
+                setPositiveButton("Delete", DialogInterface.OnClickListener
+                { dialogInterface, i ->
+                    dialogInterface.dismiss()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        db.janjiTemuDao().deleteJanjiTemu(janjitemu)
+                        loadData()
+                    }
+                })
+            }
+            alertDialog.show()
+        }
 
     override fun onStart() {
         super.onStart()
@@ -73,9 +96,9 @@ class JanjiTemuActivity : AppCompatActivity() {
     }
 
     fun setupListener() {
-        binding.btnAdd.setOnClickListener(View.OnClickListener {
+        binding.btnAdd.setOnClickListener {
             intentEdit(0, Constant.TYPE_CREATE)
-        })
+        }
     }
 
     fun intentEdit(janjiId: Int, intentType: Int) {
@@ -83,7 +106,6 @@ class JanjiTemuActivity : AppCompatActivity() {
             Intent(applicationContext, EditJanjiTemu::class.java)
                 .putExtra("intent_id", janjiId)
                 .putExtra("intent_type", intentType)
-
         )
     }
 }

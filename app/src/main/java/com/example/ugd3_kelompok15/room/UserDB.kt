@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.ugd3_kelompok15.RegisterActivity
+import com.example.ugd3_kelompok15.ui.profile.FragmentProfile
 
 @Database(
     entities = [User::class],
