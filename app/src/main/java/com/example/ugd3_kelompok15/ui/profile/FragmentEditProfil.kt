@@ -94,7 +94,7 @@ class FragmentEditProfil : Fragment() {
 
     private fun transitionFragment(fragment: Fragment) {
         val transition = requireActivity().supportFragmentManager.beginTransaction()
-        transition.replace(R.id.layout_fragment_profil, fragment)
+        transition.replace(R.id.layout_fragment, fragment)
             .addToBackStack(null).commit()
         transition.hide(FragmentEditProfil())
     }

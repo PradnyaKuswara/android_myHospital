@@ -95,6 +95,7 @@ class EditJanjiTemu : AppCompatActivity()  {
         val myFormat = "dd-MM-yyyy"
         val sdf = SimpleDateFormat(myFormat, Locale.UK)
         date = sdf.format(myCalender.time).toString()
+        binding.viewPilihTanggal.setText(date)
     }
 
     fun setupView() {
