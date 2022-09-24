@@ -39,6 +39,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         supportActionBar?.hide()
 
+        val db by lazy { UserDB(this) }
+        val userDao = db.userDao()
         sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE)
 
         inputUsername = findViewById(R.id.inputLayoutUsername)
@@ -77,8 +79,6 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
 
-            val db by lazy { UserDB(this) }
-            val userDao = db.userDao()
 
             val user = userDao.checkUser(username,password)
             if(user !=null) {

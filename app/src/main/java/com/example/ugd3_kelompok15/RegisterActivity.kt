@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.ugd3_kelompok15.databinding.ActivityRegisterBinding
+import com.example.ugd3_kelompok15.room.User
 import com.example.ugd3_kelompok15.room.UserDB
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -26,6 +27,8 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(view)
         val checkLogin = true
 
+        val db by lazy { UserDB(this) }
+        val userDao = db.userDao()
         supportActionBar?.hide()
 
         var inputNama = binding.inputLayoutNama
@@ -55,7 +58,6 @@ class RegisterActivity : AppCompatActivity() {
             mBundle.putString("tietNomor" , noTelp)
             mBundle.putString("tietPassword" , password)
 
-
             if(nama.isEmpty()){
                 inputNama.setError("Nama must be filled with text")
                 checkRegister = false
@@ -84,6 +86,9 @@ class RegisterActivity : AppCompatActivity() {
             if(!checkRegister){
                 return@OnClickListener
             }
+
+            val user = User(0, nama, username, email, noTelp, password)
+            userDao.addUser(user)
 
             intent.putExtra("Register", mBundle)
             startActivity(intent)
