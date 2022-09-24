@@ -7,46 +7,38 @@ import android.view.View
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.ugd3_kelompok15.databinding.ActivityRegisterBinding
-import com.example.ugd3_kelompok15.room.User
 import com.example.ugd3_kelompok15.room.UserDB
-import com.example.ugd3_kelompok15.ui.profile.FragmentProfile
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class RegisterActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityRegisterBinding
 
-    private lateinit var inputNama: TextInputLayout
-    private lateinit var inputUsername: TextInputLayout
-    private lateinit var inputEmail: TextInputLayout
-    private lateinit var inputNoTelp: TextInputLayout
-    private lateinit var inputPassword: TextInputLayout
-
-    private lateinit var btnRegister : Button
-    private lateinit var registerLayout: ConstraintLayout
-
-    val db by lazy { UserDB(this) }
+    val db by lazy { UserDB(this)}
     private var userId: Int = 0
 
-    private lateinit var  binding: ActivityRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         val view = binding.root
-
         setContentView(view)
+        val checkLogin = true
 
         supportActionBar?.hide()
 
+        var inputNama = binding.inputLayoutNama
+        var inputUsername = binding.inputLayoutUsername
+        var inputEmail = binding.inputLayoutEmail
+        var inputNoTelp = binding.inputLayoutNoTelp
+        var inputPassword = binding.inputLayoutPassword
 
-        registerLayout = findViewById(R.id.registerLayout)
+        var registerLayout = binding.registerLayout
+        var btnRegister = binding.btnRegister
 
         binding.btnRegister.setOnClickListener(View.OnClickListener{
             val intent = Intent(this, LoginActivity::class.java)
-            val intent2 = Intent(this, FragmentProfile::class.java)
             val mBundle = Bundle()
 
             val nama: String = binding.inputLayoutNama.getEditText()?.getText().toString()
@@ -63,24 +55,25 @@ class RegisterActivity : AppCompatActivity() {
             mBundle.putString("tietNomor" , noTelp)
             mBundle.putString("tietPassword" , password)
 
+
             if(nama.isEmpty()){
-                binding.inputLayoutNama.setError("Nama must be filled with text")
+                inputNama.setError("Nama must be filled with text")
                 checkRegister = false
             }
             if(username.isEmpty()){
-                binding.inputLayoutUsername.setError("Username must be filled with text")
+                inputUsername.setError("Username must be filled with text")
                 checkRegister = false
             }
             if(email.isEmpty()){
-                binding.inputLayoutEmail.setError("Email must be filled with text")
+                inputEmail.setError("Email must be filled with text")
                 checkRegister = false
             }
             if(noTelp.isEmpty()){
-                binding.inputLayoutNoTelp.setError("No Telp must be filled with text")
+                inputNoTelp.setError("No Telp must be filled with text")
                 checkRegister = false
             }
             if(password.isEmpty()){
-                binding.inputLayoutPassword.setError("Password must be filled with text")
+                inputPassword.setError("Password must be filled with text")
                 checkRegister = false
             }
 
@@ -92,17 +85,9 @@ class RegisterActivity : AppCompatActivity() {
                 return@OnClickListener
             }
 
-            CoroutineScope(Dispatchers.IO).launch {
-                run {
-                    db.userDao().addUser(
-                        User(0,nama,username,email,noTelp,password)
-                    )
-                    finish()
-                }
-            }
             intent.putExtra("Register", mBundle)
-            intent.putExtra("intent_id", 0)
             startActivity(intent)
+
         })
     }
 }

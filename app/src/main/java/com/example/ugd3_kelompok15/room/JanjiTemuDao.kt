@@ -15,3 +15,4 @@ interface JanjiTemuDao {
     @Query("SELECT * FROM janjitemu WHERE id =:janji_id")
     suspend fun getJanji(janji_id: Int) : List<JanjiTemu>
 }
+
