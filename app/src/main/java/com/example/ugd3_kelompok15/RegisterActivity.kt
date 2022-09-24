@@ -17,17 +17,8 @@ import kotlinx.coroutines.launch
 
 class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var inputNama: TextInputLayout
-    private lateinit var inputUsername: TextInputLayout
-    private lateinit var inputEmail: TextInputLayout
-    private lateinit var inputNoTelp: TextInputLayout
-    private lateinit var inputPassword: TextInputLayout
 
-    private lateinit var btnRegister : Button
     private lateinit var registerLayout: ConstraintLayout
-
-    val db by lazy { UserDB(this) }
-    private var userId: Int = 0
 
     private lateinit var  binding: ActivityRegisterBinding
 
@@ -37,16 +28,16 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         val view = binding.root
 
+        val db by lazy { UserDB(this) }
+        val userDao = db.userDao()
+
         setContentView(view)
 
         supportActionBar?.hide()
-
-
         registerLayout = findViewById(R.id.registerLayout)
 
         binding.btnRegister.setOnClickListener(View.OnClickListener{
             val intent = Intent(this, LoginActivity::class.java)
-            val intent2 = Intent(this, FragmentProfile::class.java)
             val mBundle = Bundle()
 
             val nama: String = binding.inputLayoutNama.getEditText()?.getText().toString()
@@ -92,16 +83,10 @@ class RegisterActivity : AppCompatActivity() {
                 return@OnClickListener
             }
 
-            CoroutineScope(Dispatchers.IO).launch {
-                run {
-                    db.userDao().addUser(
-                        User(0,nama,username,email,noTelp,password)
-                    )
-                    finish()
-                }
-            }
+            val user = User(0, nama, username, email, noTelp, password)
+            userDao.addUser(user)
+
             intent.putExtra("Register", mBundle)
-            intent.putExtra("intent_id", 0)
             startActivity(intent)
         })
     }
