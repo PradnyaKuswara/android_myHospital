@@ -8,12 +8,21 @@
         <item>Hospital A</item>
         <item>Hospital B</item>
         <item>Hospital C</item>
+        <item>Hospital D</item>
+        <item>Hospital E</item>
+        <item>Hospital F</item>
     </string-array>
 
     <string-array name="dokter">
         <item>Choose Doctor</item>
-        <item>Dokter A</item>
-        <item>Dokter B</item>
-        <item>Dokter C</item>
+        <item>Dokter Edward</item>
+        <item>Dokter Michael</item>
+        <item>Dokter Joel</item>
+        <item>Dokter Johan</item>
+        <item>Dokter Mera</item>
+        <item>Dokter Pamela</item>
+        <item>Dokter Herlina</item>
+        <item>Dokter Joana</item>
+        <item>Dokter Lenny</item>
     </string-array>
 </resources>
