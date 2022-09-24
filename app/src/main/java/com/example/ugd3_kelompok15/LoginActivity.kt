@@ -1,7 +1,9 @@
 package com.example.ugd3_kelompok15
 
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -11,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.ugd3_kelompok15.room.UserDB
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
@@ -28,10 +31,15 @@ class LoginActivity : AppCompatActivity() {
     lateinit var bEmail: String
     lateinit var bNoTelp: String
 
+
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         supportActionBar?.hide()
+
+        sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE)
 
         inputUsername = findViewById(R.id.inputLayoutUsername)
         inputPassword = findViewById(R.id.inputLayoutPassword)
@@ -67,6 +75,18 @@ class LoginActivity : AppCompatActivity() {
                 if(username == bUsername && password == bPassword) {
                     checkLogin = true
                 }
+            }
+
+            val db by lazy { UserDB(this) }
+            val userDao = db.userDao()
+
+            val user = userDao.checkUser(username,password)
+            if(user !=null) {
+                sharedPreferences.edit()
+                    .putInt("id", user.id)
+                    .apply()
+
+                checkLogin = true
             }
 
             if(!checkLogin) {

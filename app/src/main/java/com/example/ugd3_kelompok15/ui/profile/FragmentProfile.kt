@@ -1,10 +1,12 @@
 package com.example.ugd3_kelompok15.ui.profile
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.ugd3_kelompok15.HomeActivity
 import com.example.ugd3_kelompok15.R
 import com.example.ugd3_kelompok15.databinding.FragmentProfileBinding
 import com.example.ugd3_kelompok15.room.UserDB
@@ -21,8 +23,7 @@ class FragmentProfile() : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
-    val db by lazy { UserDB(requireActivity()) }
-    private var userId: Int = 0
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,8 +37,8 @@ class FragmentProfile() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setData()
 
+        setData()
         binding.btnUpdate.setOnClickListener {
             transitionFragment(FragmentEditProfil())
         }
@@ -49,14 +50,19 @@ class FragmentProfile() : Fragment() {
         _binding = null
     }
 
-    fun setData() {
-        userId = 1
-        CoroutineScope(Dispatchers.IO).launch {
-            val users = db.userDao().getUser(userId)[0]
+    private fun setData() {
+        val sharedPreferences = (activity as HomeActivity).getSharedPreferences()
 
-        }
+        val db by lazy { UserDB(activity as HomeActivity) }
+        val userDao = db.userDao()
 
+        val user = userDao.getUser(sharedPreferences.getInt("id", 0))
+        binding.viewNamaLengkap.setText(user.namaLengkap)
+        binding.viewUsername.setText(user.username)
+        binding.viewEmail.setText(user.Email)
+        binding.viewNomorTelepon.setText(user.nomorTelepon)
     }
+
 
     private fun transitionFragment(fragment: Fragment) {
         val transition = requireActivity().supportFragmentManager.beginTransaction()

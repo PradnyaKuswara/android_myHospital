@@ -16,6 +16,8 @@ class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        supportActionBar?.hide()
+
         sharedPreferences = getSharedPreferences(myPreferences, MODE_PRIVATE)
 
         if (sharedPreferences!!.contains(nama)) {

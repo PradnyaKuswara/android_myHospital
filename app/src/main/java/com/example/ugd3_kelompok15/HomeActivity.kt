@@ -1,5 +1,7 @@
 package com.example.ugd3_kelompok15
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
@@ -15,11 +17,13 @@ import kotlin.system.exitProcess
 class HomeActivity : AppCompatActivity() {
     private lateinit var navigationBottom : BottomNavigationView
     private lateinit var textView : TextView
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE)
         setTitle("My Hospital")
 
         changeFragment(FragmentHome())
@@ -84,4 +88,9 @@ class HomeActivity : AppCompatActivity() {
             setCancelable(true)
         }.create().show()
     }
+
+    fun getSharedPreferences() : SharedPreferences {
+        return sharedPreferences
+    }
+
 }
