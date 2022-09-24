@@ -31,7 +31,6 @@ class LoginActivity : AppCompatActivity() {
     lateinit var bEmail: String
     lateinit var bNoTelp: String
 
-
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,13 +68,6 @@ class LoginActivity : AppCompatActivity() {
                 checkLogin = false
             }
 
-
-            if(intent.getBundleExtra("Register") != null) {
-                if(username == bUsername && password == bPassword) {
-                    checkLogin = true
-                }
-            }
-
             val user = userDao.checkUser(username,password)
             if(user !=null) {
                 sharedPreferences.edit()
@@ -83,6 +75,12 @@ class LoginActivity : AppCompatActivity() {
                     .apply()
 
                 checkLogin = true
+            }
+
+            if(intent.getBundleExtra("Register") != null) {
+                if(username == user?.username && password == user.password) {
+                    checkLogin = true
+                }
             }
 
             if(!checkLogin) {
