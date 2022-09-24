@@ -7,9 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.example.ugd3_kelompok15.HomeActivity
 import com.example.ugd3_kelompok15.LoginActivity
 import com.example.ugd3_kelompok15.R
+import com.example.ugd3_kelompok15.room.UserDB
 import com.example.ugd3_kelompok15.ui.janjitemu.JanjiTemuActivity
 import kotlin.system.exitProcess
 
@@ -25,8 +28,17 @@ class FragmentHome : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val db by lazy { UserDB(activity as HomeActivity) }
+        val userDao = db.userDao()
         val btnLogout : Button = view.findViewById(R.id.btnLogout)
         val btnJanjiTemu: Button = view.findViewById(R.id.btn_janji_temu)
+        val textNama: TextView = view.findViewById(R.id.textHome)
+
+        val sharedPreferences = (activity as HomeActivity).getSharedPreferences()
+        val user = userDao.getUser(sharedPreferences.getInt("id", 0))
+
+        textNama.setText(user.namaLengkap)
+
 
         btnJanjiTemu.setOnClickListener(View.OnClickListener {
            val movejanji = Intent(this@FragmentHome.context, JanjiTemuActivity::class.java)

@@ -12,7 +12,7 @@
             android:id="@+id/textProfil"
             android:layout_width="100dp"
             android:layout_height="37dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="14dp"
             android:fontFamily="@font/bebas_neue_bold_700"
             android:text="PROFIL"
             android:textAlignment="center"
@@ -43,6 +43,7 @@
             android:text="Nama Lengkap"
             android:textColor="@color/black"
             app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/homeHospital" />
 
@@ -138,31 +139,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/viewNomorTelepon">
+
                 <Button
                     android:id="@+id/btnUpdate"
-                    android:layout_width="348dp"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_width="320dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical|center"
+                    android:layout_marginTop="8dp"
                     android:background="@color/blue_box"
                     android:backgroundTint="@color/dark_green"
+                    android:gravity="center"
                     android:text="Update Profil"
                     android:textColor="@color/white"
                     android:textSize="10sp"
                     android:textStyle="bold"
                     android:typeface="monospace"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintHorizontal_bias="0.43"
                     app:layout_constraintTop_toBottomOf="@+id/viewNomorTelepon" />
         </FrameLayout>
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/layout_fragment_profil"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/layout_fragment_profil"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.4" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

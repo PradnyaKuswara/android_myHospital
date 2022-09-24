@@ -31,8 +31,8 @@ class JanjiTemuActivity : AppCompatActivity() {
         binding = ActivityJanjiTemuBinding.inflate(layoutInflater)
         val view = binding.root
 
+        supportActionBar?.hide()
         setContentView(view)
-
 
         setupListener()
         setupRecyclerView()

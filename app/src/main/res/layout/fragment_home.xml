@@ -46,13 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:layout_editor_absoluteX="157dp" />
 
-    <FrameLayout
-        android:id="@+id/frame1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/textHome"
-        app:layout_constraintStart_toStartOf="@id/textHome"
-        app:layout_constraintEnd_toEndOf="@+id/textHome">
+
 
         <ImageView
             android:id="@+id/temuDokter"
@@ -64,28 +58,22 @@
             app:layout_constraintTop_toBottomOf="@id/textHome"
             tools:ignore="MissingConstraints" />
 
-        <Button
-            android:id="@+id/btn_janji_temu"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/blue_box"
-            android:scaleType="centerInside"
-            android:text="Janji Temu"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:typeface="monospace"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/btn_janji_temu"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/frame1"
-        app:layout_constraintEnd_toEndOf="@+id/frame1"
-        app:layout_constraintTop_toBottomOf="@+id/frame1">
+        android:backgroundTint="@color/blue_box"
+        android:scaleType="centerInside"
+        android:text="Janji Temu"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.405" />
 
         <Button
             android:id="@+id/btnLogout"
@@ -114,7 +102,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/temuDokter"
             app:layout_constraintVertical_bias="0.0" />
-    </FrameLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/layout_fragment2"
