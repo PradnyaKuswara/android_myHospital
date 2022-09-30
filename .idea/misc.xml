@@ -18,12 +18,13 @@
         <entry key="..\:/UGD3_Kelompok15/app/src/main/res/layout/activity_janji_temu.xml" value="0.12360688956433637" />
         <entry key="..\:/UGD3_Kelompok15/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/UGD3_Kelompok15/app/src/main/res/layout/fragment_janji_temu.xml" value="0.10552536231884058" />
+        <entry key="..\:/Users/LENOVO/AndroidStudioProjects/UGD3_Kelompok15/app/src/main/res/drawable/ic_calendar_24.xml" value="0.2555" />
         <entry key="..\:/Users/LENOVO/AndroidStudioProjects/UGD3_Kelompok15/app/src/main/res/drawable/ic_delete.xml" value="0.1865" />
         <entry key="..\:/Users/LENOVO/AndroidStudioProjects/UGD3_Kelompok15/app/src/main/res/drawable/ic_edit.xml" value="0.1865" />
         <entry key="..\:/Users/LENOVO/AndroidStudioProjects/UGD3_Kelompok15/app/src/main/res/drawable/ic_lock_24.xml" value="0.2555" />
         <entry key="..\:/Users/LENOVO/AndroidStudioProjects/UGD3_Kelompok15/app/src/main/res/drawable/ic_person_24.xml" value="0.2555" />
         <entry key="..\:/Users/LENOVO/AndroidStudioProjects/UGD3_Kelompok15/app/src/main/res/font/font.xml" value="0.2791666666666667" />
-        <entry key="..\:/Users/LENOVO/AndroidStudioProjects/UGD3_Kelompok15/app/src/main/res/layout/activity_edit_janji_temu.xml" value="0.152" />
+        <entry key="..\:/Users/LENOVO/AndroidStudioProjects/UGD3_Kelompok15/app/src/main/res/layout/activity_edit_janji_temu.xml" value="0.1" />
         <entry key="..\:/Users/LENOVO/AndroidStudioProjects/UGD3_Kelompok15/app/src/main/res/layout/activity_home.xml" value="0.264" />
         <entry key="..\:/Users/LENOVO/AndroidStudioProjects/UGD3_Kelompok15/app/src/main/res/layout/activity_home2.xml" value="0.264" />
         <entry key="..\:/Users/LENOVO/AndroidStudioProjects/UGD3_Kelompok15/app/src/main/res/layout/activity_janji_temu.xml" value="0.264" />
@@ -41,6 +42,8 @@
         <entry key="..\:/Users/LENOVO/AndroidStudioProjects/UGD3_Kelompok15/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
         <entry key="..\:/Users/LENOVO/AndroidStudioProjects/UGD3_Kelompok15/app/src/main/res/layout/rv_item_dokter.xml" value="0.25" />
         <entry key="..\:/Users/LENOVO/AndroidStudioProjects/UGD3_Kelompok15/app/src/main/res/menu/menu_activity.xml" value="0.1" />
+        <entry key="..\:/Users/LENOVO/AndroidStudioProjects/UGD3_Kelompok15/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1325" />
+        <entry key="..\:/Users/LENOVO/AndroidStudioProjects/UGD3_Kelompok15/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1325" />
       </map>
     </option>
   </component>

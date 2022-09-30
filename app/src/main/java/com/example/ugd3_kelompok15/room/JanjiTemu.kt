@@ -9,6 +9,8 @@ import java.util.*
 data class JanjiTemu (
     @PrimaryKey(autoGenerate = true)
     val id: Int,
+    val idRs: Int,
+    val idDr: Int,
     val rumahSakit: String,
     val tanggal: String,
     val dokter: String,

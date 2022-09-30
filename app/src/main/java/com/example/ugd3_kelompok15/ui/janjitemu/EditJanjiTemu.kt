@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.Spinner
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.get
 import com.example.ugd3_kelompok15.R
@@ -24,14 +25,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.properties.Delegates
 
 class EditJanjiTemu : AppCompatActivity()  {
 
     private lateinit var binding: ActivityEditJanjiTemuBinding
     private lateinit var selectrs: String
     private lateinit var selectdr: String
+    private lateinit var idRs: String
+    private lateinit var idDr: String
     private lateinit var date: String
-
 
     val db by lazy { JanjiTemuDB(this) }
     private var janjiId: Int = 0
@@ -46,10 +49,15 @@ class EditJanjiTemu : AppCompatActivity()  {
         binding.rsOption.setAdapter(arrayAdapterRs)
         binding.drOption.setAdapter(arrayAdapterDr)
 
-
         binding.rsOption.onItemSelectedListener = object : OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectrs = rs.get(p2).toString()
+                idRs = arrayAdapterRs.getPosition(selectrs).toString()
+                if(selectrs != "Choose Hospital") {
+                    binding.viewRs.setText(selectrs)
+                }else {
+                    binding.viewRs.setText("Please choose hospital!")
+                }
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
 
@@ -59,8 +67,14 @@ class EditJanjiTemu : AppCompatActivity()  {
         binding.drOption.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectdr = dr.get(p2).toString()
-            }
+                idDr = arrayAdapterDr.getPosition(selectdr).toString()
+                if(selectdr != "Choose Doctor") {
+                    binding.viewDr.setText(selectdr)
+                }else {
+                    binding.viewDr.setText("Please choose dockter!")
+                }
 
+            }
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
@@ -69,10 +83,12 @@ class EditJanjiTemu : AppCompatActivity()  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_edit_janji_temu)
+        setContentView(R.layout.activity_edit_janji_temu)
+
         binding = ActivityEditJanjiTemuBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
         supportActionBar?.hide()
 
         val myCalender = Calendar.getInstance()
@@ -81,7 +97,6 @@ class EditJanjiTemu : AppCompatActivity()  {
             myCalender.set(Calendar.MONTH, month)
             myCalender.set(Calendar.DAY_OF_MONTH, dayofMonth)
             updateLable(myCalender)
-
         }
         binding.layoutdate.setOnClickListener {
             DatePickerDialog(this, datePicker, myCalender.get(Calendar.YEAR), myCalender.get(Calendar.MONTH), myCalender.get(Calendar.DAY_OF_MONTH)).show()
@@ -99,7 +114,6 @@ class EditJanjiTemu : AppCompatActivity()  {
     }
 
     fun setupView() {
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         val intentType = intent.getIntExtra("intent_type", 0)
         when (intentType) {
             Constant.TYPE_CREATE -> {
@@ -109,6 +123,7 @@ class EditJanjiTemu : AppCompatActivity()  {
                 binding.btnSave.visibility = View.GONE
                 binding.btnUpdate.visibility = View.GONE
                 getData()
+
             }
             Constant.TYPE_UPDATE -> {
                 binding.btnSave.visibility = View.GONE
@@ -117,23 +132,28 @@ class EditJanjiTemu : AppCompatActivity()  {
         }
     }
 
-
     private fun setupListener() {
         binding.btnSave.setOnClickListener {
+            if(binding.viewPilihTanggal.text.toString().isEmpty() || binding.tietkeluhan.text.toString().isEmpty() || binding.viewRs.text.toString().isEmpty() || binding.viewDr.toString().isEmpty()) {
+                return@setOnClickListener
+            }
             CoroutineScope(Dispatchers.IO).launch {
                 run {
                     db.janjiTemuDao().addJanjiTemu(
-                        JanjiTemu(0, selectrs, date, selectdr, binding.tietkeluhan.text.toString())
+                        JanjiTemu(0, idRs.toInt(), idDr.toInt(), selectrs, date, selectdr, binding.tietkeluhan.text.toString())
                     )
                     finish()
                 }
             }
         }
         binding.btnUpdate.setOnClickListener {
+            if(binding.viewPilihTanggal.text.toString().isEmpty() || binding.tietkeluhan.text.toString().isEmpty() || binding.viewRs.text.toString().isEmpty() || binding.viewDr.toString().isEmpty()) {
+                return@setOnClickListener
+            }
             CoroutineScope(Dispatchers.IO).launch {
                 run {
                     db.janjiTemuDao().updateJanjiTemu(
-                        JanjiTemu(janjiId, selectrs, date, selectdr, binding.tietkeluhan.text.toString())
+                        JanjiTemu(janjiId, idRs.toInt() ,idDr.toInt(), selectrs, binding.viewPilihTanggal.text.toString(), selectdr, binding.tietkeluhan.text.toString())
                     )
                     finish()
                 }
@@ -145,6 +165,7 @@ class EditJanjiTemu : AppCompatActivity()  {
         janjiId = intent.getIntExtra("intent_id", 0)
         CoroutineScope(Dispatchers.IO).launch {
             val janjis = db.janjiTemuDao().getJanji(janjiId)[0]
+            binding.viewPilihTanggal.setText(janjis.tanggal)
             binding.tietkeluhan.setText(janjis.keluhan)
         }
     }

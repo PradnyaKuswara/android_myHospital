@@ -37,7 +37,7 @@ class FragmentHome : Fragment() {
         val sharedPreferences = (activity as HomeActivity).getSharedPreferences()
         val user = userDao.getUser(sharedPreferences.getInt("id", 0))
 
-        textNama.setText(user.namaLengkap)
+        textNama.setText("Hi, " + user.namaLengkap)
 
 
         btnJanjiTemu.setOnClickListener(View.OnClickListener {
@@ -53,7 +53,10 @@ class FragmentHome : Fragment() {
                     setMessage("Apakah anda yakin ingin keluar?")
 
                     setPositiveButton("Iya") { _, _ ->
-                        exitProcess(0)
+                        val intent = Intent(this@FragmentHome.context, LoginActivity::class.java)
+                        intent.putExtra("finish", true)
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(intent)
                     }
 
                     setNegativeButton("Tidak"){_, _ ->
@@ -63,11 +66,5 @@ class FragmentHome : Fragment() {
                 }.create().show()
             }
         })
-    }
-    private fun transitionFragment(fragment: Fragment) {
-        val transition = requireActivity().supportFragmentManager.beginTransaction()
-        transition.replace(R.id.layout_fragment2, fragment)
-            .addToBackStack(null).commit()
-        transition.hide(FragmentHome())
     }
 }

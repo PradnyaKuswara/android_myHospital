@@ -78,7 +78,10 @@ class HomeActivity : AppCompatActivity() {
             setMessage("Apakah anda yakin ingin keluar?")
 
             setPositiveButton("Iya") { _, _ ->
-                exitProcess(0)
+                moveTaskToBack(true)
+                android.os.Process.killProcess(android.os.Process.myPid())
+                System.exit(1)
+
             }
 
             setNegativeButton("Tidak"){_, _ ->
