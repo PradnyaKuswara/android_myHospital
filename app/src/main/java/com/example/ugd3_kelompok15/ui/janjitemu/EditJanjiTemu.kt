@@ -213,7 +213,7 @@ class EditJanjiTemu : AppCompatActivity()  {
 
     private fun setupListener() {
         binding.btnSave.setOnClickListener {
-            if(binding.viewPilihTanggal.text.toString().isEmpty() || binding.tietkeluhan.text.toString().isEmpty() || binding.viewRs.text.toString().isEmpty() || binding.viewDr.toString().isEmpty()) {
+            if(binding.viewPilihTanggal.text.toString().isEmpty() || binding.tietkeluhan.text.toString().isEmpty() || binding.viewRs.text.toString() == "Please choose hospital!" || binding.viewDr.text.toString() == "Please choose dockter!") {
                 return@setOnClickListener
             }
             CoroutineScope(Dispatchers.IO).launch {
@@ -228,7 +228,7 @@ class EditJanjiTemu : AppCompatActivity()  {
             }
         }
         binding.btnUpdate.setOnClickListener {
-            if(binding.viewPilihTanggal.text.toString().isEmpty() || binding.tietkeluhan.text.toString().isEmpty() || binding.viewRs.text.toString().isEmpty() || binding.viewDr.toString().isEmpty()) {
+            if(binding.viewPilihTanggal.text.toString().isEmpty() || binding.tietkeluhan.text.toString().isEmpty() || binding.viewRs.text.toString() == "Please choose hospital!" || binding.viewDr.text.toString() == "Please choose dockter!") {
                 return@setOnClickListener
             }
             CoroutineScope(Dispatchers.IO).launch {
