@@ -1,17 +1,21 @@
 package com.example.ugd3_kelompok15.ui.janjitemu
 
-import android.app.DatePickerDialog
+import android.app.*
 import android.content.Context
+import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
+import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.Spinner
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.get
+import com.example.ugd3_kelompok15.NotificationReceiver
 import com.example.ugd3_kelompok15.R
 import com.example.ugd3_kelompok15.databinding.ActivityEditJanjiTemuBinding
 import com.example.ugd3_kelompok15.entity.Dokter
@@ -35,6 +39,11 @@ class EditJanjiTemu : AppCompatActivity()  {
     private lateinit var idRs: String
     private lateinit var idDr: String
     private lateinit var date: String
+    private val CHANNEL_ID_2 = "channel_02"
+    private val notificationId2 = 102
+    private val CHANNEL_ID_3 = "channel_03"
+    private val notificationId3 = 103
+
 
     val db by lazy { JanjiTemuDB(this) }
     private var janjiId: Int = 0
@@ -90,6 +99,7 @@ class EditJanjiTemu : AppCompatActivity()  {
         setContentView(view)
 
         supportActionBar?.hide()
+        createChannel()
 
         val myCalender = Calendar.getInstance()
         val datePicker = DatePickerDialog.OnDateSetListener { view, year, month, dayofMonth ->
@@ -105,6 +115,75 @@ class EditJanjiTemu : AppCompatActivity()  {
         setupView()
         setupListener()
     }
+
+    private fun sendNotification2() {
+        val broadcastIntent: Intent = Intent(this, NotificationReceiver:: class.java)
+        broadcastIntent.putExtra("toastMessage", "Hi " + findViewById<TextView>(R.id.informasi_dokter))
+        val actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID_2)
+            .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+            .setContentTitle("Janji Temu")
+            .setContentText("Janji Temu Berhasil Dibuat")
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText("Diharapkan untuk mendatangi dokter yang sudah dipilih sesuai dengan tanggal yang dipilih!")
+                    .setBigContentTitle("Himbauan")
+                    .setSummaryText("Summary Text"))
+            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+            .setColor(Color.BLUE)
+            .setAutoCancel(true)
+            .setOnlyAlertOnce(true)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        with(NotificationManagerCompat.from(this)) {
+            notify(notificationId2, builder.build())
+        }
+    }
+
+    private fun sendNotification3() {
+        val broadcastIntent: Intent = Intent(this, NotificationReceiver:: class.java)
+        broadcastIntent.putExtra("toastMessage", "Hi " + findViewById<TextView>(R.id.informasi_dokter))
+        val actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID_2)
+            .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+            .setContentTitle("Janji Temu")
+            .setContentText("Janji Temu Berhasil Diupdate")
+            .setStyle(
+                NotificationCompat.InboxStyle()
+                    .addLine("Rumah Sakit telah diubah")
+                    .addLine("Dokter telah diubah")
+                    .addLine("Tanggal telah diubah")
+                    .addLine("Keluhan telah diubah")
+                    .setBigContentTitle("Announce"))
+            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+            .setColor(Color.BLUE)
+            .setAutoCancel(true)
+            .setOnlyAlertOnce(true)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        with(NotificationManagerCompat.from(this)) {
+            notify(notificationId3, builder.build())
+        }
+    }
+
+    private fun createChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Notification Title"
+            val descriptionText = "Notification Description"
+
+            val channel2 = NotificationChannel(CHANNEL_ID_2, name, NotificationManager.IMPORTANCE_DEFAULT).apply {
+                description = descriptionText
+            }
+            val channel3 = NotificationChannel(CHANNEL_ID_3, name, NotificationManager.IMPORTANCE_DEFAULT).apply {
+                description = descriptionText
+            }
+
+            val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE)  as NotificationManager
+
+            notificationManager.createNotificationChannel(channel2)
+        }    }
 
     private fun updateLable(myCalender: Calendar) {
         val myFormat = "dd-MM-yyyy"
@@ -143,6 +222,8 @@ class EditJanjiTemu : AppCompatActivity()  {
                         JanjiTemu(0, idRs.toInt(), idDr.toInt(), selectrs, date, selectdr, binding.tietkeluhan.text.toString())
                     )
                     finish()
+
+                    sendNotification2()
                 }
             }
         }
@@ -156,6 +237,7 @@ class EditJanjiTemu : AppCompatActivity()  {
                         JanjiTemu(janjiId, idRs.toInt() ,idDr.toInt(), selectrs, binding.viewPilihTanggal.text.toString(), selectdr, binding.tietkeluhan.text.toString())
                     )
                     finish()
+                    sendNotification3()
                 }
             }
         }
