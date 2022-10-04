@@ -119,7 +119,7 @@ class EditJanjiTemu : AppCompatActivity()  {
     private fun sendNotification2() {
         val broadcastIntent: Intent = Intent(this, NotificationReceiver:: class.java)
         broadcastIntent.putExtra("toastMessage", "Hi " + findViewById<TextView>(R.id.informasi_dokter))
-        val actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_MUTABLE)
 
         val builder = NotificationCompat.Builder(this, CHANNEL_ID_2)
             .setSmallIcon(R.drawable.ic_baseline_notifications_24)
@@ -144,7 +144,7 @@ class EditJanjiTemu : AppCompatActivity()  {
     private fun sendNotification3() {
         val broadcastIntent: Intent = Intent(this, NotificationReceiver:: class.java)
         broadcastIntent.putExtra("toastMessage", "Hi " + findViewById<TextView>(R.id.informasi_dokter))
-        val actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_MUTABLE)
 
         val builder = NotificationCompat.Builder(this, CHANNEL_ID_2)
             .setSmallIcon(R.drawable.ic_baseline_notifications_24)

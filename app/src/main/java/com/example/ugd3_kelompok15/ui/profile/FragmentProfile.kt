@@ -1,11 +1,14 @@
 package com.example.ugd3_kelompok15.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import com.example.ugd3_kelompok15.HomeActivity
+import com.example.ugd3_kelompok15.LoginActivity
 import com.example.ugd3_kelompok15.R
 import com.example.ugd3_kelompok15.databinding.FragmentProfileBinding
 import com.example.ugd3_kelompok15.room.UserDB
@@ -41,6 +44,29 @@ class FragmentProfile() : Fragment() {
         binding.btnUpdate.setOnClickListener {
             transitionFragment(FragmentEditProfil())
         }
+
+
+       binding.btnDeleteAcc.setOnClickListener(View.OnClickListener {
+            getActivity()?.let { it1 ->
+                AlertDialog.Builder(it1).apply {
+                    setTitle("Tolong Konfirmasi")
+                    setMessage("Apakah anda yakin ingin menghapus akun?")
+
+                    setPositiveButton("Iya") { _, _ ->
+                        val intent = Intent(this@FragmentProfile.context, LoginActivity::class.java)
+                        deleteAcc()
+                        intent.putExtra("finish", true)
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(intent)
+                    }
+
+                    setNegativeButton("Tidak"){_, _ ->
+
+                    }
+                    setCancelable(true)
+                }.create().show()
+            }
+        })
     }
 
     override fun onDestroy() {
@@ -59,6 +85,17 @@ class FragmentProfile() : Fragment() {
         binding.viewUsername.setText(user.username)
         binding.viewEmail.setText(user.Email)
         binding.viewNomorTelepon.setText(user.nomorTelepon)
+    }
+
+    private fun deleteAcc() {
+        val sharedPreferences = (activity as HomeActivity).getSharedPreferences()
+
+        val db by lazy { UserDB(activity as HomeActivity) }
+        val userDao = db.userDao()
+
+        val user = userDao.getUser(sharedPreferences.getInt("id", 0))
+
+        userDao.deleteUser(user)
     }
 
     private fun transitionFragment(fragment: Fragment) {

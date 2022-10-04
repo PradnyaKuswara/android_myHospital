@@ -123,7 +123,7 @@ class RegisterActivity : AppCompatActivity() {
 
         val broadcastIntent: Intent = Intent(this, NotificationReceiver:: class.java)
         broadcastIntent.putExtra("toastMessage", "Hi " + binding.inputLayoutNama.getEditText()?.getText().toString() + " :)")
-        val actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_MUTABLE)
 
         val image = BitmapFactory.decodeResource(resources, R.drawable.gambar_rs)
 
