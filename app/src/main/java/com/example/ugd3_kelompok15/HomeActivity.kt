@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.example.ugd3_kelompok15.ui.faq.FragmentFaq
 import com.example.ugd3_kelompok15.ui.home.FragmentHome
 import com.example.ugd3_kelompok15.ui.informasidokter.FragmentDokter
+import com.example.ugd3_kelompok15.ui.lokasi.FragmentLokasiRS
 import com.example.ugd3_kelompok15.ui.profile.FragmentProfile
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlin.system.exitProcess
@@ -55,6 +56,11 @@ class HomeActivity : AppCompatActivity() {
                 R.id.informasi_dokter -> {
                     textView.text = null
                     changeFragment(FragmentDokter())
+                    return@setOnItemSelectedListener true
+                }
+                R.id.lokasi_rs -> {
+                    textView.text = null
+                    changeFragment(FragmentLokasiRS())
                     return@setOnItemSelectedListener true
                 }
                 R.id.faq -> {

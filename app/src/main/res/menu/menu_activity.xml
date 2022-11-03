@@ -13,6 +13,12 @@
         android:title="Info Dokter"/>
 
     <item
+        android:id="@+id/lokasi_rs"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_local_hospital_24"
+        android:title="Lokasi"/>
+
+    <item
         android:id="@+id/faq"
         android:enabled="true"
         android:icon="@drawable/ic_forum_24"

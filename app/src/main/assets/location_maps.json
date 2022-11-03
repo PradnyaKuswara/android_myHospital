@@ -1,0 +1,45 @@
+{
+  "results": [
+    {
+      "geometry": {
+        "location": {
+          "lat": -7.773452,
+          "lng": 110.412019
+        }
+      },
+      "name": "My Hospital A",
+      "vicinity": "Jl. Babarsari No.43, Janti, Caturtunggal, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -7.294746,
+          "lng": 112.737055
+        }
+      },
+      "name": "My Hospital B",
+      "vicinity": "Jl. Setail No.1, Darmo, Kec. Wonokromo, Kota SBY, Jawa Timur 60241"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -7.005712,
+          "lng": 110.432369
+        }
+      },
+      "name": "My Hospital C",
+      "vicinity": "Jl. MT. Haryono No.992-994, Karangkidul, Kec. Semarang Sel., Kota Semarang, Jawa Tengah 50241"
+    },
+    {
+      "geometry": {
+        "location": {
+          "lat": -6.920561,
+          "lng": 107.607160
+        }
+      },
+      "name": "My Hospital D",
+      "vicinity": "Jl. Asia Afrika, Balonggede, Kec. Regol, Kota Bandung, Jawa Barat 40251"
+    }
+  ],
+  "status": "OK"
+}
