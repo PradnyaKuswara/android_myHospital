@@ -49,6 +49,18 @@
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="53dp" />
 
+        <TextView
+            android:id="@+id/profpic_caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="click profil picture "
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/homeHospital"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/textNamaLengkap"
@@ -58,9 +70,9 @@
             android:text="Nama Lengkap"
             android:textColor="@color/black"
             app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/homeHospital" />
+            app:layout_constraintTop_toBottomOf="@id/profpic_caption" />
 
         <TextView
             android:id="@+id/viewNamaLengkap"
@@ -160,7 +172,7 @@
                     android:layout_width="320dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical|center"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:background="@color/blue_box"
                     android:backgroundTint="@color/dark_green"
                     android:gravity="center"

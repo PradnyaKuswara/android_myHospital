@@ -67,6 +67,11 @@ class FragmentProfile() : Fragment() {
                 }.create().show()
             }
         })
+
+        binding.homeHospital.setOnClickListener {
+            val intent = Intent(this@FragmentProfile.context, CameraActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onDestroy() {
