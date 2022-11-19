@@ -9,6 +9,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.core.app.NotificationCompat
@@ -19,10 +20,10 @@ import com.example.ugd3_kelompok15.NotificationReceiver
 import com.example.ugd3_kelompok15.R
 import com.example.ugd3_kelompok15.databinding.ActivityEditJanjiTemuBinding
 import com.example.ugd3_kelompok15.entity.Dokter
-import com.example.ugd3_kelompok15.room.Constant
-import com.example.ugd3_kelompok15.room.JanjiTemu
-import com.example.ugd3_kelompok15.room.JanjiTemuDB
-import com.example.ugd3_kelompok15.room.JanjiTemuDao
+//import com.example.ugd3_kelompok15.room.Constant
+//import com.example.ugd3_kelompok15.room.JanjiTemu
+//import com.example.ugd3_kelompok15.room.JanjiTemuDB
+//import com.example.ugd3_kelompok15.room.JanjiTemuDao
 import kotlinx.android.synthetic.main.activity_edit_janji_temu.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,15 +31,52 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
+import com.android.volley.AuthFailureError
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.example.ugd3_kelompok15.api.JanjiTemuApi
+import com.example.ugd3_kelompok15.models.JanjiTemu
+import com.example.ugd3_kelompok15.room.JanjiTemuDB
+import com.google.gson.Gson
+import org.json.JSONObject
+import java.nio.charset.StandardCharsets
 
 class EditJanjiTemu : AppCompatActivity()  {
-
+    companion object{
+        private val RUMAHSAKIT_LIST = arrayOf(
+            "Rumah Sakit Bethesda",
+            "RSUD Kota Yogyakarta",
+            "Rumah Sakit Ludira Husada Tama",
+            "Rumah Sakit Mata Dr.Yap",
+            "Rumah Sakit Panti Rapih",
+            "Siloam Hospital",
+            "Rumah Sakit JIH",
+            "Rumah Sakit Bhakti Ibu")
+        private val DOKTER_LIST = arrayOf(
+            "Dokter Edward",
+            "Dokter Michael",
+            "Dokter Joel",
+            "Dokter Johan",
+            "Dokter Mera",
+            "Dokter Pamela",
+            "Dokter Herlina",
+            "Dokter Joana",
+            "Dokter Lenny")
+    }
     private lateinit var binding: ActivityEditJanjiTemuBinding
     private lateinit var selectrs: String
     private lateinit var selectdr: String
     private lateinit var idRs: String
     private lateinit var idDr: String
     private lateinit var date: String
+    private var textKeluhan: EditText? = null
+    private var viewPilihTanggal: TextView? = null
+    private var edRumahSakit: AutoCompleteTextView? = null
+    private var edDokter: AutoCompleteTextView? = null
+    private var queue: RequestQueue? = null
+    private var layoutLoading: LinearLayout? = null
     private val CHANNEL_ID_2 = "channel_02"
     private val notificationId2 = 102
     private val CHANNEL_ID_3 = "channel_03"
@@ -48,55 +86,22 @@ class EditJanjiTemu : AppCompatActivity()  {
     val db by lazy { JanjiTemuDB(this) }
     private var janjiId: Int = 0
 
-    override fun onResume() {
-        super.onResume()
-        val rs = resources.getStringArray(R.array.rumah_sakit)
-        val dr = resources.getStringArray(R.array.dokter)
-        val arrayAdapterRs = ArrayAdapter(this, R.layout.dropdown_item_rumahsakit, rs)
-        val arrayAdapterDr = ArrayAdapter(this, R.layout.dropdown_item_dokter, dr)
 
-        binding.rsOption.setAdapter(arrayAdapterRs)
-        binding.drOption.setAdapter(arrayAdapterDr)
-
-        binding.rsOption.onItemSelectedListener = object : OnItemSelectedListener{
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                selectrs = rs.get(p2).toString()
-                idRs = arrayAdapterRs.getPosition(selectrs).toString()
-                if(selectrs != "Choose Hospital") {
-                    binding.viewRs.setText(selectrs)
-                }else {
-                    binding.viewRs.setText("Please choose hospital!")
-                }
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-        }
-
-        binding.drOption.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                selectdr = dr.get(p2).toString()
-                idDr = arrayAdapterDr.getPosition(selectdr).toString()
-                if(selectdr != "Choose Doctor") {
-                    binding.viewDr.setText(selectdr)
-                }else {
-                    binding.viewDr.setText("Please choose dockter!")
-                }
-
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_janji_temu)
 
+        edRumahSakit = findViewById(R.id.ed_rs)
+        edDokter = findViewById(R.id.ed_dr)
+        textKeluhan = findViewById(R.id.text_keluhan)
+        viewPilihTanggal = findViewById(R.id.viewPilihTanggal)
+        layoutLoading = findViewById(R.id.layout_loading)
+
         binding = ActivityEditJanjiTemuBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        setExposedDropDownMenu()
 
         supportActionBar?.hide()
         createChannel()
@@ -112,8 +117,8 @@ class EditJanjiTemu : AppCompatActivity()  {
             DatePickerDialog(this, datePicker, myCalender.get(Calendar.YEAR), myCalender.get(Calendar.MONTH), myCalender.get(Calendar.DAY_OF_MONTH)).show()
         }
 
-        setupView()
-        setupListener()
+//        setupView()
+//        setupListener()
     }
 
     private fun sendNotification2() {
@@ -192,55 +197,28 @@ class EditJanjiTemu : AppCompatActivity()  {
         binding.viewPilihTanggal.setText(date)
     }
 
-    fun setupView() {
-        val intentType = intent.getIntExtra("intent_type", 0)
-        when (intentType) {
-            Constant.TYPE_CREATE -> {
-                binding.btnUpdate.visibility = View.GONE
-            }
-            Constant.TYPE_READ -> {
-                binding.btnSave.visibility = View.GONE
-                binding.btnUpdate.visibility = View.GONE
-                getData()
-
-            }
-            Constant.TYPE_UPDATE -> {
-                binding.btnSave.visibility = View.GONE
-                getData()
-            }
+//
+    private fun setLoading(isLoading: Boolean){
+        if(isLoading){
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            )
+            layoutLoading!!.visibility = View.VISIBLE
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            layoutLoading!!.visibility = View.INVISIBLE
         }
     }
 
-    private fun setupListener() {
-        binding.btnSave.setOnClickListener {
-            if(binding.viewPilihTanggal.text.toString().isEmpty() || binding.tietkeluhan.text.toString().isEmpty() || binding.viewRs.text.toString() == "Please choose hospital!" || binding.viewDr.text.toString() == "Please choose dockter!") {
-                return@setOnClickListener
-            }
-            CoroutineScope(Dispatchers.IO).launch {
-                run {
-                    db.janjiTemuDao().addJanjiTemu(
-                        JanjiTemu(0, idRs.toInt(), idDr.toInt(), selectrs, date, selectdr, binding.tietkeluhan.text.toString())
-                    )
-                    finish()
+    fun setExposedDropDownMenu(){
+        val adapterFakultas: ArrayAdapter<String> = ArrayAdapter<String>(this,
+            R.layout.dropdown_item, RUMAHSAKIT_LIST)
+        edRumahSakit!!.setAdapter(adapterFakultas)
 
-                    sendNotification2()
-                }
-            }
-        }
-        binding.btnUpdate.setOnClickListener {
-            if(binding.viewPilihTanggal.text.toString().isEmpty() || binding.tietkeluhan.text.toString().isEmpty() || binding.viewRs.text.toString() == "Please choose hospital!" || binding.viewDr.text.toString() == "Please choose dockter!") {
-                return@setOnClickListener
-            }
-            CoroutineScope(Dispatchers.IO).launch {
-                run {
-                    db.janjiTemuDao().updateJanjiTemu(
-                        JanjiTemu(janjiId, idRs.toInt() ,idDr.toInt(), selectrs, binding.viewPilihTanggal.text.toString(), selectdr, binding.tietkeluhan.text.toString())
-                    )
-                    finish()
-                    sendNotification3()
-                }
-            }
-        }
+        val adapterProdi: ArrayAdapter<String> = ArrayAdapter<String>(this,
+            R.layout.dropdown_item, DOKTER_LIST)
+        edDokter!!.setAdapter(adapterProdi)
     }
 
     fun getData() {
@@ -257,4 +235,215 @@ class EditJanjiTemu : AppCompatActivity()  {
         return super.onSupportNavigateUp()
     }
 
+    private fun getJanjiTemuById(id: Long){
+        setLoading(true)
+        val stringRequest: StringRequest = object :
+            StringRequest(Method.GET, JanjiTemuApi.GET_BY_ID_URL + id, Response.Listener { response ->
+                val gson = Gson()
+                val janjiTemu = gson.fromJson(response, JanjiTemu::class.java)
+
+                edRumahSakit!!.setText(janjiTemu.rumahSakit)
+                edDokter!!.setText(janjiTemu.dokter)
+                textKeluhan!!.setText(janjiTemu.keluhan)
+                viewPilihTanggal!!.setText(janjiTemu.tanggal)
+                setExposedDropDownMenu()
+
+                Toast.makeText(this@EditJanjiTemu, "Data berhasil diambil!", Toast.LENGTH_SHORT).show()
+                setLoading(false)
+            }, Response.ErrorListener { error ->
+                setLoading(false)
+
+                try {
+                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                    val errors = JSONObject(responseBody)
+                    Toast.makeText(
+                        this@EditJanjiTemu,
+                        errors.getString("message"),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }catch (e: Exception){
+                    Toast.makeText(this@EditJanjiTemu, e.message, Toast.LENGTH_SHORT).show()
+                }
+            }){
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Accept"] = "application/json"
+                return headers
+            }
+        }
+        queue!!.add(stringRequest)
+    }
+
+    private fun createJanjiTemu(){
+        setLoading(true)
+
+        val janjiTemu = JanjiTemu(
+            0,
+            textKeluhan!!.text.toString(),
+            viewPilihTanggal!!.text.toString(),
+            edRumahSakit!!.text.toString(),
+            edDokter!!.text.toString()
+        )
+
+        val stringRequest: StringRequest =
+            object : StringRequest(Method.POST, JanjiTemuApi.ADD_URL, Response.Listener { response ->
+                val gson = Gson()
+                var janjiTemu = gson.fromJson(response, JanjiTemu::class.java)
+
+                if(janjiTemu != null)
+                    Toast.makeText(this@EditJanjiTemu, "Data berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
+
+                val returnIntent = Intent()
+                setResult(RESULT_OK, returnIntent)
+                finish()
+
+                setLoading(false)
+            }, Response.ErrorListener { error ->
+                setLoading(false)
+                try {
+                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                    val errors = JSONObject(responseBody)
+                    Toast.makeText(
+                        this@EditJanjiTemu,
+                        errors.getString("message"),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }catch (e: Exception){
+                    Toast.makeText(this@EditJanjiTemu, e.message, Toast.LENGTH_SHORT).show()
+                }
+            }){
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers["Accept"] = "application/json"
+                    return headers
+                }
+
+                @Throws(AuthFailureError::class)
+                override fun getBody(): ByteArray {
+                    val gson = Gson()
+                    val requestBody = gson.toJson(janjiTemu)
+                    return requestBody.toByteArray(StandardCharsets.UTF_8)
+                }
+
+                override fun getBodyContentType(): String {
+                    return "application/json"
+                }
+            }
+        queue!!.add(stringRequest)
+    }
+
+    private fun updateJanjiTemu(id: Int){
+        setLoading(true)
+
+        val janjiTemu = JanjiTemu(
+            id,
+            edRumahSakit!!.text.toString(),
+            edDokter!!.text.toString(),
+            textKeluhan!!.text.toString(),
+            viewPilihTanggal!!.text.toString(),
+
+
+        )
+
+        val stringRequest: StringRequest =
+            object : StringRequest(Method.PUT, JanjiTemuApi.UPDATE_URL + id, Response.Listener { response ->
+                val gson = Gson()
+                var janjiTemu = gson.fromJson(response, JanjiTemu::class.java)
+
+                if(janjiTemu != null)
+                    Toast.makeText(this@EditJanjiTemu, "Data berhasil Diupdate", Toast.LENGTH_SHORT).show()
+
+                val returnIntent = Intent()
+                setResult(RESULT_OK, returnIntent)
+                finish()
+
+                setLoading(false)
+            }, Response.ErrorListener { error ->
+                setLoading(false)
+                try {
+                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                    val errors = JSONObject(responseBody)
+                    Toast.makeText(
+                        this@EditJanjiTemu,
+                        errors.getString("message"),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }catch (e: Exception){
+                    Toast.makeText(this@EditJanjiTemu, e.message, Toast.LENGTH_SHORT).show()
+                }
+            }){
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers["Accept"] = "application/json"
+                    return headers
+                }
+
+                @Throws(AuthFailureError::class)
+                override fun getBody(): ByteArray {
+                    val gson = Gson()
+                    val requestBody = gson.toJson(janjiTemu)
+                    return requestBody.toByteArray(StandardCharsets.UTF_8)
+                }
+
+                override fun getBodyContentType(): String {
+                    return "application/json"
+                }
+            }
+        queue!!.add(stringRequest)
+    }
+
+
 }
+//fun setupView() {
+//        val intentType = intent.getIntExtra("intent_type", 0)
+//        when (intentType) {
+//            Constant.TYPE_CREATE -> {
+//                binding.btnUpdate.visibility = View.GONE
+//            }
+//            Constant.TYPE_READ -> {
+//                binding.btnSave.visibility = View.GONE
+//                binding.btnUpdate.visibility = View.GONE
+//                getData()
+//
+//            }
+//            Constant.TYPE_UPDATE -> {
+//                binding.btnSave.visibility = View.GONE
+//                getData()
+//            }
+//        }
+//    }
+//
+//    private fun setupListener() {
+//        binding.btnSave.setOnClickListener {
+//            if(binding.viewPilihTanggal.text.toString().isEmpty() || binding.tietkeluhan.text.toString().isEmpty() || binding.viewRs.text.toString() == "Please choose hospital!" || binding.viewDr.text.toString() == "Please choose dockter!") {
+//                return@setOnClickListener
+//            }
+//            CoroutineScope(Dispatchers.IO).launch {
+//                run {
+//                    db.janjiTemuDao().addJanjiTemu(
+//                        JanjiTemu(0, idRs.toInt(), idDr.toInt(), selectrs, date, selectdr, binding.tietkeluhan.text.toString())
+//                    )
+//                    finish()
+//
+//                    sendNotification2()
+//                }
+//            }
+//        }
+//        binding.btnUpdate.setOnClickListener {
+//            if(binding.viewPilihTanggal.text.toString().isEmpty() || binding.tietkeluhan.text.toString().isEmpty() || binding.viewRs.text.toString() == "Please choose hospital!" || binding.viewDr.text.toString() == "Please choose dockter!") {
+//                return@setOnClickListener
+//            }
+//            CoroutineScope(Dispatchers.IO).launch {
+//                run {
+//                    db.janjiTemuDao().updateJanjiTemu(
+//                        JanjiTemu(janjiId, idRs.toInt() ,idDr.toInt(), selectrs, binding.viewPilihTanggal.text.toString(), selectdr, binding.tietkeluhan.text.toString())
+//                    )
+//                    finish()
+//                    sendNotification3()
+//                }
+//            }
+//        }
+//    }

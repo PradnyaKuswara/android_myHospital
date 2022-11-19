@@ -1,11 +1,12 @@
 package com.example.ugd3_kelompok15.ui.janjitemu
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -17,7 +18,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlinx.android.synthetic.main.adapter_janjitemu.view.*
 
-class JanjiTemuAdapter(private var janjitemus: List<JanjiTemu>, context: Context): RecyclerView.Adapter<JanjiTemuAdapter.JanjiViewHolder>() {
+class JanjiTemuAdapter(private var janjitemus: List<JanjiTemu>, context: Context): RecyclerView.Adapter<JanjiTemuAdapter.JanjiViewHolder>(), Filterable {
 
     private var filteredJanjiTemuList: MutableList<JanjiTemu>
     private val context: Context
@@ -60,14 +61,40 @@ class JanjiTemuAdapter(private var janjitemus: List<JanjiTemu>, context: Context
                 context.startActivityForResult(i, JanjiTemuActivity.LAUNCH_ADD_ACTIVITY)
         }
     }
+    override fun getFilter(): Filter {
+        return object : Filter(){
+            override fun performFiltering(charSequence: CharSequence): FilterResults {
+                val charSequenceString = charSequence.toString()
+                val filtered : MutableList<JanjiTemu> = java.util.ArrayList()
+                if (charSequenceString.isEmpty()){
+                    filtered.addAll(janjitemus)
+                }else{
+                    for (janjiTemu in janjitemus){
+                        if (janjiTemu.keluhan.lowercase(Locale.getDefault())
+                                .contains(charSequenceString.lowercase(Locale.getDefault()))
+                        ) filtered.add(janjiTemu)
+                    }
+                }
+                val filterResults = FilterResults()
+                filterResults.values = filtered
+                return filterResults
+            }
+
+            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
+                filteredJanjiTemuList.clear()
+                filteredJanjiTemuList.addAll((filterResults.values as List<JanjiTemu>))
+                notifyDataSetChanged()
+            }
+        }
+    }
 
     override fun getItemCount(): Int{
         return filteredJanjiTemuList.size
     }
 
-    fun setJanjiTemuList(janjiTemuList: Array<JanjiTemu>){
-        this.janjitemus = janjiTemuList.toList()
-        filteredJanjiTemuList = janjiTemuList.toMutableList()
+    fun setJanjiTemuList(janjitemus: Array<JanjiTemu>){
+        this.janjitemus = janjitemus.toList()
+        filteredJanjiTemuList = janjitemus.toMutableList()
     }
 
     inner class JanjiViewHolder( val view: View) :
