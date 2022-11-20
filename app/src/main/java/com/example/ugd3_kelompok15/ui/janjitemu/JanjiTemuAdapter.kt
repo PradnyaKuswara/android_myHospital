@@ -12,35 +12,36 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ugd3_kelompok15.R
-import com.example.ugd3_kelompok15.models.JanjiTemu
+import com.example.ugd3_kelompok15.models.JanjiTemuModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlinx.android.synthetic.main.adapter_janjitemu.view.*
 
-class JanjiTemuAdapter(private var janjitemus: List<JanjiTemu>, context: Context): RecyclerView.Adapter<JanjiTemuAdapter.JanjiViewHolder>(), Filterable {
+class JanjiTemuAdapter(private var janjitemus: List<JanjiTemuModels>, context: Context): RecyclerView.Adapter<JanjiTemuAdapter.ViewHolder>(), Filterable {
 
-    private var filteredJanjiTemuList: MutableList<JanjiTemu>
+    private var filteredJanji: MutableList<JanjiTemuModels>
     private val context: Context
+
     init {
-        filteredJanjiTemuList = ArrayList(janjitemus)
+        filteredJanji = ArrayList(janjitemus)
         this.context = context
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JanjiViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.adapter_janjitemu, parent, false)
-        return JanjiViewHolder(view)
+        return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: JanjiViewHolder, position: Int) {
-        val janji = janjitemus[position]
-        holder.view.text_dokter.text = janji.dokter
-        holder.view.text_rs.text = janji.rumahSakit
-        holder.view.text_jadwal.text = janji.tanggal
-        holder.view.text_keluhan.text = janji.keluhan
+    override fun onBindViewHolder(holder: JanjiTemuAdapter.ViewHolder, position: Int) {
+        val janji = filteredJanji[position]
+        holder.tvDokter.text = "Dokter: " + janji.dokter
+        holder.tvJadwal.text = "Tanggal: " + janji.tanggal
+        holder.tvRs.text = "Rumah Sakit: " + janji.rumahSakit
+        holder.tvKeluhan.text = "Keluhan: " + janji.keluhan
 
-        holder.view.icon_delete.setOnClickListener {
+        holder.iconDelete.setOnClickListener {
             val materialAlertDialogBuilder = MaterialAlertDialogBuilder(context)
             materialAlertDialogBuilder.setTitle("Konfirmasi")
                 .setMessage("Apakah anda yakin ingin menghapus data janji temu ini?")
@@ -63,7 +64,7 @@ class JanjiTemuAdapter(private var janjitemus: List<JanjiTemu>, context: Context
         return object : Filter(){
             override fun performFiltering(charSequence: CharSequence): FilterResults {
                 val charSequenceString = charSequence.toString()
-                val filtered : MutableList<JanjiTemu> = java.util.ArrayList()
+                val filtered : MutableList<JanjiTemuModels> = java.util.ArrayList()
                 if (charSequenceString.isEmpty()){
                     filtered.addAll(janjitemus)
                 }else{
@@ -79,24 +80,23 @@ class JanjiTemuAdapter(private var janjitemus: List<JanjiTemu>, context: Context
             }
 
             override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
-                filteredJanjiTemuList.clear()
-                filteredJanjiTemuList.addAll((filterResults.values as List<JanjiTemu>))
+                filteredJanji.clear()
+                filteredJanji.addAll((filterResults.values as List<JanjiTemuModels>))
                 notifyDataSetChanged()
             }
         }
     }
 
     override fun getItemCount(): Int{
-        return filteredJanjiTemuList.size
+        return filteredJanji.size
     }
 
-    fun setJanjiTemuList(janjitemus: Array<JanjiTemu>){
+    fun setJanjiTemuList(janjitemus: Array<JanjiTemuModels>){
         this.janjitemus = janjitemus.toList()
-        filteredJanjiTemuList = janjitemus.toMutableList()
+        filteredJanji = janjitemus.toMutableList()
     }
 
-    inner class JanjiViewHolder( val view: View) :
-        RecyclerView.ViewHolder(view){
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         var tvDokter: TextView
         var tvJadwal: TextView
         var tvRs: TextView
@@ -105,14 +105,14 @@ class JanjiTemuAdapter(private var janjitemus: List<JanjiTemu>, context: Context
         var cvJanjiTemu: CardView
 
         init {
-            tvDokter = itemView.findViewById(R.id.text_dokter)
-            tvJadwal = itemView.findViewById(R.id.text_jadwal)
-            tvRs = itemView.findViewById(R.id.text_rs)
-            tvKeluhan = itemView.findViewById(R.id.text_keluhan)
-            iconDelete = itemView.findViewById(R.id.icon_delete)
-            cvJanjiTemu = itemView.findViewById(R.id.cv_janjitemu)
+            tvDokter = view.findViewById(R.id.text_dokter)
+            tvJadwal = view.findViewById(R.id.text_jadwal)
+            tvRs = view.findViewById(R.id.text_rs)
+            tvKeluhan = view.findViewById(R.id.text_keluhan)
+            iconDelete = view.findViewById(R.id.icon_delete)
+            cvJanjiTemu = view.findViewById(R.id.cv_janjitemu)
         }
-        }
+    }
 //
 //    @SuppressLint("NotifyDataSetChanged")
 //    fun setData(list: List<JanjiTemu>){

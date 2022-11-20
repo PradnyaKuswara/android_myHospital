@@ -21,7 +21,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.ugd3_kelompok15.api.JanjiTemuApi
-import com.example.ugd3_kelompok15.models.JanjiTemu
+import com.example.ugd3_kelompok15.models.JanjiTemuModels
 import com.google.gson.Gson
 import org.json.JSONObject
 import java.nio.charset.StandardCharsets
@@ -75,40 +75,36 @@ class JanjiTemuActivity : AppCompatActivity() {
     private fun allJanji(){
         srJanjiTemu!!.isRefreshing = true
         val stringRequest: StringRequest = object :
-            StringRequest(Method.GET, JanjiTemuApi.GET_ALL_URL, Response.Listener { response ->
+            StringRequest(Method.GET, JanjiTemuApi.GET_ALL, Response.Listener { response ->
 //                val gson = Gson()
 //                var janjiTemu : Array<JanjiTemu> = gson.fromJson(response, Array<JanjiTemu>::class.java)
                 var jo = JSONObject(response.toString())
-                var janjiTemuArray = arrayListOf<JanjiTemu>()
+                var janjiTemu = arrayListOf<JanjiTemuModels>()
                 var id : Int = jo.getJSONArray("data").length()
 
                 for(i in 0 until id) {
-                    var janjiTemu = com.example.ugd3_kelompok15.models.JanjiTemu(
+                    var janji = JanjiTemuModels(
                         jo.getJSONArray("data").getJSONObject(i).getInt("id"),
                         jo.getJSONArray("data").getJSONObject(i).getString("rumahSakit"),
                         jo.getJSONArray("data").getJSONObject(i).getString("tanggal"),
                         jo.getJSONArray("data").getJSONObject(i).getString("dokter"),
                         jo.getJSONArray("data").getJSONObject(i).getString("keluhan")
                     )
-                    janjiTemuArray.add(janjiTemu)
+                    janjiTemu.add(janji)
                 }
+                var data: Array<JanjiTemuModels> = janjiTemu.toTypedArray()
 
-                var janjiTemu: Array<JanjiTemu> = janjiTemuArray.toTypedArray()
-
-                adapter!!.setJanjiTemuList(janjiTemu)
+                adapter!!.setJanjiTemuList(data)
                 adapter!!.filter.filter(svJanjiTemu!!.query)
                 srJanjiTemu!!.isRefreshing = false
 
-                if (!janjiTemu.isEmpty())
-                    Toast.makeText(this@JanjiTemuActivity, "Data Berhasil Diambil!", Toast.LENGTH_SHORT)
-                        .show()
-                else
-                    Toast.makeText(this@JanjiTemuActivity, "Data Kosong!", Toast.LENGTH_SHORT).show()
+                if (!data.isEmpty())
+                    Toast.makeText(this@JanjiTemuActivity, "Data Berhasil Diambil!", Toast.LENGTH_SHORT).show()
+
             }, Response.ErrorListener { error ->
-                srJanjiTemu!!.isRefreshing = false
+                srJanjiTemu!!.isRefreshing = true
                 try {
-                    val responseBody =
-                        String(error.networkResponse.data, StandardCharsets.UTF_8)
+                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
                     val errors = JSONObject(responseBody)
                     Toast.makeText(this@JanjiTemuActivity, errors.getString("message"), Toast.LENGTH_SHORT).show()
                 } catch (e: Exception){
@@ -132,7 +128,7 @@ class JanjiTemuActivity : AppCompatActivity() {
                 setLoading(false)
 
                 val gson = Gson()
-                var mahasiswa = gson.fromJson(response, JanjiTemu::class.java)
+                var mahasiswa = gson.fromJson(response, JanjiTemuModels::class.java)
                 if (mahasiswa != null)
                     Toast.makeText(this@JanjiTemuActivity, "Data Berhasil Dihapus", Toast.LENGTH_SHORT).show()
                 allJanji()

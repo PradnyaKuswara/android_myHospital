@@ -3,7 +3,6 @@ package com.example.ugd3_kelompok15.ui.janjitemu
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -11,34 +10,26 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
-import android.widget.AdapterView.OnItemSelectedListener
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.view.get
 import com.example.ugd3_kelompok15.NotificationReceiver
 import com.example.ugd3_kelompok15.R
 import com.example.ugd3_kelompok15.databinding.ActivityEditJanjiTemuBinding
 
-import com.example.ugd3_kelompok15.entity.Dokter
 //import com.example.ugd3_kelompok15.room.Constant
 //import com.example.ugd3_kelompok15.room.JanjiTemu
 //import com.example.ugd3_kelompok15.room.JanjiTemuDB
 //import com.example.ugd3_kelompok15.room.JanjiTemuDao
 import kotlinx.android.synthetic.main.activity_edit_janji_temu.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.properties.Delegates
 import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.ugd3_kelompok15.api.JanjiTemuApi
-import com.example.ugd3_kelompok15.models.JanjiTemu
+import com.example.ugd3_kelompok15.models.JanjiTemuModels
 import com.example.ugd3_kelompok15.room.JanjiTemuDB
 import com.google.gson.Gson
 import org.json.JSONObject
@@ -92,6 +83,7 @@ class EditJanjiTemu : AppCompatActivity()  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_janji_temu)
 
+        queue = Volley.newRequestQueue(this)
         edRumahSakit = findViewById(R.id.ed_rs)
         edDokter = findViewById(R.id.ed_dr)
         textKeluhan = findViewById(R.id.text_keluhan)
@@ -105,6 +97,10 @@ class EditJanjiTemu : AppCompatActivity()  {
 
         supportActionBar?.hide()
         createChannel()
+
+        binding.btnSave.setOnClickListener{
+            createJanjiTemu()
+        }
 
         val myCalender = Calendar.getInstance()
         val datePicker = DatePickerDialog.OnDateSetListener { view, year, month, dayofMonth ->
@@ -239,12 +235,12 @@ class EditJanjiTemu : AppCompatActivity()  {
         val stringRequest: StringRequest = object :
             StringRequest(Method.GET, JanjiTemuApi.GET_BY_ID_URL + id, Response.Listener { response ->
                 val gson = Gson()
-                val janjiTemu = gson.fromJson(response, JanjiTemu::class.java)
+                val janjiTemuModels = gson.fromJson(response, JanjiTemuModels::class.java)
 
-                edRumahSakit!!.setText(janjiTemu.rumahSakit)
-                edDokter!!.setText(janjiTemu.dokter)
-                textKeluhan!!.setText(janjiTemu.keluhan)
-                viewPilihTanggal!!.setText(janjiTemu.tanggal)
+                edRumahSakit!!.setText(janjiTemuModels.rumahSakit)
+                edDokter!!.setText(janjiTemuModels.dokter)
+                textKeluhan!!.setText(janjiTemuModels.keluhan)
+                viewPilihTanggal!!.setText(janjiTemuModels.tanggal)
               //  setExposedDropDownMenu()
 
                 Toast.makeText(this@EditJanjiTemu, "Data berhasil diambil!", Toast.LENGTH_SHORT).show()
@@ -277,20 +273,20 @@ class EditJanjiTemu : AppCompatActivity()  {
     private fun createJanjiTemu(){
         setLoading(true)
 
-        val janjiTemu = JanjiTemu(
+        val janji = JanjiTemuModels(
             0,
-            textKeluhan!!.text.toString(),
-            viewPilihTanggal!!.text.toString(),
-            edRumahSakit!!.text.toString(),
-            edDokter!!.text.toString()
+            "a",
+            "a",
+            "a",
+            "a"
         )
 
         val stringRequest: StringRequest =
             object : StringRequest(Method.POST, JanjiTemuApi.ADD_URL, Response.Listener { response ->
                 val gson = Gson()
-                var janjiTemu = gson.fromJson(response, JanjiTemu::class.java)
+                var janji = gson.fromJson(response, JanjiTemuModels::class.java)
 
-                if(janjiTemu != null)
+                if(janji != null)
                     Toast.makeText(this@EditJanjiTemu, "Data berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
 
                 val returnIntent = Intent()
@@ -322,7 +318,7 @@ class EditJanjiTemu : AppCompatActivity()  {
                 @Throws(AuthFailureError::class)
                 override fun getBody(): ByteArray {
                     val gson = Gson()
-                    val requestBody = gson.toJson(janjiTemu)
+                    val requestBody = gson.toJson(janji)
                     return requestBody.toByteArray(StandardCharsets.UTF_8)
                 }
 
@@ -336,22 +332,20 @@ class EditJanjiTemu : AppCompatActivity()  {
     private fun updateJanjiTemu(id: Int){
         setLoading(true)
 
-        val janjiTemu = JanjiTemu(
+        val janjiTemuModels = JanjiTemuModels(
             id,
             edRumahSakit!!.text.toString(),
             edDokter!!.text.toString(),
             textKeluhan!!.text.toString(),
             viewPilihTanggal!!.text.toString(),
-
-
         )
 
         val stringRequest: StringRequest =
             object : StringRequest(Method.PUT, JanjiTemuApi.UPDATE_URL + id, Response.Listener { response ->
                 val gson = Gson()
-                var janjiTemu = gson.fromJson(response, JanjiTemu::class.java)
+                var janjiTemuModels = gson.fromJson(response, JanjiTemuModels::class.java)
 
-                if(janjiTemu != null)
+                if(janjiTemuModels != null)
                     Toast.makeText(this@EditJanjiTemu, "Data berhasil Diupdate", Toast.LENGTH_SHORT).show()
 
                 val returnIntent = Intent()
@@ -383,7 +377,7 @@ class EditJanjiTemu : AppCompatActivity()  {
                 @Throws(AuthFailureError::class)
                 override fun getBody(): ByteArray {
                     val gson = Gson()
-                    val requestBody = gson.toJson(janjiTemu)
+                    val requestBody = gson.toJson(janjiTemuModels)
                     return requestBody.toByteArray(StandardCharsets.UTF_8)
                 }
 
