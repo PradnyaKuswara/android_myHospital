@@ -125,7 +125,7 @@ class JanjiTemuActivity : AppCompatActivity() {
         queue!!.add(stringRequest)
     }
 
-    fun deleteJanjiTemu(id: Long){
+    fun deleteJanjiTemu(id: Int){
         setLoading(true)
         val stringRequest: StringRequest = object :
             StringRequest(Method.DELETE, JanjiTemuApi.DELETE_URL + id, Response.Listener { response ->

@@ -13,9 +13,21 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.android.volley.AuthFailureError
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.example.ugd3_kelompok15.api.UserProfilApi
+import com.example.ugd3_kelompok15.models.UserProfil
 import com.example.ugd3_kelompok15.room.UserDB
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
+import org.json.JSONObject
+import java.lang.Exception
+import java.nio.charset.StandardCharsets
+import kotlin.jvm.Throws
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var inputUsername: TextInputLayout
@@ -23,6 +35,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var mainLayout: ConstraintLayout
     private lateinit var editUsername : TextInputEditText
     private lateinit var editPassword : TextInputEditText
+    private var queue: RequestQueue? = null
     lateinit var mBundle: Bundle
 
     lateinit var bNama : String
@@ -30,6 +43,8 @@ class LoginActivity : AppCompatActivity() {
     lateinit var bPassword: String
     lateinit var bEmail: String
     lateinit var bNoTelp: String
+
+    var checkLogin = true
 
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -41,6 +56,7 @@ class LoginActivity : AppCompatActivity() {
         val db by lazy { UserDB(this) }
         val userDao = db.userDao()
         sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE)
+        queue = Volley.newRequestQueue(this)
 
         inputUsername = findViewById(R.id.inputLayoutUsername)
         inputPassword = findViewById(R.id.inputLayoutPassword)
@@ -56,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
         btnLogin.setOnClickListener(View.OnClickListener {
             val username: String = inputUsername.getEditText()?.getText().toString()
             val password: String = inputPassword.getEditText()?.getText().toString()
-            var checkLogin = false
+         //   var checkLogin = false
 
             if (username.isEmpty()) {
                 inputUsername.setError("Username must be filled with text")
@@ -68,28 +84,29 @@ class LoginActivity : AppCompatActivity() {
                 checkLogin = false
             }
 
-            val user = userDao.checkUser(username,password)
-            if(user !=null) {
-                sharedPreferences.edit()
-                    .putInt("id", user.id)
-                    .apply()
+        //    val user = userDao.checkUser(username,password)
+//            if(user !=null) {
+//                sharedPreferences.edit()
+//                    .putInt("id", user.id)
+//                    .apply()
+//
+//                checkLogin = true
+//            }
 
-                checkLogin = true
-            }
-
-            if(intent.getBundleExtra("Register") != null) {
-                if(username == user?.username && password == user.password) {
-                    checkLogin = true
-                }
-            }
-
+//            if(intent.getBundleExtra("Register") != null) {
+//                if(username == user?.username && password == user.password) {
+//                    checkLogin = true
+//                }
+//            }
             if(!checkLogin) {
                 loginAlert()
                 return@OnClickListener
+            }else {
+                LoginUser()
             }
 
-            val moveHome = Intent (this@LoginActivity, HomeActivity::class.java)
-            startActivity(moveHome)
+//            val moveHome = Intent (this@LoginActivity, HomeActivity::class.java)
+//            startActivity(moveHome)
         })
 
         btnRegister.setOnClickListener(View.OnClickListener {
@@ -139,6 +156,76 @@ class LoginActivity : AppCompatActivity() {
             editUsername.setText(bUsername)
             editPassword.setText(bPassword)
         }
+    }
+
+    private fun LoginUser() {
+        //  setLoading(true)
+
+        val userprofil = UserProfil(
+            0,
+            "",
+            inputUsername.getEditText()?.getText().toString(),
+            "",
+            "",
+            inputPassword.getEditText()?.getText().toString()
+
+        )
+        val stringRequest: StringRequest =
+            object : StringRequest(Method.POST, UserProfilApi.LOGIN, Response.Listener { response ->
+                val gson = Gson()
+                var user = gson.fromJson(response, UserProfil::class.java)
+
+                if(user!=null) {
+                    var resJO = JSONObject(response.toString())
+                    val  userobj = resJO.getJSONObject("data")
+
+                    Toast.makeText(this@LoginActivity, "Login berhasil", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                    sharedPreferences.edit()
+                        .putInt("id",userobj.getInt("id"))
+                        .putString("nama",userobj.getString("namaLengkap"))
+                        .putString("pass",userobj.getString("password"))
+                        .apply()
+                    startActivity(intent)
+                }else {
+                    Toast.makeText(this@LoginActivity, "Login gagal", Toast.LENGTH_SHORT).show()
+                    return@Listener
+                }
+
+            }, Response.ErrorListener { error ->
+                // setLoading(false)
+                try {
+                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                    val errors = JSONObject(responseBody)
+                    Toast.makeText(
+                        this@LoginActivity,
+                        errors.getString("message"),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }catch (e: Exception) {
+                    Toast.makeText(this@LoginActivity, e.message, Toast.LENGTH_SHORT).show()
+                }
+
+            }) {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers["Accept"] = "application/json"
+                    return headers
+                }
+
+                @Throws(AuthFailureError::class)
+                override fun getBody(): ByteArray {
+                    val gson = Gson()
+                    val requestBody = gson.toJson(userprofil)
+                    return requestBody.toByteArray(StandardCharsets.UTF_8)
+                }
+
+                override fun getBodyContentType(): String {
+                    return "application/json"
+                }
+            }
+        queue!!.add(stringRequest)
     }
 
 

@@ -19,6 +19,7 @@ import androidx.core.view.get
 import com.example.ugd3_kelompok15.NotificationReceiver
 import com.example.ugd3_kelompok15.R
 import com.example.ugd3_kelompok15.databinding.ActivityEditJanjiTemuBinding
+
 import com.example.ugd3_kelompok15.entity.Dokter
 //import com.example.ugd3_kelompok15.room.Constant
 //import com.example.ugd3_kelompok15.room.JanjiTemu
@@ -66,10 +67,10 @@ class EditJanjiTemu : AppCompatActivity()  {
             "Dokter Lenny")
     }
     private lateinit var binding: ActivityEditJanjiTemuBinding
-    private lateinit var selectrs: String
-    private lateinit var selectdr: String
-    private lateinit var idRs: String
-    private lateinit var idDr: String
+//    private lateinit var selectrs: String
+//    private lateinit var selectdr: String
+//    private lateinit var idRs: String
+//    private lateinit var idDr: String
     private lateinit var date: String
     private var textKeluhan: EditText? = null
     private var viewPilihTanggal: TextView? = null
@@ -85,7 +86,6 @@ class EditJanjiTemu : AppCompatActivity()  {
 
     val db by lazy { JanjiTemuDB(this) }
     private var janjiId: Int = 0
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -116,7 +116,6 @@ class EditJanjiTemu : AppCompatActivity()  {
         binding.layoutdate.setOnClickListener {
             DatePickerDialog(this, datePicker, myCalender.get(Calendar.YEAR), myCalender.get(Calendar.MONTH), myCalender.get(Calendar.DAY_OF_MONTH)).show()
         }
-
 //        setupView()
 //        setupListener()
     }
@@ -212,28 +211,28 @@ class EditJanjiTemu : AppCompatActivity()  {
     }
 
     fun setExposedDropDownMenu(){
-        val adapterFakultas: ArrayAdapter<String> = ArrayAdapter<String>(this,
+        val adapterrs: ArrayAdapter<String> = ArrayAdapter<String>(this,
             R.layout.dropdown_item, RUMAHSAKIT_LIST)
-        edRumahSakit!!.setAdapter(adapterFakultas)
+        edRumahSakit!!.setAdapter(adapterrs)
 
-        val adapterProdi: ArrayAdapter<String> = ArrayAdapter<String>(this,
+        val adapterdr: ArrayAdapter<String> = ArrayAdapter<String>(this,
             R.layout.dropdown_item, DOKTER_LIST)
-        edDokter!!.setAdapter(adapterProdi)
+        edDokter!!.setAdapter(adapterdr)
     }
 
-    fun getData() {
-        janjiId = intent.getIntExtra("intent_id", 0)
-        CoroutineScope(Dispatchers.IO).launch {
-            val janjis = db.janjiTemuDao().getJanji(janjiId)[0]
-            binding.viewPilihTanggal.setText(janjis.tanggal)
-            binding.tietkeluhan.setText(janjis.keluhan)
-        }
-    }
+//    fun getData() {
+//        janjiId = intent.getIntExtra("intent_id", 0)
+//        CoroutineScope(Dispatchers.IO).launch {
+//            val janjis = db.janjiTemuDao().getJanji(janjiId)[0]
+//            binding.viewPilihTanggal.setText(janjis.tanggal)
+//            binding.tietkeluhan.setText(janjis.keluhan)
+//        }
+//    }
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return super.onSupportNavigateUp()
-    }
+//    override fun onSupportNavigateUp(): Boolean {
+//        onBackPressed()
+//        return super.onSupportNavigateUp()
+//    }
 
     private fun getJanjiTemuById(id: Long){
         setLoading(true)
@@ -246,7 +245,7 @@ class EditJanjiTemu : AppCompatActivity()  {
                 edDokter!!.setText(janjiTemu.dokter)
                 textKeluhan!!.setText(janjiTemu.keluhan)
                 viewPilihTanggal!!.setText(janjiTemu.tanggal)
-                setExposedDropDownMenu()
+              //  setExposedDropDownMenu()
 
                 Toast.makeText(this@EditJanjiTemu, "Data berhasil diambil!", Toast.LENGTH_SHORT).show()
                 setLoading(false)

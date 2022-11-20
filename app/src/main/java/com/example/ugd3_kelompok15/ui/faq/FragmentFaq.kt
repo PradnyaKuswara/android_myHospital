@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ugd3_kelompok15.LoginActivity
-import com.example.ugd3_kelompok15.databinding.FragmentEditProfilBinding
 import com.example.ugd3_kelompok15.databinding.FragmentFaqBinding
 import com.example.ugd3_kelompok15.entity.Question
 

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="20dp"
     android:background="?android:windowBackground"
-    tools:context=".ui.profile.FragmentEditProfil">
+    android:padding="20dp"
+    tools:context=".ui.profile.FragmentUpdateProfil">
 
     <TextView
         android:id="@+id/textNamaLengkap"
@@ -42,7 +43,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintTop_toBottomOf="@+id/tietnamalengkap" />
+        app:layout_constraintTop_toBottomOf="@+id/tietnamalengkap" />
 
     <EditText
         android:id="@+id/tietUsername"
@@ -115,4 +116,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tietNoTelp" />
+
+    <include
+        android:id="@+id/layout_loading"
+        layout = "@layout/layout_loading"
+        android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,72 +31,72 @@
         android:layout_marginTop="12dp"
         app:layout_constraintTop_toBottomOf="@+id/textrumahsakit" />
 
-        <com.google.android.material.textfield.TextInputLayout
-           android:id="@+id/rs_option"
-           android:padding="20dp"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintEnd_toEndOf="parent"
-           android:layout_marginTop="0dp"
-           android:hint="Choose Hospital"
-           app:layout_constraintTop_toBottomOf="@id/textrumahsakit">
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/rs_option"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="0dp"
+        android:hint="Choose Hospital"
+        app:layout_constraintTop_toBottomOf="@id/textrumahsakit">
 
-            <AutoCompleteTextView
-                android:id="@+id/ed_rs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none"/>
+        <AutoCompleteTextView
+            android:id="@+id/ed_rs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"/>
 
-        </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <TextView
-            android:id="@+id/textdokter"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pilih Dokter"
-            android:textColor="@color/black"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/rs_option" />
+        android:id="@+id/textdokter"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pilih Dokter"
+        android:textColor="@color/black"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/rs_option" />
 
-        <TextView
-            android:id="@+id/viewDr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/black"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="12dp"
-            app:layout_constraintTop_toBottomOf="@+id/textdokter" />
+    <TextView
+        android:id="@+id/viewDr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/black"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@+id/textdokter" />
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/dr_option"
-            android:padding="20dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dr_option"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="0dp"
+        android:hint="Choose Hospital"
+        app:layout_constraintTop_toBottomOf="@id/textdokter">
+
+        <AutoCompleteTextView
+            android:id="@+id/ed_dr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="0dp"
-            android:hint="Choose Hospital"
-            app:layout_constraintTop_toBottomOf="@id/textdokter">
+            android:inputType="none"/>
 
-            <AutoCompleteTextView
-                android:id="@+id/ed_dr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/textPilihTanggal"
@@ -124,16 +124,16 @@
         app:layout_constraintTop_toBottomOf="@+id/textPilihTanggal" />
 
 
-        <Button
-            android:id="@+id/layoutdate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="Pilih Tanggal"
-            android:textSize="12sp"
-            android:layout_marginTop="0dp"
-            app:layout_constraintTop_toBottomOf="@id/viewPilihTanggal"/>
+    <Button
+        android:id="@+id/layoutdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Pilih Tanggal"
+        android:textSize="12sp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toBottomOf="@id/viewPilihTanggal"/>
 
 
     <TextView
@@ -150,17 +150,20 @@
         app:layout_constraintTop_toBottomOf="@+id/layoutdate" />
 
 
-        <EditText
-            android:id="@+id/tietkeluhan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/textKeluhan"
-            android:hint="Keluhan Anda"/>
+    <EditText
+        android:id="@+id/tietkeluhan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Keluhan Anda"
+        app:layout_constraintTop_toBottomOf="@+id/textKeluhan"
+        tools:ignore="TouchTargetSizeCheck"
+        tools:layout_editor_absoluteX="20dp" />
 
     <Button
         android:id="@+id/btnSave"
         android:layout_width="348dp"
         android:layout_height="35dp"
+        android:layout_marginTop="20dp"
         android:background="@color/blue_box"
         android:backgroundTint="@color/dark_green"
         android:text="Tambah Janji Temu"
@@ -169,14 +172,15 @@
         android:textStyle="bold"
         android:typeface="monospace"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tietkeluhan" />
+        app:layout_constraintTop_toBottomOf="@+id/tietkeluhan"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <Button
         android:id="@+id/btnUpdate"
         android:layout_width="348dp"
         android:layout_height="35dp"
+        android:layout_marginTop="20dp"
         android:background="@color/blue_box"
         android:backgroundTint="@color/dark_green"
         android:text="Update Janji Temu"
@@ -185,9 +189,9 @@
         android:textStyle="bold"
         android:typeface="monospace"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSave" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSave"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <include
         android:id="@+id/layout_loading"

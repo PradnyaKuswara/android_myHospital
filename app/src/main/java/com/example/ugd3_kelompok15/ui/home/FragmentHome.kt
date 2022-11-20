@@ -28,17 +28,15 @@ class FragmentHome : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val db by lazy { UserDB(activity as HomeActivity) }
-        val userDao = db.userDao()
+//        val db by lazy { UserDB(activity as HomeActivity) }
+//        val userDao = db.userDao()
         val btnLogout : Button = view.findViewById(R.id.btnLogout)
         val btnJanjiTemu: Button = view.findViewById(R.id.btn_janji_temu)
         val textNama: TextView = view.findViewById(R.id.textHome)
 
         val sharedPreferences = (activity as HomeActivity).getSharedPreferences()
-        val user = userDao.getUser(sharedPreferences.getInt("id", 0))
-
-        textNama.setText("Hi, " + user.namaLengkap)
-
+     //   val user = userDao.getUser(sharedPreferences.getInt("id", 0))
+        textNama.setText("Hi, " + sharedPreferences.getString("nama",null))
 
         btnJanjiTemu.setOnClickListener(View.OnClickListener {
            val movejanji = Intent(this@FragmentHome.context, JanjiTemuActivity::class.java)

@@ -6,16 +6,29 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.android.volley.AuthFailureError
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.example.ugd3_kelompok15.HomeActivity
 import com.example.ugd3_kelompok15.LoginActivity
 import com.example.ugd3_kelompok15.R
+import com.example.ugd3_kelompok15.api.UserProfilApi
 import com.example.ugd3_kelompok15.databinding.FragmentProfileBinding
+import com.example.ugd3_kelompok15.models.UserProfil
 import com.example.ugd3_kelompok15.room.UserDB
 import com.example.ugd3_kelompok15.ui.home.FragmentHome
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+import java.nio.charset.StandardCharsets
 
 
 class FragmentProfile() : Fragment() {
@@ -23,6 +36,8 @@ class FragmentProfile() : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
+    private var queue: RequestQueue? = null
+    private var layoutloading: LinearLayout? = null
 
     val db by lazy { UserDB(requireActivity()) }
     private var userId: Int = 0
@@ -39,10 +54,18 @@ class FragmentProfile() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setData()
+//        setData()
+
+        queue = Volley.newRequestQueue(activity)
+        layoutloading = view.findViewById(R.id.layout_loading)
+        val sharedPreferences = (activity as HomeActivity).getSharedPreferences()
+        var id = sharedPreferences.getInt("id",0)
+
+        //Read User Profil
+        getUsersByid(id)
 
         binding.btnUpdate.setOnClickListener {
-            transitionFragment(FragmentEditProfil())
+            transitionFragment(FragmentUpdateProfil())
         }
 
 
@@ -54,7 +77,8 @@ class FragmentProfile() : Fragment() {
 
                     setPositiveButton("Iya") { _, _ ->
                         val intent = Intent(this@FragmentProfile.context, LoginActivity::class.java)
-                        deleteAcc()
+                        //Delete User Profil
+                        deleteUser(id)
                         intent.putExtra("finish", true)
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         startActivity(intent)
@@ -68,6 +92,8 @@ class FragmentProfile() : Fragment() {
             }
         })
 
+
+        //camera
         binding.homeHospital.setOnClickListener {
             val intent = Intent(this@FragmentProfile.context, CameraActivity::class.java)
             startActivity(intent)
@@ -79,28 +105,117 @@ class FragmentProfile() : Fragment() {
         _binding = null
     }
 
-    private fun setData() {
-        val sharedPreferences = (activity as HomeActivity).getSharedPreferences()
+//    private fun setData() {
+//        val sharedPreferences = (activity as HomeActivity).getSharedPreferences()
+//
+//        val db by lazy { UserDB(activity as HomeActivity) }
+//        val userDao = db.userDao()
+//
+//        val user = userDao.getUser(sharedPreferences.getInt("id", 0))
+//        binding.viewNamaLengkap.setText(user.namaLengkap)
+//        binding.viewUsername.setText(user.username)
+//        binding.viewEmail.setText(user.Email)
+//        binding.viewNomorTelepon.setText(user.nomorTelepon)
+//    }
 
-        val db by lazy { UserDB(activity as HomeActivity) }
-        val userDao = db.userDao()
+//    private fun deleteAcc() {
+//        val sharedPreferences = (activity as HomeActivity).getSharedPreferences()
+//
+//        val db by lazy { UserDB(activity as HomeActivity) }
+//        val userDao = db.userDao()
+//
+//        val user = userDao.getUser(sharedPreferences.getInt("id", 0))
+//
+//        userDao.deleteUser(user)
+//    }
 
-        val user = userDao.getUser(sharedPreferences.getInt("id", 0))
-        binding.viewNamaLengkap.setText(user.namaLengkap)
-        binding.viewUsername.setText(user.username)
-        binding.viewEmail.setText(user.Email)
-        binding.viewNomorTelepon.setText(user.nomorTelepon)
+    private fun getUsersByid(id: Int) {
+        setLoading(true)
+        val stringRequest: StringRequest = object :
+            StringRequest(Method.GET, UserProfilApi.GET_BY_ID_URL + id, Response.Listener { response ->
+                // val gson = Gson()
+                // val mahasiswa = gson.fromJson(response, Mahasiswa::class.java)
+
+                var joUser = JSONObject(response.toString())
+                val userdata = joUser.getJSONObject("data")
+
+                binding.viewNamaLengkap.setText(userdata.getString("namaLengkap"))
+                binding.viewUsername.setText(userdata.getString("username"))
+                binding.viewEmail.setText(userdata.getString("Email"))
+                binding.viewNomorTelepon.setText(userdata.getString("nomorTelepon"))
+
+                Toast.makeText(activity, "Data User berhasil diambil!", Toast.LENGTH_SHORT).show()
+                setLoading(false)
+            }, Response.ErrorListener { error ->
+                setLoading(false)
+                try {
+                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                    val errors = JSONObject(responseBody)
+                    Toast.makeText(
+                        activity,
+                        errors.getString("message"),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }catch (e: Exception) {
+                    Toast.makeText(activity, e.message, Toast.LENGTH_SHORT).show()
+                }
+            }) {
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Accept"] = "application/json"
+                return headers
+            }
+        }
+        queue!!.add(stringRequest)
     }
 
-    private fun deleteAcc() {
-        val sharedPreferences = (activity as HomeActivity).getSharedPreferences()
+    fun deleteUser(id: Int){
+        setLoading(true)
 
-        val db by lazy { UserDB(activity as HomeActivity) }
-        val userDao = db.userDao()
+        val stringRequest: StringRequest = object :
+            StringRequest(Method.DELETE, UserProfilApi.DELETE_URL + id, Response.Listener{ response ->
+                setLoading(false)
 
-        val user = userDao.getUser(sharedPreferences.getInt("id", 0))
+                val gson = Gson()
+                var user  = gson.fromJson(response, UserProfil:: class.java)
 
-        userDao.deleteUser(user)
+
+                if(user != null)
+                    Toast.makeText(activity, "Berhasil Hapus Akun", Toast.LENGTH_SHORT).show()
+            }, Response.ErrorListener{ error ->
+                setLoading(false)
+
+                try{
+                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                    val errors = JSONObject(responseBody)
+                    Toast.makeText(
+                        activity,
+                        errors.getString("message"),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }catch(e: Exception){
+                    Toast.makeText(activity, e.message, Toast.LENGTH_SHORT).show()
+                }
+            }) {
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String>{
+                val headers = HashMap<String, String>()
+                headers["Accept"] = "application/json"
+                return headers
+            }
+        }
+        queue!!.add(stringRequest)
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        if(isLoading) {
+            activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            layoutloading!!.visibility = View.VISIBLE
+        }else {
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            layoutloading!!.visibility = View.INVISIBLE
+        }
     }
 
     private fun transitionFragment(fragment: Fragment) {

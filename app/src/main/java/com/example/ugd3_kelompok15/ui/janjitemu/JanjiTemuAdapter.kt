@@ -46,10 +46,8 @@ class JanjiTemuAdapter(private var janjitemus: List<JanjiTemu>, context: Context
                 .setMessage("Apakah anda yakin ingin menghapus data janji temu ini?")
                 .setNegativeButton("Batal", null)
                 .setPositiveButton("Hapus"){ _, _ ->
-                    if (context is JanjiTemuActivity) janji.id?.let { it1 ->
-                        context.deleteJanjiTemu(
-                            it1
-                        )
+                    if (context is JanjiTemuActivity){
+                        context.deleteJanjiTemu(janji.id)
                     }
                 }
                 .show()

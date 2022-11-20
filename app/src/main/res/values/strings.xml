@@ -2,27 +2,26 @@
     <string name="app_name">UGD3_Kelompok15</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--    <string-array name="rumah_sakit">-->
+    <!--        <item>Choose Hospital</item>-->
+    <!--        <item>Hospital A</item>-->
+    <!--        <item>Hospital B</item>-->
+    <!--        <item>Hospital C</item>-->
+    <!--        <item>Hospital D</item>-->
+    <!--        <item>Hospital E</item>-->
+    <!--        <item>Hospital F</item>-->
+    <!--    </string-array>-->
 
-    <string-array name="rumah_sakit">
-        <item>Choose Hospital</item>
-        <item>Hospital A</item>
-        <item>Hospital B</item>
-        <item>Hospital C</item>
-        <item>Hospital D</item>
-        <item>Hospital E</item>
-        <item>Hospital F</item>
-    </string-array>
-
-    <string-array name="dokter">
-        <item>Choose Doctor</item>
-        <item>Dokter Edward</item>
-        <item>Dokter Michael</item>
-        <item>Dokter Joel</item>
-        <item>Dokter Johan</item>
-        <item>Dokter Mera</item>
-        <item>Dokter Pamela</item>
-        <item>Dokter Herlina</item>
-        <item>Dokter Joana</item>
-        <item>Dokter Lenny</item>
-    </string-array>
+    <!--    <string-array name="dokter">-->
+    <!--        <item>Choose Doctor</item>-->
+    <!--        <item>Dokter Edward</item>-->
+    <!--        <item>Dokter Michael</item>-->
+    <!--        <item>Dokter Joel</item>-->
+    <!--        <item>Dokter Johan</item>-->
+    <!--        <item>Dokter Mera</item>-->
+    <!--        <item>Dokter Pamela</item>-->
+    <!--        <item>Dokter Herlina</item>-->
+    <!--        <item>Dokter Joana</item>-->
+    <!--        <item>Dokter Lenny</item>-->
+    <!--    </string-array>-->
 </resources>

@@ -11,22 +11,30 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.view.ContentInfoCompat
+import com.android.volley.AuthFailureError
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.example.ugd3_kelompok15.api.UserProfilApi
 import com.example.ugd3_kelompok15.databinding.ActivityRegisterBinding
-import com.example.ugd3_kelompok15.room.User
+import com.example.ugd3_kelompok15.models.UserProfil
 import com.example.ugd3_kelompok15.room.UserDB
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
+import org.json.JSONObject
+import java.lang.Exception
+import java.nio.charset.StandardCharsets
+import kotlin.jvm.Throws
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
     private val CHANNEL_ID_1 = "channel_01"
     private val notificationId1 = 101
+    private var queue: RequestQueue? = null
+    private var checkRegister = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +44,7 @@ class RegisterActivity : AppCompatActivity() {
 
         val db by lazy { UserDB(this) }
         val userDao = db.userDao()
+
 
         supportActionBar?.hide()
 
@@ -47,6 +56,8 @@ class RegisterActivity : AppCompatActivity() {
         var inputNoTelp = binding.inputLayoutNoTelp
         var inputPassword = binding.inputLayoutPassword
 
+        queue = Volley.newRequestQueue(this)
+
         binding.btnRegister.setOnClickListener(View.OnClickListener{
             val intent = Intent(this, LoginActivity::class.java)
             val mBundle = Bundle()
@@ -57,7 +68,7 @@ class RegisterActivity : AppCompatActivity() {
             val noTelp: String = binding.inputLayoutNoTelp.getEditText()?.getText().toString()
             val password: String = binding.inputLayoutPassword.getEditText()?.getText().toString()
 
-            var checkRegister = false
+          //  var checkRegister = false
 
             mBundle.putString("tietNama" , nama)
             mBundle.putString("tietUsername" , username)
@@ -92,15 +103,14 @@ class RegisterActivity : AppCompatActivity() {
 
             if(!checkRegister){
                 return@OnClickListener
+            }else {
+                //Create User Profil with Volley
+                createUser(mBundle)
             }
 
-            val user = User(0, nama, username, email, noTelp, password)
-            userDao.addUser(user)
-
-            sendNotification()
-            intent.putExtra("Register", mBundle)
-            startActivity(intent)
-
+            //create user with room
+//            val user = User(0, nama, username, email, noTelp, password)
+//            userDao.addUser(user)
         })
     }
 
@@ -145,5 +155,65 @@ class RegisterActivity : AppCompatActivity() {
         with(NotificationManagerCompat.from(this)) {
             notify(notificationId1, builder.build())
         }
+    }
+    private fun createUser(mBundle: Bundle) {
+      //  setLoading(true)
+
+        val userprofil = UserProfil(
+            0,
+            binding.inputLayoutNama.getEditText()?.getText().toString(),
+            binding.inputLayoutUsername.getEditText()?.getText().toString(),
+            binding.inputLayoutEmail.getEditText()?.getText().toString(),
+            binding.inputLayoutNoTelp.getEditText()?.getText().toString(),
+            binding.inputLayoutPassword.getEditText()?.getText().toString()
+        )
+        val stringRequest: StringRequest =
+            object : StringRequest(Method.POST, UserProfilApi.REGISTER, Response.Listener { response ->
+                val gson = Gson()
+                var user = gson.fromJson(response, UserProfil::class.java)
+
+                if(user != null) {
+                    Toast.makeText(this@RegisterActivity, "User Berhasil Register", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                    sendNotification()
+                    intent.putExtra("Register", mBundle)
+                    startActivity(intent)
+                } else {
+                    checkRegister = false
+                }
+            }, Response.ErrorListener { error ->
+               // setLoading(false)
+                try {
+                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                    val errors = JSONObject(responseBody)
+                    Toast.makeText(
+                        this@RegisterActivity,
+                        errors.getString("message"),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    checkRegister = false
+                }catch (e: Exception) {
+                    Toast.makeText(this@RegisterActivity, e.message, Toast.LENGTH_SHORT).show()
+                }
+            }) {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers["Accept"] = "application/json"
+                    return headers
+                }
+
+                @Throws(AuthFailureError::class)
+                override fun getBody(): ByteArray {
+                    val gson = Gson()
+                    val requestBody = gson.toJson(userprofil)
+                    return requestBody.toByteArray(StandardCharsets.UTF_8)
+                }
+
+                override fun getBodyContentType(): String {
+                    return "application/json"
+                }
+            }
+        queue!!.add(stringRequest)
     }
 }
