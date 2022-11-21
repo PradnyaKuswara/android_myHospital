@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:iconifiedByDefault="false"
-        android:queryHint="Cari"
+        android:queryHint="Cari berdasarkan keluhan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textJanji"
         app:layout_constraintStart_toStartOf="parent"/>

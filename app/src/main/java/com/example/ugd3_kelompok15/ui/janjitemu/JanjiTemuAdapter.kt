@@ -54,7 +54,7 @@ class JanjiTemuAdapter(private var janjitemus: List<JanjiTemuModels>, context: C
                 .show()
         }
         holder.cvJanjiTemu.setOnClickListener{
-            val i = Intent(context, EditJanjiTemu::class.java)
+            val i = Intent(context, UpdateJanjiTemu::class.java)
             i.putExtra("id", janji.id)
             if(context is JanjiTemuActivity)
                 context.startActivityForResult(i, JanjiTemuActivity.LAUNCH_ADD_ACTIVITY)

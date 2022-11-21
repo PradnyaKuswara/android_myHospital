@@ -61,7 +61,7 @@ class JanjiTemuActivity : AppCompatActivity() {
 
         val btnAdd = findViewById<Button>(R.id.btnAdd)
         btnAdd.setOnClickListener{
-            val i = Intent(this@JanjiTemuActivity, EditJanjiTemu::class.java)
+            val i = Intent(this@JanjiTemuActivity, UpdateJanjiTemu::class.java)
             startActivityForResult(i, LAUNCH_ADD_ACTIVITY)
         }
 
