@@ -35,19 +35,19 @@ import java.util.*
 class UpdateJanjiTemu : AppCompatActivity() {
     companion object{
         private val RS_LIST = arrayOf(
-            "FTI",
-            "FT",
-            "FTB",
-            "FBE",
-            "FISIP",
-            "FH")
+            "Panti Rapih",
+            "Bethesda",
+            "RSUD",
+            "JIH",
+            "RS.YAP",
+            "Panti Waluyo")
         private val DR_LIST = arrayOf(
-            "Informatika",
-            "Arsitektur",
-            "Biologi",
-            "Manajemen",
-            "Ilmu Komunikasi",
-            "Ilmu Hukum"
+            "Dr. Kuswara",
+            "Dr. Beni",
+            "Dr. Joel",
+            "Dr. Devin",
+            "Dr. Kevin",
+            "Dr. Rakai"
         )
     }
     private lateinit var binding: ActivityUpdateJanjiTemuBinding
@@ -103,7 +103,7 @@ class UpdateJanjiTemu : AppCompatActivity() {
             btnSave.setOnClickListener { createJanjiTemu() }
         }else {
             getJanjiTemuById(id)
-            btnSave.setOnClickListener {  }
+            btnSave.setOnClickListener { updateJanjiTemu(id) }
         }
 
     }
@@ -305,6 +305,66 @@ class UpdateJanjiTemu : AppCompatActivity() {
             window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             layoutLoading!!.visibility = View.INVISIBLE
         }
+    }
+
+    private fun updateJanjiTemu(id: Int){
+        setLoading(true)
+
+        val janjiTemuModels = JanjiTemuModels(
+            id,
+            edRS!!.text.toString(),
+            viewTanggal!!.text.toString(),
+            edDR!!.text.toString(),
+            keluhan!!.text.toString()
+        )
+
+        val stringRequest: StringRequest =
+            object : StringRequest(Method.PUT, JanjiTemuApi.UPDATE_URL + id, Response.Listener { response ->
+                val gson = Gson()
+                var janjiTemuModels = gson.fromJson(response, JanjiTemuModels::class.java)
+
+                if(janjiTemuModels != null)
+                    Toast.makeText(this@UpdateJanjiTemu, "Data berhasil Diupdate", Toast.LENGTH_SHORT).show()
+
+                sendNotification3()
+                val returnIntent = Intent()
+                setResult(RESULT_OK, returnIntent)
+                finish()
+
+                setLoading(false)
+            }, Response.ErrorListener { error ->
+                setLoading(false)
+                try {
+                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                    val errors = JSONObject(responseBody)
+                    Toast.makeText(
+                        this@UpdateJanjiTemu,
+                        errors.getString("message"),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }catch (e: Exception){
+                    Toast.makeText(this@UpdateJanjiTemu, e.message, Toast.LENGTH_SHORT).show()
+                }
+            }){
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers["Accept"] = "application/json"
+                    return headers
+                }
+
+                @Throws(AuthFailureError::class)
+                override fun getBody(): ByteArray {
+                    val gson = Gson()
+                    val requestBody = gson.toJson(janjiTemuModels)
+                    return requestBody.toByteArray(StandardCharsets.UTF_8)
+                }
+
+                override fun getBodyContentType(): String {
+                    return "application/json"
+                }
+            }
+        queue!!.add(stringRequest)
     }
 
 }
