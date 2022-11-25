@@ -7,13 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.ugd3_kelompok15.HomeActivity
 import com.example.ugd3_kelompok15.LoginActivity
 import com.example.ugd3_kelompok15.R
 import com.example.ugd3_kelompok15.room.UserDB
 import com.example.ugd3_kelompok15.ui.janjitemu.JanjiTemuActivity
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlin.system.exitProcess
 
 class FragmentHome : Fragment() {
@@ -32,11 +37,25 @@ class FragmentHome : Fragment() {
 //        val userDao = db.userDao()
         val btnLogout : Button = view.findViewById(R.id.btnLogout)
         val btnJanjiTemu: Button = view.findViewById(R.id.btn_janji_temu)
+        val btnImage: ImageView = view.findViewById(R.id.homeHospital)
         val textNama: TextView = view.findViewById(R.id.textHome)
+        val textpic: TextView = view.findViewById(R.id.textpic)
 
         val sharedPreferences = (activity as HomeActivity).getSharedPreferences()
      //   val user = userDao.getUser(sharedPreferences.getInt("id", 0))
         textNama.setText("Hi, " + sharedPreferences.getString("nama",null))
+
+        btnImage.setOnClickListener{
+            val url = "https://picsum.photos/200"
+            Glide.with(this)
+                .load(url)
+                .fitCenter()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(homeHospital)
+            textpic.setText("")
+        }
+
 
         btnJanjiTemu.setOnClickListener(View.OnClickListener {
            val movejanji = Intent(this@FragmentHome.context, JanjiTemuActivity::class.java)

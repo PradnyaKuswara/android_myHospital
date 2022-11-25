@@ -53,7 +53,7 @@
             android:id="@+id/profpic_caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="click profil picture "
+            android:text="click profil picture to open camera "
             style="@style/TextAppearance.MaterialComponents.Caption"
             android:layout_marginTop="10dp"
             android:textColor="@color/black"

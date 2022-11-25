@@ -9,31 +9,59 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:id="@+id/textMenu"
-        android:layout_width="154dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="35dp"
-        android:fontFamily="@font/bebas_neue_bold_700"
-        android:text="MY HOSPITAL"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+<!--    <TextView-->
+<!--        android:id="@+id/textMenu"-->
+<!--        android:layout_width="154dp"-->
+<!--        android:layout_height="38dp"-->
+<!--        android:layout_marginTop="35dp"-->
+<!--        android:fontFamily="@font/bebas_neue_bold_700"-->
+<!--        android:text="MY HOSPITAL"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="@color/black"-->
+<!--        app:autoSizeTextType="uniform"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.498"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        tools:ignore="MissingConstraints" />-->
 
     <ImageView
         android:id="@+id/homeHospital"
-        android:layout_width="69dp"
-        android:layout_height="40dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:src="@drawable/home"
         android:layout_marginTop="25dp"
+        android:layout_marginLeft="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textMenu"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
+    <TextView
+        android:id="@+id/textpic"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="click image "
+        android:textColor="@color/black"
+        android:layout_marginTop="65dp"
+        android:layout_marginLeft="25dp"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteX="157dp" />
+
+    <TextView
+        android:id="@+id/textWelcome"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selamat datang di My Hospital"
+        android:textColor="@color/black"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/homeHospital"
+        tools:layout_editor_absoluteX="157dp" />
 
     <TextView
         android:id="@+id/textHome"
@@ -42,9 +70,11 @@
         android:layout_height="wrap_content"
         android:text="hallo, Beni"
         android:textColor="@color/black"
-        android:layout_marginTop="35dp"
-        android:textSize="12sp"
-        app:layout_constraintTop_toBottomOf="@+id/textMenu"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/homeHospital"
         tools:layout_editor_absoluteX="157dp" />
 

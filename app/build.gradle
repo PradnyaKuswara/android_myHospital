@@ -58,10 +58,14 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
 
     implementation 'org.osmdroid:osmdroid-android:6.1.11'
-
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-
     implementation 'com.android.volley:volley:1.2.1'
-
     implementation 'com.google.code.gson:gson:2.8.8'
+
+    //libary bebas
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
+
+    //libary ui
+    implementation 'nl.joery.animatedbottombar:library:1.0.9'
 }
