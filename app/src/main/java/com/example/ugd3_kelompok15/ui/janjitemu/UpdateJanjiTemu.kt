@@ -1,18 +1,23 @@
 package com.example.ugd3_kelompok15.ui.janjitemu
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.android.volley.AuthFailureError
@@ -23,13 +28,35 @@ import com.android.volley.toolbox.Volley
 import com.example.ugd3_kelompok15.NotificationReceiver
 import com.example.ugd3_kelompok15.R
 import com.example.ugd3_kelompok15.api.JanjiTemuApi
+import com.example.ugd3_kelompok15.databinding.ActivityRegisterBinding
 import com.example.ugd3_kelompok15.databinding.ActivityUpdateJanjiTemuBinding
 import com.example.ugd3_kelompok15.models.JanjiTemuModels
 import com.example.ugd3_kelompok15.room.JanjiTemuDB
+import com.itextpdf.barcodes.BarcodeQRCode
+import com.itextpdf.io.image.ImageDataFactory
+import com.itextpdf.io.source.ByteArrayOutputStream
+import com.itextpdf.kernel.colors.ColorConstants
+import com.itextpdf.kernel.geom.PageSize
+import com.itextpdf.kernel.pdf.PdfDocument
+import com.itextpdf.kernel.pdf.PdfWriter
+import com.itextpdf.layout.Document
+import com.itextpdf.layout.element.Cell
+import com.itextpdf.layout.element.Image
+import com.itextpdf.layout.element.Paragraph
+import com.itextpdf.layout.element.Table
+import com.itextpdf.layout.property.HorizontalAlignment
+import com.itextpdf.layout.property.TextAlignment
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_update_janji_temu.*
 import org.json.JSONObject
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
 import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class UpdateJanjiTemu : AppCompatActivity() {
@@ -70,7 +97,9 @@ class UpdateJanjiTemu : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_update_janji_temu)
+        binding = ActivityUpdateJanjiTemuBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         supportActionBar?.hide()
         createChannel()
 
@@ -82,6 +111,7 @@ class UpdateJanjiTemu : AppCompatActivity() {
         layoutLoading = findViewById(R.id.layout_loading)
 
         val btnSave = findViewById<Button>(R.id.btnSave)
+
         val btnDate = findViewById<Button>(R.id.layoutdate)
         val id = intent.getIntExtra("id",-1)
 
@@ -100,12 +130,134 @@ class UpdateJanjiTemu : AppCompatActivity() {
         }
 
         if(id==-1) {
-            btnSave.setOnClickListener { createJanjiTemu() }
+            btnSave.setOnClickListener {
+                val edRS = edRS!!.text.toString()
+                val edDR = edDR!!.text.toString()
+                val viewTanggal = viewTanggal!!.text.toString()
+                val keluhan = keluhan!!.text.toString()
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        if (edRS.isEmpty() && edDR.isEmpty() && viewTanggal.isEmpty() && keluhan.isEmpty()) {
+                            Toast.makeText(
+                                applicationContext,
+                                "Semuanya Tidak boleh Kosong",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            createJanjiTemu()
+                            createPdf(edRS, edDR, viewTanggal, keluhan)
+                        }
+                    }
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                }
+            }
         }else {
             getJanjiTemuById(id)
-            btnSave.setOnClickListener { updateJanjiTemu(id) }
+            btnSave.setOnClickListener {
+                val edRS = edRS!!.text.toString()
+                val edDR = edDR!!.text.toString()
+                val viewTanggal = viewTanggal!!.text.toString()
+                val keluhan = keluhan!!.text.toString()
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        if (edRS.isEmpty() && edDR.isEmpty() && viewTanggal.isEmpty() && keluhan.isEmpty()) {
+                            Toast.makeText(
+                                applicationContext,
+                                "Semuanya Tidak boleh Kosong",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            updateJanjiTemu(id)
+                            createPdf(edRS, edDR, viewTanggal, keluhan)
+                        }
+                    }
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                }
+            }
         }
 
+    }
+
+    @SuppressLint("ObsoleteSdkInt")
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Throws(
+        FileNotFoundException::class
+    )
+    private fun createPdf(edRS: String, edDR: String, viewTanggal: String, keluhan: String) {
+        //ini berguna untuk akses Writing ke Storage HP kalian dalam mode Download.
+        //harus diketik jangan COPAS!!!!
+        val pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            .toString()
+        val file = File(pdfPath, "Rekapan Janji Temu.pdf")
+        FileOutputStream(file)
+
+        //inisaliasi pembuatan PDF
+        val writer = PdfWriter(file)
+        val pdfDocument = PdfDocument(writer)
+        val document = Document(pdfDocument)
+        pdfDocument.defaultPageSize = PageSize.A4
+        document.setMargins(5f, 5f, 5f, 5f)
+        @SuppressLint("UseCompatLoadingForDrawables") val d = getDrawable(R.drawable.img)
+
+        //penambahan gambar pada Gambar atas
+        val bitmap = (d as BitmapDrawable?)!!.bitmap
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        val bitmapData = stream.toByteArray()
+        val imageData = ImageDataFactory.create(bitmapData)
+        val image = Image(imageData)
+        val namapengguna = Paragraph("Identitas Pengguna").setBold().setFontSize(24f)
+            .setTextAlignment(TextAlignment.CENTER)
+        val group = Paragraph(
+            """
+                        Berikut adalah Data Janji Temu Anda 
+                        """.trimIndent()
+        ).setTextAlignment(TextAlignment.CENTER).setFontSize(12f)
+
+        //proses pembuatan table
+        val width = floatArrayOf(100f, 100f)
+        val table = Table(width)
+        //pengisian table dengan data-data
+        table.setHorizontalAlignment(HorizontalAlignment.CENTER)
+        table.addCell(Cell().add(Paragraph("Nama Rumah Sakit")))
+        table.addCell(Cell().add(Paragraph(edRS)))
+        table.addCell(Cell().add(Paragraph("Nama Dokter")))
+        table.addCell(Cell().add(Paragraph(edDR)))
+        table.addCell(Cell().add(Paragraph("Tanggal Janji Temu")))
+        table.addCell(Cell().add(Paragraph(viewTanggal)))
+        table.addCell(Cell().add(Paragraph("Keluhan")))
+        table.addCell(Cell().add(Paragraph(keluhan)))
+//        val dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+//        table.addCell(Cell().add(Paragraph("Tanggal Buat PDF")))
+//        table.addCell(Cell().add(Paragraph(LocalDate.now().format(dateTimeFormatter))))
+//        val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss a")
+//        table.addCell(Cell().add(Paragraph("Pukul Pembuatan")))
+//        table.addCell(Cell().add(Paragraph(LocalTime.now().format(timeFormatter))))
+
+        //pembuatan QR CODE secara generate dengan bantuan IText7
+        val barcodeQRCode = BarcodeQRCode(
+            """
+                                        $edRS
+                                        $edDR
+                                        $viewTanggal
+                                        $keluhan
+                                        """.trimIndent()
+        )
+        val qrCodeObject = barcodeQRCode.createFormXObject(ColorConstants.BLACK, pdfDocument)
+        val qrCodeImage =
+            Image(qrCodeObject).setWidth(80f).setHorizontalAlignment(HorizontalAlignment.CENTER)
+
+        document.add(image)
+        document.add(namapengguna)
+        document.add(group)
+        document.add(table)
+        document.add(qrCodeImage)
+
+
+        document.close()
+        Toast.makeText(this, "Pdf Created", Toast.LENGTH_LONG).show()
     }
 
     private fun createChannel() {
