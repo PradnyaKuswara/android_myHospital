@@ -82,9 +82,11 @@
         android:id="@+id/qrcode"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginTop="25dp"
         android:src="@drawable/ic_baseline_qr_code_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textWelcome"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck"
         tools:layout_editor_absoluteY="40dp"
         app:layout_editor_absoluteX="0dp"/>

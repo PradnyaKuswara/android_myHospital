@@ -68,12 +68,6 @@ class FragmentProfile() : Fragment() {
             transitionFragment(FragmentUpdateProfil())
         }
 
-        binding.btnBack.setOnClickListener {
-            val intent = Intent(activity, HomeActivity::class.java)
-            startActivity(intent)
-        }
-
-
        binding.btnDeleteAcc.setOnClickListener(View.OnClickListener {
             getActivity()?.let { it1 ->
                 AlertDialog.Builder(it1).apply {

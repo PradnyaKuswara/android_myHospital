@@ -59,11 +59,6 @@ class FragmentLokasiRS : Fragment() {
         mapController.setCenter(geoPoint)
         mapController.zoomTo(6)
 
-        binding.btnBack.setOnClickListener {
-            val intent = Intent(activity, HomeActivity::class.java)
-            startActivity(intent)
-
-        }
         getLocationMarker()
 
     }

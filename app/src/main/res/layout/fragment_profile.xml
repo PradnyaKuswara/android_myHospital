@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="625dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?android:windowBackground"
     android:padding="20dp"
@@ -180,25 +180,6 @@
             app:layout_constraintTop_toBottomOf="@+id/viewNomorTelepon"
             app:layout_constraintHorizontal_bias="0.43"
             tools:ignore="TouchTargetSizeCheck" />
-
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical|center"
-            android:background="@color/blue_box"
-            android:backgroundTint="@color/dark_green"
-            android:gravity="center"
-            android:text="Kembali"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            android:layout_marginTop="15dp"
-            android:textStyle="bold"
-            android:typeface="monospace"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="TouchTargetSizeCheck"
-            app:layout_constraintTop_toBottomOf="@id/btnUpdate"/>
 
         <include
             android:id="@+id/layout_loading"
