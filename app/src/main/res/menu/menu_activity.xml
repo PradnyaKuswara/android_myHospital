@@ -2,31 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/Home"
-        android:enabled="true"
         android:icon="@drawable/ic_home_24"
         android:title="Home"/>
 
     <item
         android:id="@+id/informasi_dokter"
-        android:enabled="true"
         android:icon="@drawable/ic_calendar_24"
         android:title="Info Dokter"/>
 
     <item
         android:id="@+id/lokasi_rs"
-        android:enabled="true"
         android:icon="@drawable/ic_baseline_local_hospital_24"
         android:title="Lokasi"/>
 
     <item
         android:id="@+id/faq"
-        android:enabled="true"
         android:icon="@drawable/ic_forum_24"
         android:title="FAQ"/>
 
     <item
         android:id="@+id/profile"
-        android:enabled="true"
         android:icon="@drawable/ic_menu_person_24"
         android:title="Profile"/>
 

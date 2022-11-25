@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/wrapper"
     tools:context=".HomeActivity">
 
     <androidx.core.widget.NestedScrollView
@@ -27,7 +28,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:fontFamily="@font/bebas_neue_bold_700"
-                android:text="Selamat Datang"
+                android:text=""
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="10sp" />
@@ -35,19 +36,37 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--        android:id="@+id/botNavigation"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="70dp"-->
+<!--        android:background="@color/blue_box"-->
+<!--        android:theme="@style/Theme.Material3.DynamicColors.Light"-->
+<!--        app:itemIconTint="@color/black"-->
+<!--        app:itemTextColor="@color/white"-->
+<!--        app:labelVisibilityMode="labeled"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:menu="@menu/menu_activity" />-->
+    <nl.joery.animatedbottombar.AnimatedBottomBar
         android:id="@+id/botNavigation"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:background="@color/blue_box"
-        android:theme="@style/Theme.Material3.DynamicColors.Light"
-        app:itemIconTint="@color/black"
-        app:itemTextColor="@color/white"
-        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/menu_activity" />
+
+        app:abb_indicatorAppearance="round"
+        app:abb_indicatorHeight="4dp"
+        app:abb_indicatorMargin="16dp"
+        app:abb_selectedIndex="0"
+        app:abb_indicatorColor="#FF0000"
+        app:abb_tabColorSelected="@color/black"
+        app:abb_selectedTabType="text"
+        app:abb_tabs="@menu/menu_activity"
+        />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/layout_fragment"

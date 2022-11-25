@@ -1,5 +1,6 @@
 package com.example.ugd3_kelompok15.ui.lokasi
 
+import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
 import androidx.fragment.app.Fragment
@@ -7,8 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.example.ugd3_kelompok15.HomeActivity
 import com.example.ugd3_kelompok15.R
 import com.example.ugd3_kelompok15.databinding.FragmentLokasiRSBinding
+import com.example.ugd3_kelompok15.ui.home.FragmentHome
+import com.example.ugd3_kelompok15.ui.profile.FragmentProfile
 import kotlinx.android.synthetic.main.fragment_lokasi_r_s.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -55,8 +59,19 @@ class FragmentLokasiRS : Fragment() {
         mapController.setCenter(geoPoint)
         mapController.zoomTo(6)
 
+        binding.btnBack.setOnClickListener {
+            val intent = Intent(activity, HomeActivity::class.java)
+            startActivity(intent)
+
+        }
         getLocationMarker()
 
+    }
+    private fun transitionFragment(fragment: Fragment) {
+        val transition = requireActivity().supportFragmentManager.beginTransaction()
+        transition.replace(R.id.layout_fragment, fragment)
+            .addToBackStack(null).commit()
+        transition.hide(FragmentProfile())
     }
 
     private fun getLocationMarker() {
