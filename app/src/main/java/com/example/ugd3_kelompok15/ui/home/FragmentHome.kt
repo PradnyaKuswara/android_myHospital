@@ -40,6 +40,7 @@ class FragmentHome : Fragment() {
         val btnImage: ImageView = view.findViewById(R.id.homeHospital)
         val textNama: TextView = view.findViewById(R.id.textHome)
         val textpic: TextView = view.findViewById(R.id.textpic)
+        val qrCode: ImageView = view.findViewById(R.id.qrcode)
 
         val sharedPreferences = (activity as HomeActivity).getSharedPreferences()
      //   val user = userDao.getUser(sharedPreferences.getInt("id", 0))
@@ -56,6 +57,9 @@ class FragmentHome : Fragment() {
             textpic.setText("")
         }
 
+        qrCode.setOnClickListener {
+
+        }
 
         btnJanjiTemu.setOnClickListener(View.OnClickListener {
            val movejanji = Intent(this@FragmentHome.context, JanjiTemuActivity::class.java)
