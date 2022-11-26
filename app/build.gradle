@@ -63,14 +63,16 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.8'
 
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
-    //libary bebas
+    //libary 1 bebas
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
-    //libary ui
+    //libary 2 ui
     implementation 'nl.joery.animatedbottombar:library:1.1.0'
+    implementation 'com.github.Spikeysanju:MotionToast:1.4'
 
-    //library pdf dan QR
+
+    //library 1 pdf dan 1 QR
     implementation 'com.itextpdf:itext7-core:7.1.13'
     //implementasi QR Code Scanner
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
