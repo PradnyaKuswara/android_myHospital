@@ -16,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.ugd3_kelompok15.HomeActivity
 import com.example.ugd3_kelompok15.LoginActivity
 import com.example.ugd3_kelompok15.R
+import com.example.ugd3_kelompok15.qrcode.QrCodeActivity
 import com.example.ugd3_kelompok15.room.UserDB
 import com.example.ugd3_kelompok15.ui.janjitemu.JanjiTemuActivity
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -58,7 +59,7 @@ class FragmentHome : Fragment() {
         }
 
         qrCode.setOnClickListener {
-
+            startActivity(Intent(this@FragmentHome.context, QrCodeActivity::class.java))
         }
 
         btnJanjiTemu.setOnClickListener(View.OnClickListener {

@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -28,6 +29,8 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_home.*
 import org.json.JSONObject
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 import java.lang.Exception
 import java.nio.charset.StandardCharsets
 import kotlin.jvm.Throws
@@ -140,8 +143,13 @@ class LoginActivity : AppCompatActivity() {
             }
 
             setNegativeButton("Tidak"){_, _ ->
-                Toast.makeText(this@LoginActivity, "Terima Kasih",
-                    Toast.LENGTH_LONG).show()
+//                Toast.makeText(this@LoginActivity, "Terima Kasih", Toast.LENGTH_LONG).show()
+                MotionToast.darkColorToast(this@LoginActivity,"Notification Login!",
+                    "Terima Kasih!!",
+                    MotionToastStyle.SUCCESS,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this@LoginActivity, www.sanju.motiontoast.R.font.helvetica_regular))
             }
 
             setCancelable(true)
@@ -182,7 +190,13 @@ class LoginActivity : AppCompatActivity() {
                     var resJO = JSONObject(response.toString())
                     val  userobj = resJO.getJSONObject("data")
 
-                    Toast.makeText(this@LoginActivity, "Login berhasil", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@LoginActivity, "Login berhasil", Toast.LENGTH_SHORT).show()
+                    MotionToast.darkColorToast(this,"Notification Login!",
+                        "Login Berhasil!!",
+                        MotionToastStyle.SUCCESS,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                     val intent = Intent(this@LoginActivity, HomeActivity::class.java)
                     sharedPreferences.edit()
                         .putInt("id",userobj.getInt("id"))
@@ -191,7 +205,12 @@ class LoginActivity : AppCompatActivity() {
                         .apply()
                     startActivity(intent)
                 }else {
-                    Toast.makeText(this@LoginActivity, "Login gagal", Toast.LENGTH_SHORT).show()
+                    MotionToast.darkColorToast(this,"Notification Login!",
+                        "Login Gagal!!",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                     return@Listener
                 }
 
@@ -200,13 +219,25 @@ class LoginActivity : AppCompatActivity() {
                 try {
                     val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
                     val errors = JSONObject(responseBody)
-                    Toast.makeText(
-                        this@LoginActivity,
+//                    Toast.makeText(
+//                        this@LoginActivity,
+//                        errors.getString("message"),
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+                    MotionToast.darkColorToast(this,"Notification Login!",
                         errors.getString("message"),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 }catch (e: Exception) {
-                    Toast.makeText(this@LoginActivity, e.message, Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@LoginActivity, e.message, Toast.LENGTH_SHORT).show()
+                    MotionToast.darkColorToast(this,"Notification Login!",
+                        e.message.toString(),
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 }
 
             }) {

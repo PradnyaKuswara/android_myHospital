@@ -1,5 +1,6 @@
 package com.example.ugd3_kelompok15.ui.profile
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.res.ResourcesCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -28,6 +30,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 import java.nio.charset.StandardCharsets
 
 
@@ -143,20 +147,40 @@ class FragmentProfile() : Fragment() {
                 binding.viewEmail.setText(userdata.getString("Email"))
                 binding.viewNomorTelepon.setText(userdata.getString("nomorTelepon"))
 
-                Toast.makeText(activity, "Data User berhasil diambil!", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(activity, "Data User berhasil diambil!", Toast.LENGTH_SHORT).show()
+                MotionToast.darkColorToast(
+                    context as Activity,"Notification Profil!",
+                    "Data User Berhasil Ditampilkan!!",
+                    MotionToastStyle.SUCCESS,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(context as Activity, www.sanju.motiontoast.R.font.helvetica_regular))
                 setLoading(false)
             }, Response.ErrorListener { error ->
                 setLoading(false)
                 try {
                     val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
                     val errors = JSONObject(responseBody)
-                    Toast.makeText(
-                        activity,
+//                    Toast.makeText(
+//                        activity,
+//                        errors.getString("message"),
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+                    MotionToast.darkColorToast(
+                        context as Activity,"Notification Profil!",
                         errors.getString("message"),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(context as Activity, www.sanju.motiontoast.R.font.helvetica_regular))
                 }catch (e: Exception) {
-                    Toast.makeText(activity, e.message, Toast.LENGTH_SHORT).show()
+                    MotionToast.darkColorToast(
+                        context as Activity,"Notification Profil!",
+                        e.message.toString(),
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(context as Activity, www.sanju.motiontoast.R.font.helvetica_regular))
                 }
             }) {
             @Throws(AuthFailureError::class)
@@ -181,20 +205,36 @@ class FragmentProfile() : Fragment() {
 
 
                 if(user != null)
-                    Toast.makeText(activity, "Berhasil Hapus Akun", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(activity, "Berhasil Hapus Akun", Toast.LENGTH_SHORT).show()
+                    MotionToast.darkColorToast(
+                        context as Activity,"Notification Profil!",
+                        "Berhasil delete akun",
+                        MotionToastStyle.SUCCESS,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(context as Activity, www.sanju.motiontoast.R.font.helvetica_regular))
             }, Response.ErrorListener{ error ->
                 setLoading(false)
 
                 try{
                     val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
                     val errors = JSONObject(responseBody)
-                    Toast.makeText(
-                        activity,
+//
+                    MotionToast.darkColorToast(
+                        context as Activity,"Notification Profil!",
                         errors.getString("message"),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(context as Activity, www.sanju.motiontoast.R.font.helvetica_regular))
                 }catch(e: Exception){
-                    Toast.makeText(activity, e.message, Toast.LENGTH_SHORT).show()
+                    MotionToast.darkColorToast(
+                        context as Activity,"Notification Profil!",
+                        e.message.toString(),
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(context as Activity, www.sanju.motiontoast.R.font.helvetica_regular))
                 }
             }) {
             @Throws(AuthFailureError::class)

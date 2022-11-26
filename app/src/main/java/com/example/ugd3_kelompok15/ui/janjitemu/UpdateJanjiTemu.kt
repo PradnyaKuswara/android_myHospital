@@ -20,6 +20,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.res.ResourcesCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -49,6 +50,8 @@ import com.itextpdf.layout.property.TextAlignment
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_update_janji_temu.*
 import org.json.JSONObject
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -138,11 +141,18 @@ class UpdateJanjiTemu : AppCompatActivity() {
                 try {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         if (edRS.isEmpty() && edDR.isEmpty() && viewTanggal.isEmpty() && keluhan.isEmpty()) {
-                            Toast.makeText(
-                                applicationContext,
-                                "Semuanya Tidak boleh Kosong",
-                                Toast.LENGTH_SHORT
-                            ).show()
+//                            Toast.makeText(
+//                                applicationContext,
+//                                "Semuanya Tidak boleh Kosong",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+                            MotionToast.darkToast(
+                                this,"Notification Janji Temu Dokter!",
+                                "Inputan tidak boleh kosong",
+                                MotionToastStyle.INFO,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.LONG_DURATION,
+                                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                         } else {
                             createJanjiTemu()
                             createPdf(edRS, edDR, viewTanggal, keluhan)
@@ -162,11 +172,18 @@ class UpdateJanjiTemu : AppCompatActivity() {
                 try {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         if (edRS.isEmpty() && edDR.isEmpty() && viewTanggal.isEmpty() && keluhan.isEmpty()) {
-                            Toast.makeText(
-                                applicationContext,
-                                "Semuanya Tidak boleh Kosong",
-                                Toast.LENGTH_SHORT
-                            ).show()
+//                            Toast.makeText(
+//                                applicationContext,
+//                                "Semuanya Tidak boleh Kosong",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+                            MotionToast.darkToast(
+                                this,"Notification Janji Temu Dokter!",
+                                "Inputan tidak boleh kosong",
+                                MotionToastStyle.INFO,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.LONG_DURATION,
+                                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                         } else {
                             updateJanjiTemu(id)
                             createPdf(edRS, edDR, viewTanggal, keluhan)
@@ -229,12 +246,6 @@ class UpdateJanjiTemu : AppCompatActivity() {
         table.addCell(Cell().add(Paragraph(viewTanggal)))
         table.addCell(Cell().add(Paragraph("Keluhan")))
         table.addCell(Cell().add(Paragraph(keluhan)))
-//        val dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-//        table.addCell(Cell().add(Paragraph("Tanggal Buat PDF")))
-//        table.addCell(Cell().add(Paragraph(LocalDate.now().format(dateTimeFormatter))))
-//        val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss a")
-//        table.addCell(Cell().add(Paragraph("Pukul Pembuatan")))
-//        table.addCell(Cell().add(Paragraph(LocalTime.now().format(timeFormatter))))
 
         //pembuatan QR CODE secara generate dengan bantuan IText7
         val barcodeQRCode = BarcodeQRCode(
@@ -257,7 +268,14 @@ class UpdateJanjiTemu : AppCompatActivity() {
 
 
         document.close()
-        Toast.makeText(this, "Pdf Created", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "Pdf Created", Toast.LENGTH_LONG).show()
+        MotionToast.darkToast(
+            this,"Notification Janji Temu Dokter!",
+            "File Pdf Rekapan Janji Temu Berhasil Dibuat! ",
+            MotionToastStyle.SUCCESS,
+            MotionToast.GRAVITY_BOTTOM,
+            MotionToast.LONG_DURATION,
+            ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
     }
 
     private fun createChannel() {
@@ -363,20 +381,41 @@ class UpdateJanjiTemu : AppCompatActivity() {
                 keluhan!!.setText(janji.getString("keluhan"))
                 setExposedDropDownMenu()
 
-                Toast.makeText(this@UpdateJanjiTemu, "Data berhasil diambil!", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@UpdateJanjiTemu, "Data berhasil diambil!", Toast.LENGTH_SHORT).show()
+                MotionToast.darkToast(
+                    this,"Notification Janji Temu Dokter!",
+                    "Data Berhasil Diambil",
+                    MotionToastStyle.SUCCESS,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 setLoading(false)
             }, Response.ErrorListener { error ->
                 setLoading(false)
                 try {
                     val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
                     val errors = JSONObject(responseBody)
-                    Toast.makeText(
-                        this@UpdateJanjiTemu,
+//                    Toast.makeText(
+//                        this@UpdateJanjiTemu,
+//                        errors.getString("message"),
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+                    MotionToast.darkToast(
+                        this,"Notification Janji Temu Dokter!",
                         errors.getString("message"),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 }catch (e: Exception){
-                    Toast.makeText(this@UpdateJanjiTemu, e.message, Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@UpdateJanjiTemu, e.message, Toast.LENGTH_SHORT).show()
+                    MotionToast.darkToast(
+                        this,"Notification Janji Temu Dokter!",
+                        error.message.toString(),
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 }
             }){
             @Throws(AuthFailureError::class)
@@ -405,7 +444,14 @@ class UpdateJanjiTemu : AppCompatActivity() {
                 var janji = gson.fromJson(response, JanjiTemuModels::class.java)
 
                 if(janji != null)
-                    Toast.makeText(this@UpdateJanjiTemu, "Data berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@UpdateJanjiTemu, "Data berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
+                    MotionToast.darkToast(
+                        this,"Notification Janji Temu Dokter!",
+                        "Data Janji Temu Berhasil Ditambahkan",
+                        MotionToastStyle.SUCCESS,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
 
                 sendNotification2()
                 val returnIntent = Intent()
@@ -418,13 +464,27 @@ class UpdateJanjiTemu : AppCompatActivity() {
                 try {
                     val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
                     val errors = JSONObject(responseBody)
-                    Toast.makeText(
-                        this@UpdateJanjiTemu,
+//                    Toast.makeText(
+//                        this@UpdateJanjiTemu,
+//                        errors.getString("message"),
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+                    MotionToast.darkToast(
+                        this,"Notification Janji Temu Dokter!",
                         errors.getString("message"),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 }catch (e: Exception){
-                    Toast.makeText(this@UpdateJanjiTemu, e.message, Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@UpdateJanjiTemu, e.message, Toast.LENGTH_SHORT).show()
+                    MotionToast.darkToast(
+                        this,"Notification Janji Temu Dokter!",
+                        error.message.toString(),
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 }
             }){
                 @Throws(AuthFailureError::class)
@@ -476,7 +536,14 @@ class UpdateJanjiTemu : AppCompatActivity() {
                 var janjiTemuModels = gson.fromJson(response, JanjiTemuModels::class.java)
 
                 if(janjiTemuModels != null)
-                    Toast.makeText(this@UpdateJanjiTemu, "Data berhasil Diupdate", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@UpdateJanjiTemu, "Data berhasil Diupdate", Toast.LENGTH_SHORT).show()
+                    MotionToast.darkToast(
+                        this,"Notification Janji Temu Dokter!",
+                        "Data Janji Temu Berhasil Diubah",
+                        MotionToastStyle.SUCCESS,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
 
                 sendNotification3()
                 val returnIntent = Intent()
@@ -489,13 +556,27 @@ class UpdateJanjiTemu : AppCompatActivity() {
                 try {
                     val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
                     val errors = JSONObject(responseBody)
-                    Toast.makeText(
-                        this@UpdateJanjiTemu,
+//                    Toast.makeText(
+//                        this@UpdateJanjiTemu,
+//                        errors.getString("message"),
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+                    MotionToast.darkToast(
+                        this,"Notification Janji Temu Dokter!",
                         errors.getString("message"),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 }catch (e: Exception){
-                    Toast.makeText(this@UpdateJanjiTemu, e.message, Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@UpdateJanjiTemu, e.message, Toast.LENGTH_SHORT).show()
+                    MotionToast.darkToast(
+                        this,"Notification Janji Temu Dokter!",
+                        error.message.toString(),
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 }
             }){
                 @Throws(AuthFailureError::class)

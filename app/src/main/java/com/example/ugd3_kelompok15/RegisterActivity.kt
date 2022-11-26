@@ -14,6 +14,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.res.ResourcesCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -25,6 +26,8 @@ import com.example.ugd3_kelompok15.models.UserProfil
 import com.example.ugd3_kelompok15.room.UserDB
 import com.google.gson.Gson
 import org.json.JSONObject
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 import java.lang.Exception
 import java.nio.charset.StandardCharsets
 import kotlin.jvm.Throws
@@ -173,7 +176,13 @@ class RegisterActivity : AppCompatActivity() {
                 var user = gson.fromJson(response, UserProfil::class.java)
 
                 if(user != null) {
-                    Toast.makeText(this@RegisterActivity, "User Berhasil Register", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@RegisterActivity, "User Berhasil Register", Toast.LENGTH_SHORT).show()
+                    MotionToast.darkColorToast(this,"Notification Register!",
+                        "Register Berhasil!!",
+                        MotionToastStyle.SUCCESS,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                     val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
                     sendNotification()
                     intent.putExtra("Register", mBundle)
@@ -186,14 +195,26 @@ class RegisterActivity : AppCompatActivity() {
                 try {
                     val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
                     val errors = JSONObject(responseBody)
-                    Toast.makeText(
-                        this@RegisterActivity,
+//                    Toast.makeText(
+//                        this@RegisterActivity,
+//                        errors.getString("message"),
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+                    MotionToast.darkColorToast(this,"Notification Register!",
                         errors.getString("message"),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                     checkRegister = false
                 }catch (e: Exception) {
-                    Toast.makeText(this@RegisterActivity, e.message, Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@RegisterActivity, e.message, Toast.LENGTH_SHORT).show()
+                    MotionToast.darkColorToast(this,"Notification Register!",
+                        e.message.toString(),
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 }
             }) {
                 @Throws(AuthFailureError::class)

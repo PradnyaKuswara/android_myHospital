@@ -1,5 +1,6 @@
 package com.example.ugd3_kelompok15.ui.janjitemu
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ugd3_kelompok15.R
@@ -24,6 +26,8 @@ import com.example.ugd3_kelompok15.api.JanjiTemuApi
 import com.example.ugd3_kelompok15.models.JanjiTemuModels
 import com.google.gson.Gson
 import org.json.JSONObject
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 import java.nio.charset.StandardCharsets
 
 class JanjiTemuActivity : AppCompatActivity() {
@@ -99,16 +103,37 @@ class JanjiTemuActivity : AppCompatActivity() {
                 srJanjiTemu!!.isRefreshing = false
 
                 if (!data.isEmpty())
-                    Toast.makeText(this@JanjiTemuActivity, "Data Berhasil Diambil!", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@JanjiTemuActivity, "Data Berhasil Diambil!", Toast.LENGTH_SHORT).show()
+                    MotionToast.darkToast(
+                        this,"Notification Janji Temu Dokter!",
+                        "Data janji temu berhasil ditampilkan!",
+                        MotionToastStyle.SUCCESS,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
 
             }, Response.ErrorListener { error ->
                 srJanjiTemu!!.isRefreshing = true
                 try {
                     val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
                     val errors = JSONObject(responseBody)
-                    Toast.makeText(this@JanjiTemuActivity, errors.getString("message"), Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@JanjiTemuActivity, errors.getString("message"), Toast.LENGTH_SHORT).show()
+                    MotionToast.darkToast(
+                        this,"Notification Janji Temu Dokter!",
+                        errors.getString("message"),
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 } catch (e: Exception){
-                    Toast.makeText(this@JanjiTemuActivity, e.message, Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@JanjiTemuActivity, e.message, Toast.LENGTH_SHORT).show()
+                    MotionToast.darkToast(
+                        this,"Notification Janji Temu Dokter!",
+                        e.message.toString(),
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 }
             }){
             @Throws(AuthFailureError::class)
@@ -130,7 +155,14 @@ class JanjiTemuActivity : AppCompatActivity() {
                 val gson = Gson()
                 var mahasiswa = gson.fromJson(response, JanjiTemuModels::class.java)
                 if (mahasiswa != null)
-                    Toast.makeText(this@JanjiTemuActivity, "Data Berhasil Dihapus", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@JanjiTemuActivity, "Data Berhasil Dihapus", Toast.LENGTH_SHORT).show()
+                    MotionToast.darkToast(
+                        this,"Notification Janji Temu Dokter!",
+                        "Data janji temu berhasil dihapus!",
+                        MotionToastStyle.SUCCESS,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 allJanji()
             }, Response.ErrorListener { error ->
                 setLoading(false)
@@ -138,9 +170,23 @@ class JanjiTemuActivity : AppCompatActivity() {
                     val responseBody =
                         String(error.networkResponse.data, StandardCharsets.UTF_8)
                     val errors = JSONObject(responseBody)
-                    Toast.makeText(this@JanjiTemuActivity, errors.getString("message"), Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@JanjiTemuActivity, errors.getString("message"), Toast.LENGTH_SHORT).show()
+                    MotionToast.darkToast(
+                        this,"Notification Janji Temu Dokter!",
+                        errors.getString("message"),
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 } catch (e: java.lang.Exception){
-                    Toast.makeText(this@JanjiTemuActivity, e.message, Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@JanjiTemuActivity, e.message, Toast.LENGTH_SHORT).show()
+                    MotionToast.darkToast(
+                        this,"Notification Janji Temu Dokter!",
+                        e.message.toString(),
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 }
             }){
             @Throws(AuthFailureError::class)
