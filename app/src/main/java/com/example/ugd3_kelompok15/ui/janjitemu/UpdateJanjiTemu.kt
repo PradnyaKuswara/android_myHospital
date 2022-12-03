@@ -140,23 +140,8 @@ class UpdateJanjiTemu : AppCompatActivity() {
                 val keluhan = keluhan!!.text.toString()
                 try {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        if (edRS.isEmpty() && edDR.isEmpty() && viewTanggal.isEmpty() && keluhan.isEmpty()) {
-//                            Toast.makeText(
-//                                applicationContext,
-//                                "Semuanya Tidak boleh Kosong",
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-                            MotionToast.darkToast(
-                                this,"Notification Janji Temu Dokter!",
-                                "Inputan tidak boleh kosong",
-                                MotionToastStyle.INFO,
-                                MotionToast.GRAVITY_BOTTOM,
-                                MotionToast.LONG_DURATION,
-                                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
-                        } else {
-                            createJanjiTemu()
-                            createPdf(edRS, edDR, viewTanggal, keluhan)
-                        }
+                        createJanjiTemu()
+                        createPdf(edRS, edDR, viewTanggal, keluhan)
                     }
                 } catch (e: FileNotFoundException) {
                     e.printStackTrace()
@@ -171,23 +156,8 @@ class UpdateJanjiTemu : AppCompatActivity() {
                 val keluhan = keluhan!!.text.toString()
                 try {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        if (edRS.isEmpty() && edDR.isEmpty() && viewTanggal.isEmpty() && keluhan.isEmpty()) {
-//                            Toast.makeText(
-//                                applicationContext,
-//                                "Semuanya Tidak boleh Kosong",
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-                            MotionToast.darkToast(
-                                this,"Notification Janji Temu Dokter!",
-                                "Inputan tidak boleh kosong",
-                                MotionToastStyle.INFO,
-                                MotionToast.GRAVITY_BOTTOM,
-                                MotionToast.LONG_DURATION,
-                                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
-                        } else {
-                            updateJanjiTemu(id)
-                            createPdf(edRS, edDR, viewTanggal, keluhan)
-                        }
+                        updateJanjiTemu(id)
+                        createPdf(edRS, edDR, viewTanggal, keluhan)
                     }
                 } catch (e: FileNotFoundException) {
                     e.printStackTrace()
@@ -430,82 +400,131 @@ class UpdateJanjiTemu : AppCompatActivity() {
     private fun createJanjiTemu(){
         setLoading(true)
 
-        val janji = JanjiTemuModels(
-            0,
-            edRS!!.text.toString(),
-            viewTanggal!!.text.toString(),
-            edDR!!.text.toString(),
-            keluhan!!.text.toString()
-        )
+        if(edRS!!.text.toString().isEmpty()) {
+            MotionToast.darkToast(
+                this,"Notification Janji Temu Dokter!",
+                "Input RS tidak boleh kosong",
+                MotionToastStyle.ERROR,
+                MotionToast.GRAVITY_BOTTOM,
+                MotionToast.LONG_DURATION,
+                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+        }else if (edDR!!.text.toString().isEmpty()) {
+            MotionToast.darkToast(
+                this,"Notification Janji Temu Dokter!",
+                "Data Dokter tidak boleh kosong",
+                MotionToastStyle.ERROR,
+                MotionToast.GRAVITY_BOTTOM,
+                MotionToast.LONG_DURATION,
+                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+        }else if (viewTanggal!!.text.toString() == "") {
+            MotionToast.darkToast(
+                this,"Notification Janji Temu Dokter!",
+                "Data tanggal tidak boleh kosong",
+                MotionToastStyle.ERROR,
+                MotionToast.GRAVITY_BOTTOM,
+                MotionToast.LONG_DURATION,
+                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+        }else if (keluhan!!.text.toString().isEmpty()) {
+            MotionToast.darkToast(
+                this,"Notification Janji Temu Dokter!",
+                "Data keluhan tidak boleh kosong",
+                MotionToastStyle.ERROR,
+                MotionToast.GRAVITY_BOTTOM,
+                MotionToast.LONG_DURATION,
+                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+        }else {
+            val janji = JanjiTemuModels(
+                0,
+                edRS!!.text.toString(),
+                viewTanggal!!.text.toString(),
+                edDR!!.text.toString(),
+                keluhan!!.text.toString()
+            )
 
-        val stringRequest: StringRequest =
-            object : StringRequest(Method.POST, JanjiTemuApi.ADD_URL, Response.Listener { response ->
-                val gson = Gson()
-                var janji = gson.fromJson(response, JanjiTemuModels::class.java)
+            val stringRequest: StringRequest =
+                object :
+                    StringRequest(Method.POST, JanjiTemuApi.ADD_URL, Response.Listener { response ->
+                        val gson = Gson()
+                        var janji = gson.fromJson(response, JanjiTemuModels::class.java)
 
-                if(janji != null)
+                        if (janji != null)
 //                    Toast.makeText(this@UpdateJanjiTemu, "Data berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
-                    MotionToast.darkToast(
-                        this,"Notification Janji Temu Dokter!",
-                        "Data Janji Temu Berhasil Ditambahkan",
-                        MotionToastStyle.SUCCESS,
-                        MotionToast.GRAVITY_BOTTOM,
-                        MotionToast.LONG_DURATION,
-                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+                            MotionToast.darkToast(
+                                this, "Notification Janji Temu Dokter!",
+                                "Data Janji Temu Berhasil Ditambahkan",
+                                MotionToastStyle.SUCCESS,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.LONG_DURATION,
+                                ResourcesCompat.getFont(
+                                    this,
+                                    www.sanju.motiontoast.R.font.helvetica_regular
+                                )
+                            )
 
-                sendNotification2()
-                val returnIntent = Intent()
-                setResult(RESULT_OK, returnIntent)
-                finish()
+                        sendNotification2()
+                        val returnIntent = Intent()
+                        setResult(RESULT_OK, returnIntent)
+                        finish()
 
-                setLoading(false)
-            }, Response.ErrorListener { error ->
-                setLoading(false)
-                try {
-                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
-                    val errors = JSONObject(responseBody)
+                        setLoading(false)
+                    }, Response.ErrorListener { error ->
+                        setLoading(false)
+                        try {
+                            val responseBody =
+                                String(error.networkResponse.data, StandardCharsets.UTF_8)
+                            val errors = JSONObject(responseBody)
 //                    Toast.makeText(
 //                        this@UpdateJanjiTemu,
 //                        errors.getString("message"),
 //                        Toast.LENGTH_SHORT
 //                    ).show()
-                    MotionToast.darkToast(
-                        this,"Notification Janji Temu Dokter!",
-                        errors.getString("message"),
-                        MotionToastStyle.INFO,
-                        MotionToast.GRAVITY_BOTTOM,
-                        MotionToast.LONG_DURATION,
-                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
-                }catch (e: Exception){
+                            MotionToast.darkToast(
+                                this, "Notification Janji Temu Dokter!",
+                                errors.getString("message"),
+                                MotionToastStyle.INFO,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.LONG_DURATION,
+                                ResourcesCompat.getFont(
+                                    this,
+                                    www.sanju.motiontoast.R.font.helvetica_regular
+                                )
+                            )
+                        } catch (e: Exception) {
 //                    Toast.makeText(this@UpdateJanjiTemu, e.message, Toast.LENGTH_SHORT).show()
-                    MotionToast.darkToast(
-                        this,"Notification Janji Temu Dokter!",
-                        error.message.toString(),
-                        MotionToastStyle.INFO,
-                        MotionToast.GRAVITY_BOTTOM,
-                        MotionToast.LONG_DURATION,
-                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
-                }
-            }){
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    headers["Accept"] = "application/json"
-                    return headers
-                }
+                            MotionToast.darkToast(
+                                this, "Notification Janji Temu Dokter!",
+                                error.message.toString(),
+                                MotionToastStyle.INFO,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.LONG_DURATION,
+                                ResourcesCompat.getFont(
+                                    this,
+                                    www.sanju.motiontoast.R.font.helvetica_regular
+                                )
+                            )
+                        }
+                    }) {
+                    @Throws(AuthFailureError::class)
+                    override fun getHeaders(): Map<String, String> {
+                        val headers = HashMap<String, String>()
+                        headers["Accept"] = "application/json"
+                        return headers
+                    }
 
-                @Throws(AuthFailureError::class)
-                override fun getBody(): ByteArray {
-                    val gson = Gson()
-                    val requestBody = gson.toJson(janji)
-                    return requestBody.toByteArray(StandardCharsets.UTF_8)
-                }
+                    @Throws(AuthFailureError::class)
+                    override fun getBody(): ByteArray {
+                        val gson = Gson()
+                        val requestBody = gson.toJson(janji)
+                        return requestBody.toByteArray(StandardCharsets.UTF_8)
+                    }
 
-                override fun getBodyContentType(): String {
-                    return "application/json"
+                    override fun getBodyContentType(): String {
+                        return "application/json"
+                    }
                 }
-            }
-        queue!!.add(stringRequest)
+            queue!!.add(stringRequest)
+        }
+        setLoading(false)
     }
 
 
@@ -522,82 +541,115 @@ class UpdateJanjiTemu : AppCompatActivity() {
     private fun updateJanjiTemu(id: Int){
         setLoading(true)
 
-        val janjiTemuModels = JanjiTemuModels(
-            id,
-            edRS!!.text.toString(),
-            viewTanggal!!.text.toString(),
-            edDR!!.text.toString(),
-            keluhan!!.text.toString()
-        )
+        if(edRS!!.text.toString().isEmpty()) {
+            MotionToast.darkToast(
+                this,"Notification Janji Temu Dokter!",
+                "Input RS tidak boleh kosong",
+                MotionToastStyle.ERROR,
+                MotionToast.GRAVITY_BOTTOM,
+                MotionToast.LONG_DURATION,
+                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+        }else if (edDR!!.text.toString().isEmpty()) {
+            MotionToast.darkToast(
+                this,"Notification Janji Temu Dokter!",
+                "Data Dokter tidak boleh kosong",
+                MotionToastStyle.ERROR,
+                MotionToast.GRAVITY_BOTTOM,
+                MotionToast.LONG_DURATION,
+                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+        }else if (viewTanggal!!.text.toString() == "") {
+            MotionToast.darkToast(
+                this,"Notification Janji Temu Dokter!",
+                "Data tanggal tidak boleh kosong",
+                MotionToastStyle.ERROR,
+                MotionToast.GRAVITY_BOTTOM,
+                MotionToast.LONG_DURATION,
+                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+        }else if (keluhan!!.text.toString().isEmpty()) {
+            MotionToast.darkToast(
+                this,"Notification Janji Temu Dokter!",
+                "Data keluhan tidak boleh kosong",
+                MotionToastStyle.ERROR,
+                MotionToast.GRAVITY_BOTTOM,
+                MotionToast.LONG_DURATION,
+                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+        }else {
+            val janjiTemuModels = JanjiTemuModels(
+                id,
+                edRS!!.text.toString(),
+                viewTanggal!!.text.toString(),
+                edDR!!.text.toString(),
+                keluhan!!.text.toString()
+            )
 
-        val stringRequest: StringRequest =
-            object : StringRequest(Method.PUT, JanjiTemuApi.UPDATE_URL + id, Response.Listener { response ->
-                val gson = Gson()
-                var janjiTemuModels = gson.fromJson(response, JanjiTemuModels::class.java)
+            val stringRequest: StringRequest =
+                object : StringRequest(Method.PUT, JanjiTemuApi.UPDATE_URL + id, Response.Listener { response ->
+                    val gson = Gson()
+                    var janjiTemuModels = gson.fromJson(response, JanjiTemuModels::class.java)
 
-                if(janjiTemuModels != null)
+                    if(janjiTemuModels != null)
 //                    Toast.makeText(this@UpdateJanjiTemu, "Data berhasil Diupdate", Toast.LENGTH_SHORT).show()
-                    MotionToast.darkToast(
-                        this,"Notification Janji Temu Dokter!",
-                        "Data Janji Temu Berhasil Diubah",
-                        MotionToastStyle.SUCCESS,
-                        MotionToast.GRAVITY_BOTTOM,
-                        MotionToast.LONG_DURATION,
-                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+                        MotionToast.darkToast(
+                            this,"Notification Janji Temu Dokter!",
+                            "Data Janji Temu Berhasil Diubah",
+                            MotionToastStyle.SUCCESS,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
 
-                sendNotification3()
-                val returnIntent = Intent()
-                setResult(RESULT_OK, returnIntent)
-                finish()
+                    sendNotification3()
+                    val returnIntent = Intent()
+                    setResult(RESULT_OK, returnIntent)
+                    finish()
 
-                setLoading(false)
-            }, Response.ErrorListener { error ->
-                setLoading(false)
-                try {
-                    val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
-                    val errors = JSONObject(responseBody)
+                    setLoading(false)
+                }, Response.ErrorListener { error ->
+                    setLoading(false)
+                    try {
+                        val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
+                        val errors = JSONObject(responseBody)
 //                    Toast.makeText(
 //                        this@UpdateJanjiTemu,
 //                        errors.getString("message"),
 //                        Toast.LENGTH_SHORT
 //                    ).show()
-                    MotionToast.darkToast(
-                        this,"Notification Janji Temu Dokter!",
-                        errors.getString("message"),
-                        MotionToastStyle.INFO,
-                        MotionToast.GRAVITY_BOTTOM,
-                        MotionToast.LONG_DURATION,
-                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
-                }catch (e: Exception){
+                        MotionToast.darkToast(
+                            this,"Notification Janji Temu Dokter!",
+                            errors.getString("message"),
+                            MotionToastStyle.INFO,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+                    }catch (e: Exception){
 //                    Toast.makeText(this@UpdateJanjiTemu, e.message, Toast.LENGTH_SHORT).show()
-                    MotionToast.darkToast(
-                        this,"Notification Janji Temu Dokter!",
-                        error.message.toString(),
-                        MotionToastStyle.INFO,
-                        MotionToast.GRAVITY_BOTTOM,
-                        MotionToast.LONG_DURATION,
-                        ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
-                }
-            }){
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    headers["Accept"] = "application/json"
-                    return headers
-                }
+                        MotionToast.darkToast(
+                            this,"Notification Janji Temu Dokter!",
+                            error.message.toString(),
+                            MotionToastStyle.INFO,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+                    }
+                }){
+                    @Throws(AuthFailureError::class)
+                    override fun getHeaders(): Map<String, String> {
+                        val headers = HashMap<String, String>()
+                        headers["Accept"] = "application/json"
+                        return headers
+                    }
 
-                @Throws(AuthFailureError::class)
-                override fun getBody(): ByteArray {
-                    val gson = Gson()
-                    val requestBody = gson.toJson(janjiTemuModels)
-                    return requestBody.toByteArray(StandardCharsets.UTF_8)
-                }
+                    @Throws(AuthFailureError::class)
+                    override fun getBody(): ByteArray {
+                        val gson = Gson()
+                        val requestBody = gson.toJson(janjiTemuModels)
+                        return requestBody.toByteArray(StandardCharsets.UTF_8)
+                    }
 
-                override fun getBodyContentType(): String {
-                    return "application/json"
+                    override fun getBodyContentType(): String {
+                        return "application/json"
+                    }
                 }
-            }
-        queue!!.add(stringRequest)
+            queue!!.add(stringRequest)
+        }
     }
-
 }
