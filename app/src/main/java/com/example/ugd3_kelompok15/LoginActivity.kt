@@ -78,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
         btnLogin.setOnClickListener(View.OnClickListener {
             val username: String = inputUsername.getEditText()?.getText().toString()
             val password: String = inputPassword.getEditText()?.getText().toString()
-         //   var checkLogin = false
+            var checkLogin = true
 
             if (username.isEmpty()) {
                 inputUsername.setError("Username must be filled with text")
@@ -105,7 +105,7 @@ class LoginActivity : AppCompatActivity() {
 //                }
 //            }
             if(!checkLogin) {
-                loginAlert()
+//                loginAlert()
                 return@OnClickListener
             }else {
                 LoginUser()
@@ -122,17 +122,17 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    fun loginAlert() {
-        val builder = AlertDialog.Builder(this)
-        val positiveButtonClick = { dialog: DialogInterface, which: Int ->
-            Toast.makeText(applicationContext,
-                android.R.string.no, Toast.LENGTH_SHORT).show()
-        }
-        builder.setTitle("Error!")
-        builder.setMessage("Maaf, Username dan Password Salah. Silahkan Cek Kembali")
-        builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = positiveButtonClick))
-        builder.show()
-    }
+//    fun loginAlert() {
+////        val builder = AlertDialog.Builder(this)
+////        val positiveButtonClick = { dialog: DialogInterface, which: Int ->
+////            Toast.makeText(applicationContext,
+////                android.R.string.no, Toast.LENGTH_SHORT).show()
+////        }
+////        builder.setTitle("Error!")
+////        builder.setMessage("Maaf, Username dan Password Salah. Silahkan Cek Kembali")
+////        builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = positiveButtonClick))
+////        builder.show()
+////    }
     override fun onBackPressed() {
         AlertDialog.Builder(this).apply {
             setTitle("Tolong Konfirmasi")
