@@ -10,6 +10,7 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
@@ -37,7 +38,7 @@ class RegisterActivity : AppCompatActivity() {
     private val CHANNEL_ID_1 = "channel_01"
     private val notificationId1 = 101
     private var queue: RequestQueue? = null
-    private var checkRegister = false
+    private var checkRegister = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,26 +81,48 @@ class RegisterActivity : AppCompatActivity() {
             mBundle.putString("tietPassword" , password)
 
             if(nama.isEmpty()){
-                inputNama.setError("Nama must be filled with text")
+                inputNama.setError("Nama Tidak Boleh Kosong")
                 checkRegister = false
             }
             if(username.isEmpty()){
-                inputUsername.setError("Username must be filled with text")
+                inputUsername.setError("Username Tidak Boleh Kosong")
                 checkRegister = false
             }
             if(email.isEmpty()){
-                inputEmail.setError("Email must be filled with text")
+                inputEmail.setError("Email Tidak Boleh Kosong")
                 checkRegister = false
             }
             if(noTelp.isEmpty()){
-                inputNoTelp.setError("No Telp must be filled with text")
+                inputNoTelp.setError("No Telp Tidak Boleh Kosong")
                 checkRegister = false
             }
-            if(password.isEmpty()){
-                inputPassword.setError("Password must be filled with text")
-                checkRegister = false
-            }
+                if(!nama.isEmpty()){
+                    inputNama.setError(null)
+                }
 
+                if(!username.isEmpty()){
+                    inputUsername.setError(null)
+                }
+
+                if(!noTelp.isEmpty()){
+                    inputNoTelp.setError(null)
+                }
+
+            if(password.isEmpty()){
+                inputPassword.setError("Password tidak Boleh Kosong")
+                checkRegister = false
+            }
+                if(!nama.isEmpty()){
+                    inputNama.setError(null)
+                }
+
+                if(!username.isEmpty()){
+                    inputUsername.setError(null)
+                }
+
+                if(!email.isEmpty()){
+                    inputEmail.setError(null)
+                }
             if(!nama.isEmpty() && !username.isEmpty() && !email.isEmpty() && !noTelp.isEmpty()&& !password.isEmpty()) {
                 checkRegister = true
             }
@@ -237,4 +260,6 @@ class RegisterActivity : AppCompatActivity() {
             }
         queue!!.add(stringRequest)
     }
+    fun CharSequence?.isValidEmail() = !
+    isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 }
