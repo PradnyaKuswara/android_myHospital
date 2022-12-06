@@ -81,53 +81,45 @@ class RegisterActivity : AppCompatActivity() {
             mBundle.putString("tietPassword" , password)
 
             if(nama.isEmpty()){
-                inputNama.setError("Nama Tidak Boleh Kosong")
+                inputNama.setError("Nama must be filled with text")
+                checkRegister = false
+            }else if(username.isEmpty()){
+                inputUsername.setError("Username must be filled with text")
+                checkRegister = false
+            }else if(!email.isValidEmail()) {
+                inputEmail.setError("Email must be filled with valid format")
+                checkRegister = false
+            }else if(noTelp.isEmpty() || noTelp.length < 10 || noTelp.length > 12){
+                inputNoTelp.setError("No Telp must be filled with min 10 digit and max 12 digit")
+                checkRegister = false
+            }else if(password.isEmpty()){
+                inputPassword.setError("Password must be filled with text")
                 checkRegister = false
             }
-            if(username.isEmpty()){
-                inputUsername.setError("Username Tidak Boleh Kosong")
-                checkRegister = false
+
+            if(!nama.isEmpty()){
+                inputNama.setError(null)
+                checkRegister = true
             }
-            if(email.isEmpty()){
-                inputEmail.setError("Email Tidak Boleh Kosong")
-                checkRegister = false
+            if(!username.isEmpty()){
+                inputUsername.setError(null)
+                checkRegister = true
             }
-            if(noTelp.isEmpty()){
-                inputNoTelp.setError("No Telp Tidak Boleh Kosong")
-                checkRegister = false
+            if(email.isValidEmail()) {
+                inputEmail.setError(null)
+                checkRegister = true
             }
-                if(!nama.isEmpty()){
-                    inputNama.setError(null)
-                }
-
-                if(!username.isEmpty()){
-                    inputUsername.setError(null)
-                }
-
-                if(!noTelp.isEmpty()){
-                    inputNoTelp.setError(null)
-                }
-
-            if(password.isEmpty()){
-                inputPassword.setError("Password tidak Boleh Kosong")
-                checkRegister = false
+            if(!noTelp.isEmpty() && noTelp.length >= 10 && noTelp.length < 12){
+                inputNoTelp.setError(null)
+                checkRegister = true
             }
-                if(!nama.isEmpty()){
-                    inputNama.setError(null)
-                }
-
-                if(!username.isEmpty()){
-                    inputUsername.setError(null)
-                }
-
-                if(!email.isEmpty()){
-                    inputEmail.setError(null)
-                }
-            if(!nama.isEmpty() && !username.isEmpty() && !email.isEmpty() && !noTelp.isEmpty()&& !password.isEmpty()) {
+            if(!password.isEmpty()){
+                inputPassword.setError(null)
                 checkRegister = true
             }
 
             if(!checkRegister){
+                checkRegister = true
                 return@OnClickListener
             }else {
                 //Create User Profil with Volley

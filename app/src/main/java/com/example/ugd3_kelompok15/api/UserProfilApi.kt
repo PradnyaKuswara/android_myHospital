@@ -4,7 +4,7 @@ class UserProfilApi {
 
     companion object{
         //sesuaikan ipv4 masing-masing
-        val BASE_URL = "http://10.113.22.134:8080/UGD_Kelompok15/public/api/"
+        val BASE_URL = "http://10.113.56.23:8080/UGD_Kelompok15/public/api/"
 
         val GET_BY_ID_URL = BASE_URL + "user/"
         val UPDATE_URL = BASE_URL + "user/"
