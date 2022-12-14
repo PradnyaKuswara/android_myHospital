@@ -25,6 +25,7 @@ import com.example.ugd3_kelompok15.api.UserProfilApi
 import com.example.ugd3_kelompok15.databinding.ActivityRegisterBinding
 import com.example.ugd3_kelompok15.models.UserProfil
 import com.example.ugd3_kelompok15.room.UserDB
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import org.json.JSONObject
 import www.sanju.motiontoast.MotionToast
@@ -39,6 +40,7 @@ class RegisterActivity : AppCompatActivity() {
     private val notificationId1 = 101
     private var queue: RequestQueue? = null
     private var checkRegister = true
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +51,8 @@ class RegisterActivity : AppCompatActivity() {
         val db by lazy { UserDB(this) }
         val userDao = db.userDao()
 
+
+        auth = FirebaseAuth.getInstance()
 
         supportActionBar?.hide()
 
@@ -72,7 +76,7 @@ class RegisterActivity : AppCompatActivity() {
             val noTelp: String = binding.inputLayoutNoTelp.getEditText()?.getText().toString()
             val password: String = binding.inputLayoutPassword.getEditText()?.getText().toString()
 
-          //  var checkRegister = false
+            var checkRegister = true
 
             mBundle.putString("tietNama" , nama)
             mBundle.putString("tietUsername" , username)
@@ -99,23 +103,19 @@ class RegisterActivity : AppCompatActivity() {
 
             if(!nama.isEmpty()){
                 inputNama.setError(null)
-                checkRegister = true
+//                checkRegister = true
             }
             if(!username.isEmpty()){
                 inputUsername.setError(null)
-                checkRegister = true
             }
             if(email.isValidEmail()) {
                 inputEmail.setError(null)
-                checkRegister = true
             }
             if(!noTelp.isEmpty() && noTelp.length >= 10 && noTelp.length < 12){
                 inputNoTelp.setError(null)
-                checkRegister = true
             }
             if(!password.isEmpty()){
                 inputPassword.setError(null)
-                checkRegister = true
             }
 
             if(!checkRegister){
@@ -123,7 +123,39 @@ class RegisterActivity : AppCompatActivity() {
                 return@OnClickListener
             }else {
                 //Create User Profil with Volley
-                createUser(mBundle)
+                auth.createUserWithEmailAndPassword(email,password)
+                    .addOnCompleteListener(this) { task ->
+                        if(task.isSuccessful) {
+                            Toast.makeText(this,"berhasil",Toast.LENGTH_LONG).show()
+                            auth.currentUser!!.sendEmailVerification()
+                                .addOnCompleteListener {
+                                    if(it.isSuccessful) {
+                                        MotionToast.darkColorToast(this,"Notification Register!",
+                                            "Email verifikasi sudah terkirim, silahkan cek kembali",
+                                            MotionToastStyle.SUCCESS,
+                                            MotionToast.GRAVITY_BOTTOM,
+                                            MotionToast.LONG_DURATION,
+                                            ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+                                            startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+                                    }else {
+                                        MotionToast.darkColorToast(this,"Notification Register!",
+                                            it.exception?.message.toString(),
+                                            MotionToastStyle.SUCCESS,
+                                            MotionToast.GRAVITY_BOTTOM,
+                                            MotionToast.LONG_DURATION,
+                                            ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+                                    }
+                                }
+                        }else {
+                            MotionToast.darkColorToast(this,"Notification Register!",
+                                "1234",
+                                MotionToastStyle.SUCCESS,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.LONG_DURATION,
+                                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
+                        }
+                }
+//                createUser(mBundle)
             }
 
             //create user with room
@@ -131,6 +163,8 @@ class RegisterActivity : AppCompatActivity() {
 //            userDao.addUser(user)
         })
     }
+
+
 
     private fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

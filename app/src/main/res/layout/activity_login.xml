@@ -22,6 +22,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textviewemail"
+        android:layout_width="256dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="50dp"
+        android:textAlignment="center"
+        android:fontFamily="@font/bebas_neue_bold_700"
+        android:text="LOGIN MENU"
+        android:textColor="@color/black"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textLogin" />
+
     <ImageView
         android:id="@+id/ImageHospital"
         android:layout_width="240dp"
@@ -58,7 +72,7 @@
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:boxBackgroundColor="@color/yellow_input"
-            android:hint="Mohon Masukkan Username"
+            android:hint="Mohon Masukkan Email"
             app:errorEnabled="true"
             app:startIconDrawable="@drawable/ic_person_24">
             <com.google.android.material.textfield.TextInputEditText

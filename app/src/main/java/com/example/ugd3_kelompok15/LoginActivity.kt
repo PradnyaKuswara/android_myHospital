@@ -7,9 +7,11 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ugd3_kelompok15.HomeActivity
 import android.os.Bundle
+import android.util.Patterns
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
@@ -26,6 +28,7 @@ import com.example.ugd3_kelompok15.models.UserProfil
 import com.example.ugd3_kelompok15.room.UserDB
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_home.*
 import org.json.JSONObject
@@ -41,8 +44,10 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var mainLayout: ConstraintLayout
     private lateinit var editUsername : TextInputEditText
     private lateinit var editPassword : TextInputEditText
+    private lateinit var textEmail: TextView
     private var queue: RequestQueue? = null
     lateinit var mBundle: Bundle
+    private lateinit var auth: FirebaseAuth
 
     lateinit var bNama : String
     lateinit var bUsername: String
@@ -51,6 +56,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var bNoTelp: String
 
     var checkLogin = true
+
 
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -63,25 +69,32 @@ class LoginActivity : AppCompatActivity() {
         val userDao = db.userDao()
         sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE)
         queue = Volley.newRequestQueue(this)
+        auth = FirebaseAuth.getInstance()
+
 
         inputUsername = findViewById(R.id.inputLayoutUsername)
         inputPassword = findViewById(R.id.inputLayoutPassword)
         mainLayout = findViewById(R.id.mainLayout)
         editUsername = findViewById(R.id.editUsername)
         editPassword = findViewById(R.id.editPassword)
+        textEmail = findViewById(R.id.textviewemail)
 
         val btnLogin: Button = findViewById(R.id.btn_masuk)
         val btnRegister: Button = findViewById(R.id.btn_daftar)
 
         getBundle()
 
+        if (intent.getBundleExtra("Register") != null) {
+            var email = intent.getBundleExtra("Register")!!.getString("tietEmail")!!
+        }
+
         btnLogin.setOnClickListener(View.OnClickListener {
             val username: String = inputUsername.getEditText()?.getText().toString()
             val password: String = inputPassword.getEditText()?.getText().toString()
             var checkLogin = true
 
-            if (username.isEmpty()) {
-                inputUsername.setError("Username must be filled with text")
+            if (!username.isValidEmail()) {
+                inputUsername.setError("Username must be filled with email and valid format")
                 checkLogin = false
             }
 
@@ -108,7 +121,19 @@ class LoginActivity : AppCompatActivity() {
 //                loginAlert()
                 return@OnClickListener
             }else {
-                LoginUser()
+                auth.signInWithEmailAndPassword(username,password)
+                    .addOnCompleteListener(this) { task ->
+                        if(task.isSuccessful) {
+                            val verification = auth.currentUser?.isEmailVerified
+                            if(verification == true) {
+//                                LoginUser()
+                                Toast.makeText(this,"Email sudah terverifikasi",Toast.LENGTH_LONG).show()
+                            }else {
+                                Toast.makeText(this,"Email anda belum diverifikasi, silahkan check inbox email anda",Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }
+
             }
 
 //            val moveHome = Intent (this@LoginActivity, HomeActivity::class.java)
@@ -164,7 +189,7 @@ class LoginActivity : AppCompatActivity() {
             bEmail = mBundle.getString("tietEmail")!!
             bNoTelp = mBundle.getString("tietNomor")!!
             bPassword = mBundle.getString("tietPassword")!!
-            editUsername.setText(bUsername)
+            editUsername.setText(bEmail)
             editPassword.setText(bPassword)
         }
     }
@@ -261,6 +286,8 @@ class LoginActivity : AppCompatActivity() {
             }
         queue!!.add(stringRequest)
     }
+    fun CharSequence?.isValidEmail() = !
+    isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
 
 }

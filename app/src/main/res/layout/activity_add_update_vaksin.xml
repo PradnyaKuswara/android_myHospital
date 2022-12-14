@@ -6,20 +6,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    tools:context=".ui.janjitemu.UpdateJanjiTemu">
+    tools:context=".ui.vaksin.AddUpdateVaksin">
 
     <TextView
-        android:id="@+id/textrumahsakit"
+        android:id="@+id/textNama"
         style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rumah Sakit"
+        android:text="Nama Pendaftar Vaksin"
         android:textColor="@color/black"
+        android:layout_marginTop="10dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+    <EditText
+        android:id="@+id/tietNamaPendaftar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nama Anda"
+        app:layout_constraintTop_toBottomOf="@+id/textNama"
+        tools:ignore="TouchTargetSizeCheck"
+        tools:layout_editor_absoluteX="20dp" />
 
+    <TextView
+        android:id="@+id/textUmur"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Umur"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tietNamaPendaftar"/>
+
+    <EditText
+        android:id="@+id/tietUmur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Umur Anda"
+        app:layout_constraintTop_toBottomOf="@+id/textUmur"
+        android:inputType="number"
+        tools:ignore="TouchTargetSizeCheck"
+        tools:layout_editor_absoluteX="20dp" />
+
+    <TextView
+        android:id="@+id/textLokasi"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lokasi Vaksin"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tietUmur"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_rs"
@@ -28,63 +72,61 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/textrumahsakit"
+        app:layout_constraintTop_toBottomOf="@+id/textLokasi"
         android:hint="Rumah Sakit">
 
         <AutoCompleteTextView
-            android:id="@+id/ed_rs"
+            android:id="@+id/ed_rsVaksin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <TextView
-        android:id="@+id/textdokter"
+        android:id="@+id/textJenis"
         style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pilih Dokter"
+        android:text="Jenis Vaksin"
         android:textColor="@color/black"
+        android:layout_marginTop="10dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/layout_rs" />
-
+        app:layout_constraintTop_toBottomOf="@+id/layout_rs"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layout_dr"
+        android:id="@+id/layout_jenisVaksin"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/textdokter"
-        android:hint="Dokter">
+        app:layout_constraintTop_toBottomOf="@+id/textJenis"
+        android:hint="Jenis Vaksin">
 
         <AutoCompleteTextView
-            android:id="@+id/ed_dr"
+            android:id="@+id/ed_jenisVaksin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/textPilihTanggal"
+        android:id="@+id/textTanggal"
         style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pilih Tanggal"
+        android:text="Tanggal Vaksin"
         android:textColor="@color/black"
+        android:layout_marginTop="10dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/layout_dr" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_jenisVaksin"/>
 
     <TextView
-        android:id="@+id/viewPilihTanggal"
+        android:id="@+id/viewJadwalVaksin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -93,56 +135,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/textPilihTanggal" />
+        app:layout_constraintTop_toBottomOf="@+id/textTanggal" />
 
     <Button
-        android:id="@+id/layoutdate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="Pilih Tanggal"
-        android:textSize="12sp"
-        android:layout_marginTop="0dp"
-        app:layout_constraintTop_toBottomOf="@id/viewPilihTanggal"/>
-
-    <TextView
-        android:id="@+id/textKeluhan"
-        style="@style/TextAppearance.MaterialComponents.Headline6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Keluhan"
-        android:textColor="@color/black"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/layoutdate" />
-
-    <EditText
-        android:id="@+id/tietkeluhan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Keluhan Anda"
-        app:layout_constraintTop_toBottomOf="@+id/textKeluhan"
-        tools:ignore="TouchTargetSizeCheck"
-        tools:layout_editor_absoluteX="20dp" />
-
-    <Button
-        android:id="@+id/btnSave"
+        android:id="@+id/layoutJadwalVaksin"
         android:layout_width="348dp"
         android:layout_height="35dp"
-        android:layout_marginTop="20dp"
+        android:text="Pilih Tanggal"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewJadwalVaksin"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/btnSaveVaksin"
+        android:layout_width="348dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="60dp"
         android:background="@color/blue_box"
         android:backgroundTint="@color/dark_green"
-        android:text="Save Janji Temu"
+        android:text="Save Pendaftaran Vaksin"
         android:textColor="@color/white"
         android:textSize="10sp"
         android:textStyle="bold"
         android:typeface="monospace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tietkeluhan"
+        app:layout_constraintTop_toBottomOf="@+id/layoutJadwalVaksin"
         tools:ignore="TouchTargetSizeCheck" />
 
     <include

@@ -19,6 +19,7 @@ import com.example.ugd3_kelompok15.R
 import com.example.ugd3_kelompok15.qrcode.QrCodeActivity
 import com.example.ugd3_kelompok15.room.UserDB
 import com.example.ugd3_kelompok15.ui.janjitemu.JanjiTemuActivity
+import com.example.ugd3_kelompok15.ui.vaksin.VaksinActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlin.system.exitProcess
 
@@ -38,6 +39,7 @@ class FragmentHome : Fragment() {
 //        val userDao = db.userDao()
         val btnLogout : Button = view.findViewById(R.id.btnLogout)
         val btnJanjiTemu: Button = view.findViewById(R.id.btn_janji_temu)
+        val btnVaksin: Button = view.findViewById(R.id.btnVaksin)
         val btnImage: ImageView = view.findViewById(R.id.homeHospital)
         val textNama: TextView = view.findViewById(R.id.textHome)
         val textpic: TextView = view.findViewById(R.id.textpic)
@@ -67,6 +69,11 @@ class FragmentHome : Fragment() {
             startActivity(movejanji)
 
         })
+
+        btnVaksin.setOnClickListener {
+            val moveVaksin = Intent(this@FragmentHome.context, VaksinActivity::class.java)
+            startActivity(moveVaksin)
+        }
 
         btnLogout.setOnClickListener(View.OnClickListener {
             getActivity()?.let { it1 ->
