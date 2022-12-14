@@ -1,5 +1,6 @@
 package com.example.ugd3_kelompok15
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -7,6 +8,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ugd3_kelompok15.HomeActivity
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.Button
@@ -29,6 +31,8 @@ import com.example.ugd3_kelompok15.room.UserDB
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_home.*
 import org.json.JSONObject
@@ -37,6 +41,9 @@ import www.sanju.motiontoast.MotionToastStyle
 import java.lang.Exception
 import java.nio.charset.StandardCharsets
 import kotlin.jvm.Throws
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var inputUsername: TextInputLayout
@@ -71,7 +78,6 @@ class LoginActivity : AppCompatActivity() {
         queue = Volley.newRequestQueue(this)
         auth = FirebaseAuth.getInstance()
 
-
         inputUsername = findViewById(R.id.inputLayoutUsername)
         inputPassword = findViewById(R.id.inputLayoutPassword)
         mainLayout = findViewById(R.id.mainLayout)
@@ -84,16 +90,12 @@ class LoginActivity : AppCompatActivity() {
 
         getBundle()
 
-        if (intent.getBundleExtra("Register") != null) {
-            var email = intent.getBundleExtra("Register")!!.getString("tietEmail")!!
-        }
-
         btnLogin.setOnClickListener(View.OnClickListener {
-            val username: String = inputUsername.getEditText()?.getText().toString()
-            val password: String = inputPassword.getEditText()?.getText().toString()
+            val username: String = inputUsername.getEditText()?.getText().toString().trim()
+            val password: String = inputPassword.getEditText()?.getText().toString().trim()
             var checkLogin = true
 
-            if (!username.isValidEmail()) {
+            if (username.isEmpty()) {
                 inputUsername.setError("Username must be filled with email and valid format")
                 checkLogin = false
             }
@@ -103,41 +105,15 @@ class LoginActivity : AppCompatActivity() {
                 checkLogin = false
             }
 
-        //    val user = userDao.checkUser(username,password)
-//            if(user !=null) {
-//                sharedPreferences.edit()
-//                    .putInt("id", user.id)
-//                    .apply()
-//
-//                checkLogin = true
-//            }
-
-//            if(intent.getBundleExtra("Register") != null) {
-//                if(username == user?.username && password == user.password) {
-//                    checkLogin = true
-//                }
-//            }
             if(!checkLogin) {
 //                loginAlert()
                 return@OnClickListener
             }else {
-                auth.signInWithEmailAndPassword(username,password)
-                    .addOnCompleteListener(this) { task ->
-                        if(task.isSuccessful) {
-                            val verification = auth.currentUser?.isEmailVerified
-                            if(verification == true) {
-//                                LoginUser()
-                                Toast.makeText(this,"Email sudah terverifikasi",Toast.LENGTH_LONG).show()
-                            }else {
-                                Toast.makeText(this,"Email anda belum diverifikasi, silahkan check inbox email anda",Toast.LENGTH_LONG).show()
-                            }
-                        }
-                    }
-
+//                loginFirebase(username,password)
+                LoginUser()
             }
 
-//            val moveHome = Intent (this@LoginActivity, HomeActivity::class.java)
-//            startActivity(moveHome)
+
         })
 
         btnRegister.setOnClickListener(View.OnClickListener {
@@ -181,6 +157,37 @@ class LoginActivity : AppCompatActivity() {
         }.create().show()
     }
 
+    private fun loginback4app(email: String, password: String) {
+        ParseUser.logInInBackground(email,password) { parseUser: ParseUser?, e: ParseException? ->
+            if (parseUser != null) {
+                Toast.makeText(this,"Berhasil",Toast.LENGTH_LONG).show()
+
+            } else {
+                ParseUser.logOut()
+                if (e != null) {
+                    Toast.makeText(this,e?.message,Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    private fun loginFirebase(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email,password)
+            .addOnCompleteListener(this) { task ->
+                if(task.isSuccessful) {
+                    Log.d(TAG, "signInWithEmail:success")
+//                    val verification = auth.currentUser?.isEmailVerified
+//                    if(verification == true) {
+//                        Log.d(TAG, "signInWithEmail:success")
+//                    }else {
+//                        Log.d(TAG, "signInWithEmail:success")
+//                    }
+                }else {
+                    Toast.makeText(this, "Error"+ task.getException()?.message, Toast.LENGTH_LONG).show();
+                }
+            }
+    }
+
     fun getBundle() {
         if (intent.getBundleExtra("Register") != null) {
             mBundle = intent.getBundleExtra("Register")!!
@@ -189,7 +196,7 @@ class LoginActivity : AppCompatActivity() {
             bEmail = mBundle.getString("tietEmail")!!
             bNoTelp = mBundle.getString("tietNomor")!!
             bPassword = mBundle.getString("tietPassword")!!
-            editUsername.setText(bEmail)
+            editUsername.setText(bUsername)
             editPassword.setText(bPassword)
         }
     }

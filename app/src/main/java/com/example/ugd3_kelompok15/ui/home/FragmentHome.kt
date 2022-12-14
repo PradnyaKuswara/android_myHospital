@@ -20,6 +20,8 @@ import com.example.ugd3_kelompok15.qrcode.QrCodeActivity
 import com.example.ugd3_kelompok15.room.UserDB
 import com.example.ugd3_kelompok15.ui.janjitemu.JanjiTemuActivity
 import com.example.ugd3_kelompok15.ui.vaksin.VaksinActivity
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlin.system.exitProcess
 
@@ -84,6 +86,7 @@ class FragmentHome : Fragment() {
                     setPositiveButton("Iya") { _, _ ->
                         val intent = Intent(this@FragmentHome.context, LoginActivity::class.java)
                         intent.putExtra("finish", true)
+                        Firebase.auth.signOut()
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         startActivity(intent)
                     }

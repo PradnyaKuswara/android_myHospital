@@ -1,5 +1,6 @@
 package com.example.ugd3_kelompok15
 
+import android.app.AlertDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -10,6 +11,7 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
@@ -27,12 +29,16 @@ import com.example.ugd3_kelompok15.models.UserProfil
 import com.example.ugd3_kelompok15.room.UserDB
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
+import com.parse.ParseObject
 import org.json.JSONObject
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 import java.lang.Exception
 import java.nio.charset.StandardCharsets
 import kotlin.jvm.Throws
+import com.parse.ParseException;
+import com.parse.ParseUser
+import com.parse.SignUpCallback;
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
@@ -76,7 +82,7 @@ class RegisterActivity : AppCompatActivity() {
             val noTelp: String = binding.inputLayoutNoTelp.getEditText()?.getText().toString()
             val password: String = binding.inputLayoutPassword.getEditText()?.getText().toString()
 
-            var checkRegister = true
+//            var checkRegister = true
 
             mBundle.putString("tietNama" , nama)
             mBundle.putString("tietUsername" , username)
@@ -123,49 +129,66 @@ class RegisterActivity : AppCompatActivity() {
                 return@OnClickListener
             }else {
                 //Create User Profil with Volley
-                auth.createUserWithEmailAndPassword(email,password)
-                    .addOnCompleteListener(this) { task ->
-                        if(task.isSuccessful) {
-                            Toast.makeText(this,"berhasil",Toast.LENGTH_LONG).show()
-                            auth.currentUser!!.sendEmailVerification()
-                                .addOnCompleteListener {
-                                    if(it.isSuccessful) {
-                                        MotionToast.darkColorToast(this,"Notification Register!",
-                                            "Email verifikasi sudah terkirim, silahkan cek kembali",
-                                            MotionToastStyle.SUCCESS,
-                                            MotionToast.GRAVITY_BOTTOM,
-                                            MotionToast.LONG_DURATION,
-                                            ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
-                                            startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
-                                    }else {
-                                        MotionToast.darkColorToast(this,"Notification Register!",
-                                            it.exception?.message.toString(),
-                                            MotionToastStyle.SUCCESS,
-                                            MotionToast.GRAVITY_BOTTOM,
-                                            MotionToast.LONG_DURATION,
-                                            ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
-                                    }
-                                }
-                        }else {
-                            MotionToast.darkColorToast(this,"Notification Register!",
-                                "1234",
-                                MotionToastStyle.SUCCESS,
-                                MotionToast.GRAVITY_BOTTOM,
-                                MotionToast.LONG_DURATION,
-                                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
-                        }
-                }
-//                createUser(mBundle)
+//                registerFirebase(email, password)
+//                signUp(username,password,email)
+                createUser(mBundle)
             }
 
-            //create user with room
-//            val user = User(0, nama, username, email, noTelp, password)
-//            userDao.addUser(user)
         })
     }
 
+    private fun signUp(username: String, password: String, email: String) {
+        val user = ParseUser()
+        user.username = username
+        user.setPassword(password)
+        user.email = email
+        user.signUpInBackground(SignUpCallback {
+            if (it == null) {
+                ParseUser.logOut();
+                showAlert("Account Created Successfully!","Please verify your email before Login", false)
+            } else {
+                ParseUser.logOut();
+                showAlert("Error Account Creation failed","Account could not be created" + " :" + it.message,true)
+            }
+        })
+    }
+
+    private fun showAlert(title: String, message: String, error: Boolean) {
+        val builder = AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("OK") { dialog, which ->
+                dialog.cancel()
+                // don't forget to change the line below with the names of your Activities
+//                if (!error) {
+//                    val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+//                    startActivity(intent)
+//                }
+            }
+        val ok = builder.create()
+        ok.show()
+    }
 
 
+    private fun registerFirebase(email: String, password: String) {
+        auth.createUserWithEmailAndPassword(email,password)
+            .addOnCompleteListener(this) { task ->
+                if(task.isSuccessful) {
+                    Toast.makeText(this,"berhasil",Toast.LENGTH_LONG).show()
+                    auth.currentUser?.sendEmailVerification()
+                        ?.addOnCompleteListener {
+                            if(it.isSuccessful) {
+                                Toast.makeText(this,"berhasil mengirim email",Toast.LENGTH_LONG).show()
+                            }else {
+
+                            }
+                        }
+                }else {
+                    Toast.makeText(this,"Gagal",Toast.LENGTH_LONG).show()
+                }
+            }
+    }
     private fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "Notification Title"
