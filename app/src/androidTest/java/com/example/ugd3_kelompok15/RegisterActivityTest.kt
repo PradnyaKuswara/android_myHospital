@@ -176,7 +176,7 @@ class RegisterActivityTest {
                 isDisplayed()
             )
         )
-        textInputEditText4.perform(replaceText("081365421"), closeSoftKeyboard())
+        textInputEditText4.perform(replaceText("08136542111"), closeSoftKeyboard())
 
 
 

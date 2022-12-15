@@ -47,7 +47,7 @@ class LoginActivityTest {
                             0
                         )
                     ),
-                    6
+                    7
                 ),
                 isDisplayed()
             )
@@ -83,7 +83,7 @@ class LoginActivityTest {
                 isDisplayed()
             )
         )
-        textInputEditText2.perform(replaceText("k"), closeSoftKeyboard())
+        textInputEditText2.perform(replaceText("Kus"), closeSoftKeyboard())
 
         val materialButton2 = onView(
             allOf(
@@ -96,7 +96,7 @@ class LoginActivityTest {
                             0
                         )
                     ),
-                    6
+                    7
                 ),
                 isDisplayed()
             )
@@ -117,7 +117,7 @@ class LoginActivityTest {
                 isDisplayed()
             )
         )
-        textInputEditText3.perform(replaceText("k"), closeSoftKeyboard())
+        textInputEditText3.perform(replaceText("123456"), closeSoftKeyboard())
 
         val materialButton3 = onView(
             allOf(
@@ -130,7 +130,7 @@ class LoginActivityTest {
                             0
                         )
                     ),
-                    6
+                    7
                 ),
                 isDisplayed()
             )
