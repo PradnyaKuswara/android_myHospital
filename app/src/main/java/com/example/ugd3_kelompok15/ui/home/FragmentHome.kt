@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
 import com.bumptech.glide.Glide
@@ -90,16 +91,11 @@ class FragmentHome : Fragment() {
                     setMessage("Apakah anda yakin ingin keluar?")
 
                     setPositiveButton("Iya") { _, _ ->
-                        val intent = Intent(context as Activity, LoginActivity::class.java)
+                        val intent = Intent(this@FragmentHome.context, LoginActivity::class.java)
                         intent.putExtra("finish", true)
                         ParseUser.logOutInBackground { e: ParseException? ->
                             if (e == null) {
-                                MotionToast.darkColorToast(context as Activity,"Notification Register!",
-                                    "Email verifikasi sudah dikirim",
-                                    MotionToastStyle.SUCCESS,
-                                    MotionToast.GRAVITY_BOTTOM,
-                                    MotionToast.LONG_DURATION,
-                                    ResourcesCompat.getFont(context as Activity, www.sanju.motiontoast.R.font.helvetica_regular))
+                                Toast.makeText(this@FragmentHome.context,"Anda berhasil logout", Toast.LENGTH_LONG).show()
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                                 startActivity(intent)
                             }
