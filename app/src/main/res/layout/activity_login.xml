@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:boxBackgroundColor="@color/yellow_input"
-            android:hint="Mohon Masukkan Email"
+            android:hint="Mohon Masukkan Username"
             app:errorEnabled="true"
             app:startIconDrawable="@drawable/ic_person_24">
             <com.google.android.material.textfield.TextInputEditText

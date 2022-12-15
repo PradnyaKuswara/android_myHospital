@@ -130,14 +130,14 @@ class RegisterActivity : AppCompatActivity() {
             }else {
                 //Create User Profil with Volley
 //                registerFirebase(email, password)
-//                signUp(username,password,email)
+                signUpwithBack4app(username,password,email)
                 createUser(mBundle)
             }
 
         })
     }
 
-    private fun signUp(username: String, password: String, email: String) {
+    private fun signUpwithBack4app(username: String, password: String, email: String) {
         val user = ParseUser()
         user.username = username
         user.setPassword(password)
@@ -145,10 +145,20 @@ class RegisterActivity : AppCompatActivity() {
         user.signUpInBackground(SignUpCallback {
             if (it == null) {
                 ParseUser.logOut();
-                showAlert("Account Created Successfully!","Please verify your email before Login", false)
+                MotionToast.darkColorToast(this@RegisterActivity,"Notification Register!",
+                    "Email verifikasi sudah dikirim",
+                    MotionToastStyle.SUCCESS,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this@RegisterActivity, www.sanju.motiontoast.R.font.helvetica_regular))
             } else {
                 ParseUser.logOut();
-                showAlert("Error Account Creation failed","Account could not be created" + " :" + it.message,true)
+                MotionToast.darkColorToast(this@RegisterActivity,"Notification Register!",
+                    "Account could not be created" + " :" + it.message,
+                    MotionToastStyle.SUCCESS,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this@RegisterActivity, www.sanju.motiontoast.R.font.helvetica_regular))
             }
         })
     }
@@ -170,25 +180,6 @@ class RegisterActivity : AppCompatActivity() {
         ok.show()
     }
 
-
-    private fun registerFirebase(email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email,password)
-            .addOnCompleteListener(this) { task ->
-                if(task.isSuccessful) {
-                    Toast.makeText(this,"berhasil",Toast.LENGTH_LONG).show()
-                    auth.currentUser?.sendEmailVerification()
-                        ?.addOnCompleteListener {
-                            if(it.isSuccessful) {
-                                Toast.makeText(this,"berhasil mengirim email",Toast.LENGTH_LONG).show()
-                            }else {
-
-                            }
-                        }
-                }else {
-                    Toast.makeText(this,"Gagal",Toast.LENGTH_LONG).show()
-                }
-            }
-    }
     private fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "Notification Title"
@@ -232,8 +223,6 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
     private fun createUser(mBundle: Bundle) {
-      //  setLoading(true)
-
         val userprofil = UserProfil(
             0,
             binding.inputLayoutNama.getEditText()?.getText().toString(),
@@ -248,7 +237,6 @@ class RegisterActivity : AppCompatActivity() {
                 var user = gson.fromJson(response, UserProfil::class.java)
 
                 if(user != null) {
-//                    Toast.makeText(this@RegisterActivity, "User Berhasil Register", Toast.LENGTH_SHORT).show()
                     MotionToast.darkColorToast(this,"Notification Register!",
                         "Register Berhasil!!",
                         MotionToastStyle.SUCCESS,
@@ -263,15 +251,9 @@ class RegisterActivity : AppCompatActivity() {
                     checkRegister = false
                 }
             }, Response.ErrorListener { error ->
-               // setLoading(false)
                 try {
                     val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
                     val errors = JSONObject(responseBody)
-//                    Toast.makeText(
-//                        this@RegisterActivity,
-//                        errors.getString("message"),
-//                        Toast.LENGTH_SHORT
-//                    ).show()
                     MotionToast.darkColorToast(this,"Notification Register!",
                         errors.getString("message"),
                         MotionToastStyle.INFO,
@@ -280,7 +262,6 @@ class RegisterActivity : AppCompatActivity() {
                         ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                     checkRegister = false
                 }catch (e: Exception) {
-//                    Toast.makeText(this@RegisterActivity, e.message, Toast.LENGTH_SHORT).show()
                     MotionToast.darkColorToast(this,"Notification Register!",
                         e.message.toString(),
                         MotionToastStyle.INFO,

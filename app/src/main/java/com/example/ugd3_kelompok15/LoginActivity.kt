@@ -64,7 +64,6 @@ class LoginActivity : AppCompatActivity() {
 
     var checkLogin = true
 
-
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,7 +95,7 @@ class LoginActivity : AppCompatActivity() {
             var checkLogin = true
 
             if (username.isEmpty()) {
-                inputUsername.setError("Username must be filled with email and valid format")
+                inputUsername.setError("Username must be filled with text")
                 checkLogin = false
             }
 
@@ -110,10 +109,28 @@ class LoginActivity : AppCompatActivity() {
                 return@OnClickListener
             }else {
 //                loginFirebase(username,password)
-                LoginUser()
+                ParseUser.logInInBackground(username,password) { parseUser: ParseUser?, e: ParseException? ->
+                    if (parseUser != null) {
+                        MotionToast.darkColorToast(this@LoginActivity,"Notification Login!",
+                            "Email sudah diverifikasi",
+                            MotionToastStyle.SUCCESS,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(this@LoginActivity, www.sanju.motiontoast.R.font.helvetica_regular))
+                        LoginUser()
+                    } else {
+                        ParseUser.logOut()
+                        if (e != null) {
+                            MotionToast.darkColorToast(this@LoginActivity,"Notification Login!",
+                                "Email belum diverifikasi, silahkan cek inbox email anda",
+                                MotionToastStyle.SUCCESS,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.LONG_DURATION,
+                                ResourcesCompat.getFont(this@LoginActivity, www.sanju.motiontoast.R.font.helvetica_regular))
+                        }
+                    }
+                }
             }
-
-
         })
 
         btnRegister.setOnClickListener(View.OnClickListener {
@@ -123,17 +140,6 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-//    fun loginAlert() {
-////        val builder = AlertDialog.Builder(this)
-////        val positiveButtonClick = { dialog: DialogInterface, which: Int ->
-////            Toast.makeText(applicationContext,
-////                android.R.string.no, Toast.LENGTH_SHORT).show()
-////        }
-////        builder.setTitle("Error!")
-////        builder.setMessage("Maaf, Username dan Password Salah. Silahkan Cek Kembali")
-////        builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = positiveButtonClick))
-////        builder.show()
-////    }
     override fun onBackPressed() {
         AlertDialog.Builder(this).apply {
             setTitle("Tolong Konfirmasi")
@@ -144,7 +150,6 @@ class LoginActivity : AppCompatActivity() {
             }
 
             setNegativeButton("Tidak"){_, _ ->
-//                Toast.makeText(this@LoginActivity, "Terima Kasih", Toast.LENGTH_LONG).show()
                 MotionToast.darkColorToast(this@LoginActivity,"Notification Login!",
                     "Terima Kasih!!",
                     MotionToastStyle.SUCCESS,
@@ -157,36 +162,6 @@ class LoginActivity : AppCompatActivity() {
         }.create().show()
     }
 
-    private fun loginback4app(email: String, password: String) {
-        ParseUser.logInInBackground(email,password) { parseUser: ParseUser?, e: ParseException? ->
-            if (parseUser != null) {
-                Toast.makeText(this,"Berhasil",Toast.LENGTH_LONG).show()
-
-            } else {
-                ParseUser.logOut()
-                if (e != null) {
-                    Toast.makeText(this,e?.message,Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
-
-    private fun loginFirebase(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email,password)
-            .addOnCompleteListener(this) { task ->
-                if(task.isSuccessful) {
-                    Log.d(TAG, "signInWithEmail:success")
-//                    val verification = auth.currentUser?.isEmailVerified
-//                    if(verification == true) {
-//                        Log.d(TAG, "signInWithEmail:success")
-//                    }else {
-//                        Log.d(TAG, "signInWithEmail:success")
-//                    }
-                }else {
-                    Toast.makeText(this, "Error"+ task.getException()?.message, Toast.LENGTH_LONG).show();
-                }
-            }
-    }
 
     fun getBundle() {
         if (intent.getBundleExtra("Register") != null) {
@@ -202,7 +177,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun LoginUser() {
-        //  setLoading(true)
 
         val userprofil = UserProfil(
             0,
@@ -222,7 +196,6 @@ class LoginActivity : AppCompatActivity() {
                     var resJO = JSONObject(response.toString())
                     val  userobj = resJO.getJSONObject("data")
 
-//                    Toast.makeText(this@LoginActivity, "Login berhasil", Toast.LENGTH_SHORT).show()
                     MotionToast.darkColorToast(this,"Notification Login!",
                         "Login Berhasil!!",
                         MotionToastStyle.SUCCESS,
@@ -247,15 +220,10 @@ class LoginActivity : AppCompatActivity() {
                 }
 
             }, Response.ErrorListener { error ->
-                // setLoading(false)
                 try {
                     val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
                     val errors = JSONObject(responseBody)
-//                    Toast.makeText(
-//                        this@LoginActivity,
-//                        errors.getString("message"),
-//                        Toast.LENGTH_SHORT
-//                    ).show()
+
                     MotionToast.darkColorToast(this,"Notification Login!",
                         errors.getString("message"),
                         MotionToastStyle.INFO,
@@ -263,7 +231,6 @@ class LoginActivity : AppCompatActivity() {
                         MotionToast.LONG_DURATION,
                         ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular))
                 }catch (e: Exception) {
-//                    Toast.makeText(this@LoginActivity, e.message, Toast.LENGTH_SHORT).show()
                     MotionToast.darkColorToast(this,"Notification Login!",
                         e.message.toString(),
                         MotionToastStyle.INFO,
