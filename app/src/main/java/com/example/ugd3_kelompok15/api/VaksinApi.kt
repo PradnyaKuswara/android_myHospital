@@ -2,6 +2,7 @@ package com.example.ugd3_kelompok15.api
 
 class VaksinApi {
     companion object {
+        //sesuaikan ipv4 masing-masing/backend api
         val BASE_URL = "https://myhospital.my.id/api/"
 
         val GET_ALL = BASE_URL + "vaksin"

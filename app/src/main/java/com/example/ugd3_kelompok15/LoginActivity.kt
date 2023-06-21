@@ -244,6 +244,7 @@ class LoginActivity : AppCompatActivity() {
                 override fun getHeaders(): Map<String, String> {
                     val headers = HashMap<String, String>()
                     headers["Accept"] = "application/json"
+
                     return headers
                 }
 
@@ -262,6 +263,4 @@ class LoginActivity : AppCompatActivity() {
     }
     fun CharSequence?.isValidEmail() = !
     isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
-
-
 }
